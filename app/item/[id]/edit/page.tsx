@@ -22,7 +22,7 @@ export default function EditItemPage() {
     estimatedMarketPrice: "",
     pointsValue: "",
     locationPincode: "",
-    image: "",
+    images: "",
   });
   const [error, setError] = useState<string | null>(null);
 
@@ -45,7 +45,7 @@ export default function EditItemPage() {
           estimatedMarketPrice: data.estimatedMarketPrice || "",
           pointsValue: data.pointsValue || "",
           locationPincode: data.locationPincode || "",
-          image: data.image || "",
+          images: data.images || "",
         });
       } catch (err) {
         if (err instanceof Error) {
@@ -68,15 +68,45 @@ export default function EditItemPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      const formData = new FormData();
+      Array.from(files).forEach((file) => {
+        formData.append("images", file);
+      });
+
+      try {
+        const response = await fetch(`/api/listings/${id}`, {
+          method: "PATCH",
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to upload images");
+        }
+
+        const data = await response.json();
+        console.log("Images uploaded successfully", data);
+      } catch (error) {
+        console.error("Error uploading images:", error);
+      }
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      const formDataToSend = new FormData();
+
+      // Append all form fields to FormData
+      Object.entries(formData).forEach(([key, value]) => {
+        formDataToSend.append(key, value);
+      });
+
       const response = await fetch(`/api/listings/${id}`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: formDataToSend,
       });
 
       if (!response.ok) {
@@ -205,6 +235,7 @@ export default function EditItemPage() {
                 onChange={handleChange}
                 placeholder="Enter the age of the item in years"
                 className="w-full"
+                type="number"
               />
               <p className="text-sm text-gray-500">
                 Provide the approximate age of the item.
@@ -272,20 +303,21 @@ export default function EditItemPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold mb-2">Image</h2>
+          <h2 className="text-lg font-semibold mb-2">Images</h2>
           <div className="space-y-4">
             <div>
-              <Label htmlFor="image">Image URL</Label>
-              <Input
-                id="image"
-                name="image"
-                value={formData.image || ""}
-                onChange={handleChange}
-                placeholder="Enter the image URL"
-                className="w-full"
+              <Label htmlFor="images">Upload Images</Label>
+              <input
+                id="images"
+                name="images"
+                type="file"
+                multiple
+                onChange={handleImageUpload}
+                className="w-full border p-2"
               />
               <p className="text-sm text-gray-500">
-                Provide a URL for the item's image.
+                Upload multiple images for the item. Supported formats: JPG,
+                PNG.
               </p>
             </div>
           </div>

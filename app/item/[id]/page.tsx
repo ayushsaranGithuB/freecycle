@@ -7,7 +7,7 @@ export default async function ItemDetailsPage({
 }: {
   params: { id: string };
 }) {
-  const { id } = params;
+  const { id } = await params;
 
   try {
     const item = await prisma.item.findUnique({
@@ -18,16 +18,30 @@ export default async function ItemDetailsPage({
       return <p className="text-center text-gray-500">Item not found</p>;
     }
 
+    // Ensure images is treated as an array of strings
+    const images = Array.isArray(item.images)
+      ? item.images.filter(
+          (image): image is string => typeof image === "string"
+        )
+      : [];
+
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Image Section */}
           <div className="flex justify-center items-center">
-            <img
-              src="/public/logo.png" // Replace with actual image URL
-              alt={item.title}
-              className="w-full max-w-md object-cover rounded-lg shadow-md"
-            />
+            {images && (
+              <div className="flex space-x-2 mb-4">
+                {images.map((image: string, index: number) => (
+                  <img
+                    key={index}
+                    src={image}
+                    alt={item.title}
+                    className="w-full max-w-md object-cover rounded-lg shadow-md"
+                  />
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Details Section */}

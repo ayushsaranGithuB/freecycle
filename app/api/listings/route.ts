@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
@@ -23,8 +25,27 @@ export async function POST(request: Request) {
                 pointsValue: data.pointsValue,
                 locationPincode: data.locationPincode,
                 ownerId: 1, // Use ownerId directly
-                images: data.images || [], // Provide default or passed images
+                images: [], // Placeholder for images
             },
+        });
+
+        const itemId = newItem.id;
+        const uploadDir = path.join(process.cwd(), 'public', 'uploads', itemId.toString());
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+        }
+
+        const imagePromises = data.images.map(async (image: { name: string, content: string }) => {
+            const imagePath = path.join(uploadDir, image.name);
+            fs.writeFileSync(imagePath, Buffer.from(image.content, 'base64'));
+            return `/uploads/${itemId}/${image.name}`;
+        });
+
+        const imagePaths = await Promise.all(imagePromises);
+
+        await prisma.item.update({
+            where: { id: itemId },
+            data: { images: imagePaths },
         });
 
         return NextResponse.json({
