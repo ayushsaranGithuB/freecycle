@@ -4,16 +4,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { SignOut } from "../auth/signout-button";
 import { useSession } from "next-auth/react";
+import { useMemo } from "react";
 
 export default function Navigation() {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
-  if (status === "loading") {
-    // Optionally, show a loading state while the session is being fetched
-    return <div>Loading...</div>;
-  }
+  const memoizedSession = useMemo(() => session, [session]);
 
-  console.log("Session data:", session);
+  console.log("Session data:", memoizedSession);
 
   return (
     <header className="bg-white shadow-md">
@@ -23,8 +21,8 @@ export default function Navigation() {
         </Link>
         <nav className="flex space-x-4">
           <Link href="/list-item">List an Item</Link>
-          <Link href="/profile">Profile</Link>
-          {session ? <SignOut /> : <Link href="/auth">Login</Link>}
+          <Link href="/profile">{memoizedSession?.user?.name}</Link>
+          {memoizedSession ? <SignOut /> : <Link href="/auth">Login</Link>}
         </nav>
       </div>
     </header>
