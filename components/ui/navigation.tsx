@@ -1,7 +1,20 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { SignOut } from "../auth/signout-button";
+import { useSession } from "next-auth/react";
 
 export default function Navigation() {
+  const { data: session, status } = useSession();
+
+  if (status === "loading") {
+    // Optionally, show a loading state while the session is being fetched
+    return <div>Loading...</div>;
+  }
+
+  console.log("Session data:", session);
+
   return (
     <header className="bg-white shadow-md">
       <div className="container mx-auto px-2 py-4 flex items-center justify-between">
@@ -11,8 +24,7 @@ export default function Navigation() {
         <nav className="flex space-x-4">
           <Link href="/list-item">List an Item</Link>
           <Link href="/profile">Profile</Link>
-          <Link href="/auth">Login</Link>
-          <Link href="/auth/logout">Logout</Link>
+          {session ? <SignOut /> : <Link href="/auth">Login</Link>}
         </nav>
       </div>
     </header>
