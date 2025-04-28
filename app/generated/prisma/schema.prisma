@@ -1,0 +1,139 @@
+// Prisma schema file
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String             @id @default(uuid())
+  name               String
+  email              String             @unique
+  phone              String?            @unique
+  passwordHash       String
+  profilePhotoUrl    String?
+  verificationStatus VerificationStatus @default(UNVERIFIED)
+  pointsBalance      Int                @default(0)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  items              Item[]              @relation("UserItems")
+  boughtTransactions Transaction[]       @relation("BuyerTransactions")
+  soldTransactions   Transaction[]       @relation("SellerTransactions")
+  pointsTransactions PointsTransaction[]
+  verifications      Verification[]
+}
+
+model Item {
+  id                   String        @id @default(uuid())
+  ownerId              String
+  owner                User          @relation("UserItems", fields: [ownerId], references: [id])
+  title                String
+  description          String
+  brand                String?
+  category             ItemCategory
+  condition            ItemCondition
+  ageYears             Int
+  originalMsrp         Int
+  estimatedMarketPrice Int
+  pointsValue          Int
+  accessoriesIncluded  Json?
+  images               Json // Changed from String[] to Json to support SQLite
+  locationPincode      String
+  status               ItemStatus    @default(AVAILABLE)
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+
+  transaction Transaction?
+  itemId      String       @unique // Added @unique to itemId for one-to-one relation
+}
+
+model Transaction {
+  id               String            @id @default(uuid())
+  buyerId          String
+  buyer            User              @relation("BuyerTransactions", fields: [buyerId], references: [id])
+  sellerId         String
+  seller           User              @relation("SellerTransactions", fields: [sellerId], references: [id])
+  itemId           String            @unique // Added @unique to resolve the one-to-one relation issue
+  item             Item              @relation(fields: [itemId], references: [id])
+  pointsSpent      Int
+  shippingCostPaid Int
+  status           TransactionStatus @default(PENDING)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+model PointsTransaction {
+  id           String           @id @default(uuid())
+  userId       String
+  user         User             @relation(fields: [userId], references: [id])
+  type         PointsChangeType
+  pointsChange Int
+  source       String?
+  createdAt    DateTime         @default(now())
+}
+
+model Verification {
+  id          String             @id @default(uuid())
+  userId      String
+  user        User               @relation(fields: [userId], references: [id])
+  method      VerificationMethod
+  status      VerificationStatus
+  documentUrl String?
+  createdAt   DateTime           @default(now())
+}
+
+// ENUMS
+enum VerificationStatus {
+  UNVERIFIED
+  EMAIL_VERIFIED
+  ID_VERIFIED
+}
+
+enum VerificationMethod {
+  EMAIL
+  PHONE
+  GOVERNMENT_ID
+}
+
+enum ItemCategory {
+  PHONE
+  LAPTOP
+  TABLET
+  ACCESSORIES
+  OTHER
+}
+
+enum ItemCondition {
+  LIKE_NEW
+  GOOD
+  FAIR
+  POOR
+  BROKEN
+}
+
+enum ItemStatus {
+  AVAILABLE
+  RESERVED
+  SHIPPED
+  COMPLETED
+  CANCELED
+}
+
+enum TransactionStatus {
+  PENDING
+  SHIPPING_IN_PROGRESS
+  COMPLETED
+  CANCELED
+}
+
+enum PointsChangeType {
+  EARN
+  SPEND
+  BONUS
+  PURCHASE
+}
