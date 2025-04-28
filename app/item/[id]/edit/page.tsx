@@ -1,68 +1,105 @@
 "use client";
-
-import { useState, ChangeEvent } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
-export default function ListItemPage() {
+export default function EditItemPage() {
   const router = useRouter();
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [brand, setBrand] = useState("");
-  const [category, setCategory] = useState("PHONE");
-  const [condition, setCondition] = useState("LIKE_NEW");
-  const [ageYears, setAgeYears] = useState(0);
-  const [originalMsrp, setOriginalMsrp] = useState(0);
-  const [estimatedMarketPrice, setEstimatedMarketPrice] = useState(0);
-  const [pointsValue, setPointsValue] = useState(0);
-  const [locationPincode, setLocationPincode] = useState("");
+  const params = useParams<{ id: string }>();
+  const id = params.id as string; // Ensure id is a string
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    brand: "",
+    category: "",
+    condition: "",
+    ageYears: "",
+    originalMsrp: "",
+    estimatedMarketPrice: "",
+    pointsValue: "",
+    locationPincode: "",
+    image: "",
+  });
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchItemDetails = async () => {
+      try {
+        const response = await fetch(`/api/listings/${id}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch item details");
+        }
+        const data = await response.json();
+        setFormData({
+          title: data.title || "",
+          description: data.description || "",
+          brand: data.brand || "",
+          category: data.category || "",
+          condition: data.condition || "",
+          ageYears: data.ageYears || "",
+          originalMsrp: data.originalMsrp || "",
+          estimatedMarketPrice: data.estimatedMarketPrice || "",
+          pointsValue: data.pointsValue || "",
+          locationPincode: data.locationPincode || "",
+          image: data.image || "",
+        });
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An unknown error occurred");
+        }
+      }
+    };
+
+    fetchItemDetails();
+  }, [id]);
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const itemData = {
-      title,
-      description,
-      brand,
-      category,
-      condition,
-      ageYears,
-      originalMsrp,
-      estimatedMarketPrice,
-      pointsValue,
-      locationPincode,
-      ownerId: "1", // Set ownerId to 1 for now
-    };
-
     try {
-      const response = await fetch("/api/listings", {
-        method: "POST",
+      const response = await fetch(`/api/listings/${id}`, {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(itemData),
+        body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
-        const result = await response.json();
-        router.push(`/item/${result.id}?success=true`); // Redirect to the listing page with success message
-      } else {
-        console.error("Failed to create item:", await response.json());
+      if (!response.ok) {
+        throw new Error("Failed to update item");
       }
-    } catch (error) {
-      console.error("Error submitting form:", error);
+
+      router.push(`/item/${id}`);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unknown error occurred");
+      }
     }
   };
 
   return (
     <div className="p-8 flex flex-col items-center justify-center">
-      <h1 className="text-2xl font-bold mb-4">List a New Item</h1>
+      <h1 className="text-2xl font-bold mb-4">Edit Item</h1>
+      {error && <p className="text-red-500 mb-4">{error}</p>}
       <form
         onSubmit={handleSubmit}
-        className="space-y-6 flex flex-col items-center justify-center max-w-2xl  mx-auto bg-white shadow-md rounded-lg p-6 gap-4"
+        className="space-y-6 flex flex-col items-center justify-center max-w-2xl mx-auto bg-white shadow-md rounded-lg p-6 gap-4"
       >
         <section>
           <h2 className="text-lg font-semibold mb-2">Basic Information</h2>
@@ -71,12 +108,10 @@ export default function ListItemPage() {
               <Label htmlFor="title">Title</Label>
               <Input
                 id="title"
-                type="text"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
                 placeholder="Enter the item title"
-                value={title}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setTitle(e.target.value)
-                }
                 className="w-full"
               />
               <p className="text-sm text-gray-500">
@@ -87,11 +122,10 @@ export default function ListItemPage() {
               <Label htmlFor="description">Description</Label>
               <Textarea
                 id="description"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
                 placeholder="Enter a detailed description of the item"
-                value={description}
-                onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-                  setDescription(e.target.value)
-                }
                 className="w-full"
               />
               <p className="text-sm text-gray-500">
@@ -108,12 +142,10 @@ export default function ListItemPage() {
               <Label htmlFor="brand">Brand</Label>
               <Input
                 id="brand"
-                type="text"
+                name="brand"
+                value={formData.brand}
+                onChange={handleChange}
                 placeholder="Enter the brand name"
-                value={brand}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setBrand(e.target.value)
-                }
                 className="w-full"
               />
               <p className="text-sm text-gray-500">
@@ -124,10 +156,9 @@ export default function ListItemPage() {
               <Label htmlFor="category">Category</Label>
               <select
                 id="category"
-                value={category}
-                onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-                  setCategory(e.target.value)
-                }
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
                 className="w-full border p-2"
               >
                 <option value="PHONE">Phone</option>
@@ -144,10 +175,9 @@ export default function ListItemPage() {
               <Label htmlFor="condition">Condition</Label>
               <select
                 id="condition"
-                value={condition}
-                onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-                  setCondition(e.target.value)
-                }
+                name="condition"
+                value={formData.condition}
+                onChange={handleChange}
                 className="w-full border p-2"
               >
                 <option value="LIKE_NEW">Like New</option>
@@ -170,12 +200,10 @@ export default function ListItemPage() {
               <Label htmlFor="ageYears">Age in Years</Label>
               <Input
                 id="ageYears"
-                type="number"
+                name="ageYears"
+                value={formData.ageYears}
+                onChange={handleChange}
                 placeholder="Enter the age of the item in years"
-                value={ageYears}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setAgeYears(Number(e.target.value))
-                }
                 className="w-full"
               />
               <p className="text-sm text-gray-500">
@@ -186,12 +214,10 @@ export default function ListItemPage() {
               <Label htmlFor="originalMsrp">Original MSRP</Label>
               <Input
                 id="originalMsrp"
-                type="number"
+                name="originalMsrp"
+                value={formData.originalMsrp}
+                onChange={handleChange}
                 placeholder="Enter the original MSRP"
-                value={originalMsrp}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setOriginalMsrp(Number(e.target.value))
-                }
                 className="w-full"
               />
               <p className="text-sm text-gray-500">
@@ -204,12 +230,10 @@ export default function ListItemPage() {
               </Label>
               <Input
                 id="estimatedMarketPrice"
-                type="number"
+                name="estimatedMarketPrice"
+                value={formData.estimatedMarketPrice}
+                onChange={handleChange}
                 placeholder="Enter the estimated market price"
-                value={estimatedMarketPrice}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setEstimatedMarketPrice(Number(e.target.value))
-                }
                 className="w-full"
               />
               <p className="text-sm text-gray-500">
@@ -220,12 +244,10 @@ export default function ListItemPage() {
               <Label htmlFor="pointsValue">Points Value</Label>
               <Input
                 id="pointsValue"
-                type="number"
+                name="pointsValue"
+                value={formData.pointsValue}
+                onChange={handleChange}
                 placeholder="Enter the points value"
-                value={pointsValue}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setPointsValue(Number(e.target.value))
-                }
                 className="w-full"
               />
               <p className="text-sm text-gray-500">
@@ -236,12 +258,10 @@ export default function ListItemPage() {
               <Label htmlFor="locationPincode">Location Pincode</Label>
               <Input
                 id="locationPincode"
-                type="text"
+                name="locationPincode"
+                value={formData.locationPincode}
+                onChange={handleChange}
                 placeholder="Enter your location pincode"
-                value={locationPincode}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setLocationPincode(e.target.value)
-                }
                 className="w-full"
               />
               <p className="text-sm text-gray-500">
@@ -252,34 +272,27 @@ export default function ListItemPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold mb-2">Images</h2>
+          <h2 className="text-lg font-semibold mb-2">Image</h2>
           <div className="space-y-4">
             <div>
-              <Label htmlFor="images">Upload Images</Label>
+              <Label htmlFor="image">Image URL</Label>
               <Input
-                id="images"
-                type="file"
-                multiple
-                accept="image/*"
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  const files = e.target.files;
-                  if (files) {
-                    // Handle file uploads here
-                    console.log("Selected files:", files);
-                  }
-                }}
+                id="image"
+                name="image"
+                value={formData.image || ""}
+                onChange={handleChange}
+                placeholder="Enter the image URL"
                 className="w-full"
               />
               <p className="text-sm text-gray-500">
-                Upload images to showcase your item. You can select multiple
-                images.
+                Provide a URL for the item's image.
               </p>
             </div>
           </div>
         </section>
 
         <Button type="submit" className="w-full">
-          Submit
+          Save Changes
         </Button>
       </form>
     </div>

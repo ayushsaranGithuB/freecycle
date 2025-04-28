@@ -9,7 +9,7 @@ datasource db {
 }
 
 model User {
-  id                 String             @id @default(uuid())
+  id                 Int                @id @default(autoincrement()) // Changed from String to Int with autoincrement
   name               String
   email              String             @unique
   phone              String?            @unique
@@ -19,7 +19,6 @@ model User {
   pointsBalance      Int                @default(0)
   createdAt          DateTime           @default(now())
   updatedAt          DateTime           @updatedAt
-
   items              Item[]             @relation("UserItems")
   boughtTransactions Transaction[]      @relation("BuyerTransactions")
   soldTransactions   Transaction[]      @relation("SellerTransactions")
@@ -28,12 +27,13 @@ model User {
 }
 
 model Item {
-  id                  String       @id @default(uuid())
-  ownerId             String
-  owner               User          @relation("UserItems", fields: [ownerId], references: [id])
+  id                  Int          @id @default(autoincrement()) // Changed from String to Int with autoincrement
+  ownerId             Int          // Updated to match the new User id type
+  owner               User         @relation("UserItems", fields: [ownerId], references: [id])
   title               String
   description         String
   brand               String?
+  model               String?
   category            ItemCategory
   condition           ItemCondition
   ageYears            Int
@@ -41,24 +41,23 @@ model Item {
   estimatedMarketPrice Int
   pointsValue         Int
   accessoriesIncluded Json?
-  images              Json          // Changed from String[] to Json to support SQLite
+  images              Json
   locationPincode     String
   status              ItemStatus   @default(AVAILABLE)
   createdAt           DateTime     @default(now())
   updatedAt           DateTime     @updatedAt
 
   transaction         Transaction?
-  itemId              String @unique // Added @unique to itemId for one-to-one relation
 }
 
 model Transaction {
-  id                 String       @id @default(uuid())
-  buyerId            String
-  buyer              User          @relation("BuyerTransactions", fields: [buyerId], references: [id])
-  sellerId           String
-  seller             User          @relation("SellerTransactions", fields: [sellerId], references: [id])
-  itemId             String @unique // Added @unique to resolve the one-to-one relation issue
-  item               Item          @relation(fields: [itemId], references: [id])
+  id                 Int          @id @default(autoincrement()) // Changed from String to Int with autoincrement
+  buyerId            Int          // Updated to match the new User id type
+  buyer              User         @relation("BuyerTransactions", fields: [buyerId], references: [id])
+  sellerId           Int          // Updated to match the new User id type
+  seller             User         @relation("SellerTransactions", fields: [sellerId], references: [id])
+  itemId             Int @unique  // Updated to match the new Item id type
+  item               Item         @relation(fields: [itemId], references: [id])
   pointsSpent        Int
   shippingCostPaid   Int
   status             TransactionStatus @default(PENDING)
@@ -67,18 +66,18 @@ model Transaction {
 }
 
 model PointsTransaction {
-  id            String        @id @default(uuid())
-  userId        String
-  user          User           @relation(fields: [userId], references: [id])
+  id            Int          @id @default(autoincrement()) // Changed from String to Int with autoincrement
+  userId        Int          // Updated to match the new User id type
+  user          User         @relation(fields: [userId], references: [id])
   type          PointsChangeType
   pointsChange  Int
   source        String?
-  createdAt     DateTime       @default(now())
+  createdAt     DateTime     @default(now())
 }
 
 model Verification {
-  id         String      @id @default(uuid())
-  userId     String
+  id         Int          @id @default(autoincrement()) // Changed from String to Int with autoincrement
+  userId     Int          // Updated to match the new User id type
   user       User         @relation(fields: [userId], references: [id])
   method     VerificationMethod
   status     VerificationStatus
