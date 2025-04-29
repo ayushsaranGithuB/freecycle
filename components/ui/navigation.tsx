@@ -28,7 +28,7 @@ export default function Navigation() {
 
           <Popover>
             <PopoverTrigger>
-              <Button variant="ghost" className="flex items-center gap-2">
+              <p className="flex items-center gap-2">
                 <Image
                   src="/icons/circle-user-round.svg"
                   alt="Profile"
@@ -36,7 +36,7 @@ export default function Navigation() {
                   height={24}
                 />
                 {memoizedSession?.user?.name}
-              </Button>
+              </p>
             </PopoverTrigger>
             <PopoverContent className="w-40 popover-content">
               <div className="flex flex-col gap-2 p-2">

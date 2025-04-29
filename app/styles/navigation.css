@@ -24,10 +24,39 @@
 
 .navigation nav {
     display: flex;
-    gap: 1rem;
+    gap: 2rem;
     align-items: center;
 }
 
 .popover-content {
     border: 1px solid #94B840
+}
+
+/* SearchBar */
+
+.searchBar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.5rem auto 1.5rem;
+}
+
+.searchBar input {
+    padding: 0.5rem;
+    padding-left: 2rem;
+    border-radius: 5rem;
+    border: 1px solid #dcdcdc;
+    width: 100%;
+    max-width: 800px;
+    background-color: #F0F1F3;
+    font-size: 0.8rem;
+    background-image: url('/icons/search.svg');
+    background-size: 16px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+}
+
+.searchBar input:focus {
+    outline: none;
+    border-color: #94B840;
 }
