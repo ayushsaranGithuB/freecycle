@@ -1,0 +1,33 @@
+.navigation {}
+
+.navigation .container {
+    margin: 0 auto;
+    padding: 0 0.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navigation a,
+.popover-content a {
+    text-decoration: none;
+    color: var(--link);
+}
+
+
+.navigation a {
+    font-weight: 600;
+}
+
+
+.navigation nav {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.popover-content {
+    border: 1px solid #94B840
+}
