@@ -1,0 +1,113 @@
+.create-listing-page {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 2rem auto;
+}
+
+.page_title {
+    margin-top: 0.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--link);
+}
+
+.page_title h1 {
+    font-size: 2em;
+    margin-bottom: 0;
+    line-height: 120%;
+}
+
+.page_title p {
+    font-size: 0.8em;
+    margin-top: 0;
+    color: #888;
+}
+
+h2 {
+
+    font-size: 1rem;
+    color: #2c3e50;
+    margin-bottom: 24px;
+    font-weight: 700;
+    letter-spacing: -0.04rem;
+}
+
+.categories,
+.item-condition {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+
+.categories li label,
+.item-condition label {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 90px;
+    overflow: hidden;
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+
+.categories li .icon {
+    background-color: #CCC;
+    border-radius: 100%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.5;
+}
+
+label.selected .icon {
+    opacity: 1;
+    background-color: var(--primary-green);
+}
+
+label:hover .icon {
+    border: 2px solid var(--link);
+}
+
+.categories li p {
+    padding-top: 0.5rem;
+    color: #999;
+    font-size: 0.8rem;
+    text-align: center;
+    line-height: 120%;
+    font-weight: 400;
+}
+
+label.selected p {
+    color: var(--dark);
+    font-weight: 500;
+}
+
+
+.item-condition label {
+    width: unset;
+    border: 1px solid #CCC;
+    border-radius: 8px;
+    padding: 1rem 1.5rem 1rem;
+}
+
+.item-condition p.condition {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.item-condition p.hint {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.item-condition p.guide {
+    font-size: 0.8rem;
+    color: #999;
+    text-align: center;
+}

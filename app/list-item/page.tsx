@@ -1,18 +1,49 @@
 "use client";
-
+import "@/app/styles/create_listing.css";
 import { useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import { Textarea } from "@/app/components/ui/textarea";
 import { Label } from "@/app/components/ui/label";
+import Link from "next/link";
+import { categories } from "../components/ui/categories.";
+
+interface ItemCondition {
+  condition: string;
+  hint: string;
+  guide: string[];
+}
+
+const ConditionOptions: ItemCondition[] = [
+  {
+    condition: "Poor",
+    hint: "Parts Only",
+    guide: ["Physical or Cosmetic Damage", "May not be functional"],
+  },
+  {
+    condition: "Fair",
+    hint: "Parts Only",
+    guide: ["Physical or Cosmetic Damage", "May not be functional"],
+  },
+  {
+    condition: "Good",
+    hint: "Parts Only",
+    guide: ["Physical or Cosmetic Damage", "May not be functional"],
+  },
+  {
+    condition: "Excellent",
+    hint: "Parts Only",
+    guide: ["Physical or Cosmetic Damage", "May not be functional"],
+  },
+];
 
 export default function ListItemPage() {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [brand, setBrand] = useState("");
-  const [category, setCategory] = useState("PHONE");
+  const [category, setCategory] = useState("Phones");
   const [condition, setCondition] = useState("LIKE_NEW");
   const [ageYears, setAgeYears] = useState(0);
   const [originalMsrp, setOriginalMsrp] = useState(0);
@@ -58,12 +89,86 @@ export default function ListItemPage() {
   };
 
   return (
-    <div className="p-8 flex flex-col items-center justify-center">
-      <h1 className="text-2xl font-bold mb-4">List a New Item</h1>
+    <div className="create-listing-page">
+      <ul className="breadcrumbs">
+        <li>
+          <Link href="/" className="text-blue-500 hover:underline">
+            Home
+          </Link>
+        </li>
+        <li>
+          <Link href="/" className="text-blue-500 hover:underline">
+            Create a listing
+          </Link>
+        </li>
+      </ul>
+      <div className="page_title">
+        <h1 className="text-2xl font-bold mb-4">Create a listing</h1>
+        <p>Trade your tech. Save the planet!</p>
+      </div>
       <form
         onSubmit={handleSubmit}
-        className="space-y-6 flex flex-col items-center justify-center max-w-2xl  mx-auto bg-white shadow-md rounded-lg p-6 gap-4"
+        className="space-y-6 flex flex-col mx-auto  rounded-lg p-6 gap-4"
       >
+        {/* Item Category ---------------------------- */}
+        <section>
+          <h2>What are you looking to trade?</h2>
+          <ul className="categories">
+            {categories.map((cat) => (
+              <li key={cat.name}>
+                <label className={category == cat.name ? "selected" : ""}>
+                  <input
+                    type="radio"
+                    name="category"
+                    value={cat.name}
+                    hidden
+                    checked={category === cat.name}
+                    onChange={() => setCategory(cat.name)}
+                  />
+                  <span className="icon">
+                    <img
+                      src={`/icons/${cat.icon}`}
+                      alt={cat.name}
+                      width={36}
+                      height={36}
+                    />
+                  </span>
+                  <p>{cat.name}</p>
+                </label>
+              </li>
+            ))}
+          </ul>
+        </section>
+        {/* Item Condition ---------------------------- */}
+        <section>
+          <h2>What condition is the item in?</h2>
+          <ul className="item-condition">
+            {ConditionOptions.map((state, index) => (
+              <li key={index}>
+                <label
+                  className={condition == state.condition ? "selected" : ""}
+                >
+                  <input
+                    type="radio"
+                    name="category"
+                    value={state.condition}
+                    hidden
+                    checked={condition === state.condition}
+                    onChange={() => setCondition(state.condition)}
+                  />
+
+                  <p className="condition">{state.condition}</p>
+                  <p className="hint">{state.hint}</p>
+                  <p className="guide">
+                    {state.guide[0]}
+                    <br />
+                    {state.guide[1]}
+                  </p>
+                </label>
+              </li>
+            ))}
+          </ul>
+        </section>
         <section>
           <h2 className="text-lg font-semibold mb-2">Basic Information</h2>
           <div className="space-y-4">
@@ -118,46 +223,6 @@ export default function ListItemPage() {
               />
               <p className="text-sm text-gray-500">
                 Specify the brand or manufacturer of the item.
-              </p>
-            </div>
-            <div>
-              <Label htmlFor="category">Category</Label>
-              <select
-                id="category"
-                value={category}
-                onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-                  setCategory(e.target.value)
-                }
-                className="w-full border p-2"
-              >
-                <option value="PHONE">Phone</option>
-                <option value="LAPTOP">Laptop</option>
-                <option value="TABLET">Tablet</option>
-                <option value="ACCESSORIES">Accessories</option>
-                <option value="OTHER">Other</option>
-              </select>
-              <p className="text-sm text-gray-500">
-                Select the category that best fits your item.
-              </p>
-            </div>
-            <div>
-              <Label htmlFor="condition">Condition</Label>
-              <select
-                id="condition"
-                value={condition}
-                onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-                  setCondition(e.target.value)
-                }
-                className="w-full border p-2"
-              >
-                <option value="LIKE_NEW">Like New</option>
-                <option value="GOOD">Good</option>
-                <option value="FAIR">Fair</option>
-                <option value="POOR">Poor</option>
-                <option value="BROKEN">Broken</option>
-              </select>
-              <p className="text-sm text-gray-500">
-                Indicate the current condition of the item.
               </p>
             </div>
           </div>
