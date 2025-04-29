@@ -1,10 +1,14 @@
 "use client";
+
+// Homepage
+
 import Link from "next/link";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
-import SearchBar from "@/components/ui/searchBar";
-import ProductGrid from "@/components/ui/productGrid";
-import { Listing } from "@/components/ui/productGrid";
+import SearchBar from "@/app/components/ui/searchBar";
+import ProductGrid from "@/app/components/ui/productGrid";
+import { Listing } from "@/app/components/ui/productGrid";
+import ItemCategories from "./components/ui/categories.";
 
 export default function HomePage() {
   const [listings, setListings] = useState<Listing[]>([]);
@@ -29,6 +33,8 @@ export default function HomePage() {
           <Link href="/list-item">List Your First Device</Link>
         </button>
       </header>
+
+      <ItemCategories />
 
       <ProductGrid listings={listings} />
 

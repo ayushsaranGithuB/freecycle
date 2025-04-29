@@ -2,10 +2,10 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import { Input } from "@/app/components/ui/input";
+import { Textarea } from "@/app/components/ui/textarea";
+import { Button } from "@/app/components/ui/button";
+import { Label } from "@/app/components/ui/label";
 
 export default function EditItemPage() {
   const router = useRouter();

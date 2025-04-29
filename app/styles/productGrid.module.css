@@ -3,7 +3,13 @@
     margin-bottom: 40px;
 }
 
-.listingsGrid h2 {
+
+.title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.title h2 {
     font-size: 1rem;
     color: #2c3e50;
     margin-bottom: 20px;
@@ -11,10 +17,6 @@
     letter-spacing: -0.04rem;
 }
 
-.title {
-    display: flex;
-    justify-content: space-between;
-}
 
 .title a {
     font-size: 0.8rem;

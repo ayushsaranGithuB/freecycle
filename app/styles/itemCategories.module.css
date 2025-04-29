@@ -1,0 +1,59 @@
+.item_categories {
+    margin-bottom: 2rem;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.title h2 {
+    font-size: 1rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-weight: 700;
+    letter-spacing: -0.04rem;
+}
+
+.title a {
+    font-size: 0.8rem;
+    color: var(--link);
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.categories {
+    display: flex;
+    gap: 1rem;
+}
+
+
+.categories li a {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 90px;
+    overflow: hidden;
+}
+
+.categories li .icon {
+    background-color: hsl(var(--secondary-green), 0.5);
+    border-radius: 100%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.categories li p {
+    padding-top: 0.5rem;
+    color: #888;
+    font-size: 0.8rem;
+    text-align: center;
+    line-height: 120%;
+}

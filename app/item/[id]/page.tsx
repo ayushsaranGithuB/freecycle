@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma"; // Import Prisma client
-import { Button } from "@/components/ui/button"; // Import ShadCN button
+import { Button } from "@/app/components/ui/button"; // Import ShadCN button
 import Link from "next/link";
 
 export default async function ItemDetailsPage({
