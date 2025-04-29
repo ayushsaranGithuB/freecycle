@@ -11,8 +11,6 @@ export default function Navigation() {
 
   const memoizedSession = useMemo(() => session, [session]);
 
-  console.log("Session data:", memoizedSession);
-
   return (
     <header className="bg-white shadow-md">
       <div className="container mx-auto px-2 py-4 flex items-center justify-between">
