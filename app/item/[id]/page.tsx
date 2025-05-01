@@ -3,6 +3,8 @@ import { Button } from "@/app/components/ui/button"; // Import ShadCN button
 import Link from "next/link";
 import ImageCarousel from "@/app/components/ui/image-carousel";
 import DeleteItemButton from "@/app/components/ui/delete-item-button";
+import { Coins, Edit, EditIcon } from "lucide-react";
+import "@/app/styles/singleItemPage.css";
 
 export default async function ItemDetailsPage({
   params,
@@ -27,6 +29,14 @@ export default async function ItemDetailsPage({
         )
       : [];
 
+    function nl2br(description: string): import("react").ReactNode {
+      return description.split("\n").map((line, index) => (
+        <p className="mb-2" key={index}>
+          {line}
+        </p>
+      ));
+    }
+
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -36,52 +46,58 @@ export default async function ItemDetailsPage({
           </div>
 
           {/* Details Section */}
-          <div className="space-y-4">
+          <div className="space-y-4 ">
             <h1 className="text-3xl font-bold text-gray-800">{item.title}</h1>
-            <p className="text-gray-600">{item.description}</p>
+            <div>{nl2br(item.description)}</div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <p className="text-gray-700 font-medium">Brand:</p>
-              <p className="text-gray-600">{item.brand}</p>
-
-              <p className="text-gray-700 font-medium">Category:</p>
-              <p className="text-gray-600">{item.category}</p>
-
-              <p className="text-gray-700 font-medium">Condition:</p>
-              <p className="text-gray-600">{item.condition}</p>
-
-              <p className="text-gray-700 font-medium">Age:</p>
-              <p className="text-gray-600">{item.ageYears} years</p>
-
-              <p className="text-gray-700 font-medium">Original MSRP:</p>
-              <p className="text-gray-600">${item.originalMsrp}</p>
-
-              <p className="text-gray-700 font-medium">
-                Estimated Market Price:
-              </p>
-              <p className="text-gray-600">${item.estimatedMarketPrice}</p>
-
-              <p className="text-gray-700 font-medium">Points Value:</p>
-              <p className="text-gray-600">{item.pointsValue}</p>
-
-              <p className="text-gray-700 font-medium">Location:</p>
-              <p className="text-gray-600">{item.locationPincode}</p>
+            <div className="buyItemActions">
+              <h2 className="pointsValue">
+                <Coins />
+                {item.pointsValue} points
+              </h2>
+              <Button className="primary">Claim this item</Button>
             </div>
 
-            <Button className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">
-              Buy Now
-            </Button>
+            <div className="grid grid-cols-2 gap-3 text-gray-500 text-sm">
+              <p className="">Brand:</p>
+              <p className="">{item.brand}</p>
 
-            {/* Edit */}
-            <Link
-              className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700"
-              href={`/item/${id}/edit`}
-            >
-              Edit Item
-            </Link>
+              <p>Category:</p>
+              <p>{item.category}</p>
 
-            {/* Delete */}
-            <DeleteItemButton id={id} />
+              <p>Condition:</p>
+              <p>{item.condition}</p>
+
+              <p>Age:</p>
+              <p>{item.ageYears} years</p>
+
+              <p>Original MSRP:</p>
+              <p>₹ {item.originalMsrp}</p>
+
+              {item.estimatedMarketPrice > 0 && (
+                <>
+                  <p>Estimated Market Price:</p>
+                  <p>₹ {item.estimatedMarketPrice}</p>
+                </>
+              )}
+
+              <p>Location:</p>
+              <p>{item.locationPincode}</p>
+            </div>
+
+            <div className="flex gap-4 border-t border-gray-200 pt-4">
+              {/* Edit */}
+              <Link
+                className=" border text-white py-1 px-4 rounded-lg hover:bg-green-700 flex items-center gap-2"
+                href={`/item/${id}/edit`}
+              >
+                <EditIcon size={16} />
+                Edit Item
+              </Link>
+
+              {/* Delete */}
+              <DeleteItemButton id={id} />
+            </div>
           </div>
         </div>
       </div>

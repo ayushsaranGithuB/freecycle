@@ -17,10 +17,15 @@ export default function Navigation() {
   const memoizedSession = useMemo(() => session, [session]);
 
   return (
-    <header className="bg-white shadow-md navigation">
+    <header className="navigation">
       <div className="container">
         <Link href="/">
-          <Image src="/logo.png" alt="Freecycle Logo" width={120} height={30} />
+          <Image
+            src="/logo_v3.svg"
+            alt="Freecycle Logo"
+            width={120}
+            height={30}
+          />
         </Link>
         <nav>
           <Link href="/list-item">List an Item</Link>

@@ -6,6 +6,7 @@ import { Input } from "@/app/components/ui/input";
 import { Textarea } from "@/app/components/ui/textarea";
 import { Button } from "@/app/components/ui/button";
 import { Label } from "@/app/components/ui/label";
+import { toast } from "sonner";
 
 export default function EditItemPage() {
   const router = useRouter();
@@ -22,7 +23,7 @@ export default function EditItemPage() {
     estimatedMarketPrice: "",
     pointsValue: "",
     locationPincode: "",
-    images: "",
+    images: [] as string[],
   });
   const [error, setError] = useState<string | null>(null);
 
@@ -86,11 +87,63 @@ export default function EditItemPage() {
           throw new Error("Failed to upload images");
         }
 
-        const data = await response.json();
-        console.log("Images uploaded successfully", data);
+        // Refresh the form data after successful upload
+        const updatedResponse = await fetch(`/api/listings/${id}`);
+        if (!updatedResponse.ok) {
+          throw new Error("Failed to refresh item details after image upload");
+        }
+        const updatedData = await updatedResponse.json();
+        setFormData({
+          title: updatedData.title || "",
+          description: updatedData.description || "",
+          brand: updatedData.brand || "",
+          category: updatedData.category || "",
+          condition: updatedData.condition || "",
+          ageYears: updatedData.ageYears || "",
+          originalMsrp: updatedData.originalMsrp || "",
+          estimatedMarketPrice: updatedData.estimatedMarketPrice || 0,
+          pointsValue: updatedData.pointsValue || "",
+          locationPincode: updatedData.locationPincode || "",
+          images: updatedData.images || [],
+        });
+
+        // Show success toast
+        toast.success("Images uploaded successfully!");
       } catch (error) {
         console.error("Error uploading images:", error);
+        alert("Failed to upload images. Please try again.");
       }
+    }
+  };
+
+  const handleDeleteImage = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    imageToDelete: string
+  ) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`/api/listings/${id}/delete-image`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ image: imageToDelete }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete image");
+      }
+
+      setFormData((prev) => ({
+        ...prev,
+        images: prev.images.filter((img) => img !== imageToDelete),
+      }));
+
+      // Show success toast
+      toast.success("Image deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting image:", error);
+      toast.error("Failed to delete image. Please try again.");
     }
   };
 
@@ -101,7 +154,14 @@ export default function EditItemPage() {
 
       // Append all form fields to FormData
       Object.entries(formData).forEach(([key, value]) => {
-        formDataToSend.append(key, value);
+        // Handle array fields like 'images'
+        if (Array.isArray(value)) {
+          value.forEach((item) => {
+            formDataToSend.append(key, item);
+          });
+        } else {
+          formDataToSend.append(key, value);
+        }
       });
 
       const response = await fetch(`/api/listings/${id}`, {
@@ -303,7 +363,42 @@ export default function EditItemPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold mb-2">Images</h2>
+          <h2 className="text-lg font-semibold mb-2">Existing Images</h2>
+          <div className="space-y-4">
+            {formData.images && formData.images.length > 0 ? (
+              <div className="grid grid-cols-3 gap-4">
+                {(() => {
+                  const imagesArray = formData.images;
+                  return imagesArray.map((image, index) => (
+                    <div key={index} className="relative">
+                      <img
+                        src={image}
+                        alt={`Existing Image ${index + 1}`}
+                        className="w-full h-32 object-cover rounded-lg shadow-md"
+                      />
+                      <p className="text-sm text-gray-500 mt-1">
+                        Image {index + 1}
+                      </p>
+                      <button
+                        onClick={(e) => handleDeleteImage(e, image)}
+                        className="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 rounded"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  ));
+                })()}
+              </div>
+            ) : (
+              <p className="text-sm text-gray-500">
+                No existing images available.
+              </p>
+            )}
+          </div>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold mb-2">Upload New Images</h2>
           <div className="space-y-4">
             <div>
               <Label htmlFor="images">Upload Images</Label>

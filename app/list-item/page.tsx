@@ -11,6 +11,7 @@ import { categories } from "../components/ui/categories.";
 import { ImageUpload } from "../components/ui/imageDropzone";
 import { ItemCondition } from "@prisma/client";
 import { useSession } from "next-auth/react";
+import { Coins } from "lucide-react";
 
 interface ItemConditionOptions {
   condition: ItemCondition;
@@ -200,14 +201,18 @@ export default function ListItemPage() {
     return { points, breakdown };
   }
 
+  //  Suggest Title Automatically -------------------------------
+
   useEffect(() => {
     // If title is empty, build a title from brand, model, and year
-    if (title === "" && brand !== "" && model !== "" && year !== "") {
+    if (title === "" && brand !== "" && model !== "" && year.length == 4) {
       setTitle(`${brand} ${model} (${year}) - ${condition} condition`);
     }
   }, [brand, model, year]);
 
-  if (session == null) return <h2>Please Login </h2>; // TODO />;
+  //  Session Check -------------------------------
+
+  if (session === null) return <h2>Please Login </h2>; // TODO />;
 
   return (
     <div className="create-listing-page">
@@ -426,7 +431,10 @@ export default function ListItemPage() {
             </div>
             <div>
               {pointsValue > 0 ? (
-                <h2 className="pointsValue">{pointsValue}</h2>
+                <h2 className="pointsValue">
+                  <Coins />
+                  {pointsValue} points
+                </h2>
               ) : (
                 <p className="hint">Enter details to calculate</p>
               )}

@@ -121,3 +121,30 @@ button {
 .bg-popover {
   background-color: var(--background);
 }
+
+.pointsValue {
+  color: var(--link);
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  line-height: 100%;
+  font-weight: 700;
+}
+
+button.primary {
+  width: fit-content;
+  padding: 24px 36px;
+  background-color: var(--link);
+  color: white;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+button.primary:hover {
+  background-color: var(--primary-green);
+}

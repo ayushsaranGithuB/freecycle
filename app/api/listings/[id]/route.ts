@@ -16,7 +16,8 @@ export async function GET(req: Request) {
 }
 
 export async function PATCH(request: Request, { params }: { params: { id: string } }) {
-    const itemId = await params.id;
+    const item = await params
+    const itemId = item.id;
 
     try {
         const formData = await request.formData();
@@ -71,9 +72,15 @@ export async function PATCH(request: Request, { params }: { params: { id: string
             imagePaths.push(`/uploads/${itemId}/${file.name}`);
         }
 
-        if (imagePaths.length > 0) {
-            updates.images = imagePaths;
-        }
+        // Fetch existing images from the database
+        const existingItem = await prisma.item.findUnique({ where: { id: parseInt(itemId, 10) } });
+        // const existingImages = existingItem?.images || [];
+        const existingImages = Array.isArray(existingItem?.images) ? existingItem.images : [existingItem?.images];
+
+
+        // Append new images to existing ones
+        const updatedImages = [...existingImages, ...imagePaths];
+        updates.images = updatedImages;
 
         // Update the item in the database
         const updatedItem = await prisma.item.update({

@@ -1,4 +1,7 @@
-.navigation {}
+.navigation {
+    background-color: var(--primary-green);
+    border-bottom: 2px solid #e8efd9;
+}
 
 .navigation .container {
     margin: 0 auto;
@@ -13,7 +16,7 @@
 .navigation a,
 .popover-content a {
     text-decoration: none;
-    color: var(--link);
+    color: white;
 }
 
 
