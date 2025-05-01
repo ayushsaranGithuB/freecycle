@@ -17,6 +17,17 @@ export interface Listing {
 }
 
 const ProductGrid: FC<ProductGridProps> = ({ listings }) => {
+  function trimAtSpace(description: string, maxLength: number): string {
+    if (description.length <= maxLength) {
+      return description;
+    }
+    const trimmed = description.slice(0, maxLength);
+    const lastSpaceIndex = trimmed.lastIndexOf(" ");
+    return lastSpaceIndex > -1
+      ? trimmed.slice(0, lastSpaceIndex) + "..."
+      : trimmed + "...";
+  }
+
   return (
     <section className={styles.listingsGrid}>
       <div className={styles.title}>
@@ -27,20 +38,20 @@ const ProductGrid: FC<ProductGridProps> = ({ listings }) => {
       </div>
       <div className={styles.grid}>
         {listings.map((item) => (
-          <div key={item.id} className={styles.card}>
+          <Link href={`/item/${item.id}`} key={item.id} className={styles.card}>
             <img
               src={item.images[0]}
               alt={item.title}
               className={styles.image}
             />
             <p className={styles.category}>{item.category}</p>
-            <h3>{item.title}</h3>
-            <p>{item.description}</p>
+            <h3>{trimAtSpace(item.title, 48)}</h3>
+            <p>{trimAtSpace(item.description, 60)}</p>
             <div className={styles.pointsValue}>
               <div className={styles.condition}>{item.condition}</div>
-              <Link href={`/item/${item.id}`}>{item.pointsValue}</Link>
+              <span className={styles.value}>{item.pointsValue}</span>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </section>

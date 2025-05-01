@@ -3,6 +3,9 @@
     margin-bottom: 40px;
 }
 
+.listingsGrid a {
+    color: inherit;
+}
 
 .title {
     display: flex;
@@ -28,8 +31,8 @@
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
 }
 
 .card {
@@ -38,14 +41,17 @@
     border-radius: 8px;
     padding: 12px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 175px;
+    width: 100%;
+    display: grid;
+    grid-template-rows: 136px 1rem 2.5rem 2rem 3.5rem;
+    /* gap: 10px; */
 }
 
 .card img {
     max-width: 100%;
     height: auto;
+    object-fit: cover;
     border-radius: 5px;
-    margin-bottom: 10px;
     aspect-ratio: 3/2;
 }
 
@@ -90,10 +96,12 @@ p.category {
     margin-top: 1.5rem;
 }
 
-.pointsValue a {
+.pointsValue span.value {
     background: url('/icons/cart-white.svg') 5px center no-repeat var(--link);
     background-size: 14px;
     color: white;
     padding: 5px 10px 3px 26px;
     border-radius: 4px;
+    font-weight: 700;
+    letter-spacing: 0.04rem;
 }

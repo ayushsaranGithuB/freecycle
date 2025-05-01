@@ -2,6 +2,7 @@ import prisma from "@/lib/prisma"; // Import Prisma client
 import { Button } from "@/app/components/ui/button"; // Import ShadCN button
 import Link from "next/link";
 import ImageCarousel from "@/app/components/ui/image-carousel";
+import DeleteItemButton from "@/app/components/ui/delete-item-button";
 
 export default async function ItemDetailsPage({
   params,
@@ -71,13 +72,16 @@ export default async function ItemDetailsPage({
               Buy Now
             </Button>
 
-            {/* Edit  */}
+            {/* Edit */}
             <Link
               className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700"
               href={`/item/${id}/edit`}
             >
               Edit Item
             </Link>
+
+            {/* Delete */}
+            <DeleteItemButton id={id} />
           </div>
         </div>
       </div>

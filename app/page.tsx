@@ -1,26 +1,22 @@
-"use client";
-
 // Homepage
 
 import Link from "next/link";
 import styles from "./page.module.css";
-import { useEffect, useState } from "react";
 import SearchBar from "@/app/components/ui/searchBar";
 import ProductGrid from "@/app/components/ui/productGrid";
 import { Listing } from "@/app/components/ui/productGrid";
 import ItemCategories from "./components/ui/categories.";
 
-export default function HomePage() {
-  const [listings, setListings] = useState<Listing[]>([]);
+async function fetchListings() {
+  const response = await fetch(
+    process.env.NEXT_PUBLIC_BASE_URL + "/api/listings"
+  );
+  const data: Listing[] = await response.json();
+  return data;
+}
 
-  useEffect(() => {
-    async function fetchListings() {
-      const response = await fetch("/api/listings");
-      const data: Listing[] = await response.json();
-      setListings(data);
-    }
-    fetchListings();
-  }, []);
+export default async function HomePage() {
+  const listings = await fetchListings();
 
   return (
     <div className={styles.container}>

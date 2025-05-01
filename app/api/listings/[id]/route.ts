@@ -87,3 +87,15 @@ export async function PATCH(request: Request, { params }: { params: { id: string
         return NextResponse.json({ error: 'Failed to update item' }, { status: 500 });
     }
 }
+
+export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+    const itemId = await params.id;
+
+    try {
+        await prisma.item.delete({ where: { id: parseInt(itemId, 10) } });
+        return NextResponse.json({ message: `Item ${itemId} deleted successfully` });
+    } catch (error) {
+        console.error('Error deleting item:', error);
+        return NextResponse.json({ error: 'Failed to delete item' }, { status: 500 });
+    }
+}
