@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma"; // Import Prisma client
 import { Button } from "@/app/components/ui/button"; // Import ShadCN button
 import Link from "next/link";
+import ImageCarousel from "@/app/components/ui/image-carousel";
 
 export default async function ItemDetailsPage({
   params,
@@ -30,18 +31,7 @@ export default async function ItemDetailsPage({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Image Section */}
           <div className="flex justify-center items-center">
-            {images && (
-              <div className="flex space-x-2 mb-4">
-                {images.map((image: string, index: number) => (
-                  <img
-                    key={index}
-                    src={image}
-                    alt={item.title}
-                    className="w-full max-w-md object-cover rounded-lg shadow-md"
-                  />
-                ))}
-              </div>
-            )}
+            {images && <ImageCarousel images={item.images as string[]} />}
           </div>
 
           {/* Details Section */}

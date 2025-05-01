@@ -37,18 +37,22 @@ export async function POST(request: Request) {
             fs.mkdirSync(uploadDir, { recursive: true });
         }
 
-        const imagePromises = data.images.map(async (image: { name: string, content: string }) => {
-            const imagePath = path.join(uploadDir, image.name);
-            fs.writeFileSync(imagePath, Buffer.from(image.content, 'base64'));
-            return `/uploads/${itemId}/${image.name}`;
-        });
+        // check if images exist       
+        if (data.images) {
 
-        const imagePaths = await Promise.all(imagePromises);
+            const imagePromises = data.images.map(async (image: { name: string, content: string }) => {
+                const imagePath = path.join(uploadDir, image.name);
+                fs.writeFileSync(imagePath, Buffer.from(image.content, 'base64'));
+                return `/uploads/${itemId}/${image.name}`;
+            });
 
-        await prisma.item.update({
-            where: { id: itemId },
-            data: { images: imagePaths },
-        });
+            const imagePaths = await Promise.all(imagePromises);
+
+            await prisma.item.update({
+                where: { id: itemId },
+                data: { images: imagePaths },
+            });
+        }
 
         return NextResponse.json({
             success: true,

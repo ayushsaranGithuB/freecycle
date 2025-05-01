@@ -16,9 +16,12 @@ import { Camera, X } from "lucide-react";
 import * as React from "react";
 import { toast } from "sonner";
 
-export function ImageUpload() {
-  const [files, setFiles] = React.useState<File[]>([]);
+interface Props {
+  files: File[];
+  setFiles: (files: File[]) => void;
+}
 
+export function ImageUpload({ files, setFiles }: Props) {
   const onUpload = React.useCallback(
     async (
       files: File[],

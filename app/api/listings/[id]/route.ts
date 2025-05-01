@@ -37,7 +37,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
             updates.originalMsrp = parseInt(updates.originalMsrp, 10);
         }
         if (updates.estimatedMarketPrice) {
-            updates.estimatedMarketPrice = parseInt(updates.estimatedMarketPrice, 10);
+            updates.estimatedMarketPrice = parseInt(updates.estimatedMarketPrice, 10) || 0;
         }
         if (updates.pointsValue) {
             updates.pointsValue = parseInt(updates.pointsValue, 10);

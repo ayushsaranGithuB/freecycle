@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function OTPLoginPage() {
   const [step, setStep] = useState(1);
@@ -121,6 +122,9 @@ export default function OTPLoginPage() {
           >
             Send OTP
           </button>
+          <p className="text-sm text-neutral-600 text-center mt-4">
+            Don't have an account <Link href="/auth/signup">Signup here</Link>
+          </p>
         </form>
       )}
 

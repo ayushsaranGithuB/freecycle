@@ -63,7 +63,7 @@ export default function ListItemPage() {
   const [pointsValue, setPointsValue] = useState(0);
   const [locationPincode, setLocationPincode] = useState("");
   const [files, setFiles] = useState<File[]>([]);
-  const owner: number = Number(session?.user?.id) || 0;
+  const owner = session?.user?.id || 0;
 
   console.log("Session:", session);
 
@@ -270,7 +270,7 @@ export default function ListItemPage() {
         {/* Images ---------------------------- */}
         <section>
           <h2 className="title">Images</h2>
-          <ImageUpload />
+          <ImageUpload files={files} setFiles={setFiles} />
           <p className="hint">
             Upload images to showcase your item. You can select multiple images.
           </p>

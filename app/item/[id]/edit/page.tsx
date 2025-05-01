@@ -42,7 +42,7 @@ export default function EditItemPage() {
           condition: data.condition || "",
           ageYears: data.ageYears || "",
           originalMsrp: data.originalMsrp || "",
-          estimatedMarketPrice: data.estimatedMarketPrice || "",
+          estimatedMarketPrice: data.estimatedMarketPrice || 0,
           pointsValue: data.pointsValue || "",
           locationPincode: data.locationPincode || "",
           images: data.images || "",
