@@ -63,12 +63,12 @@ export default function ListItemPage() {
   const [pointsValue, setPointsValue] = useState(0);
   const [locationPincode, setLocationPincode] = useState("");
   const [files, setFiles] = useState<File[]>([]);
+  const [loading, setLoading] = useState(false);
   const owner = session?.user?.id || 0;
 
   console.log("Session:", session);
 
   //  Points
-  const [calculatedPoints, setCalculatedPoints] = useState<number | null>(null);
   const [pointsBreakdown, setPointsBreakdown] = useState<string | null>(null);
 
   useEffect(() => {
@@ -79,19 +79,40 @@ export default function ListItemPage() {
       year,
     });
 
-    setCalculatedPoints(points);
     setPointsBreakdown(breakdown);
     setPointsValue(points); // optionally sync to the input too
   }, [condition, originalMsrp, estimatedMarketPrice, year]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
     const intMSRP = parseInt(originalMsrp, 10);
     const intEstimatedMarketPrice =
       estimatedMarketPrice !== "" ? parseInt(estimatedMarketPrice, 10) : 0;
-    const ageYears = new Date().getFullYear() - parseInt(year);
-    const intPointsValue = parseInt(pointsValue.toString(), 10);
+    const ageYears =
+      year === "" ? 0 : new Date().getFullYear() - parseInt(year);
+
+    // Convert files to base64 format
+    const base64Files = await Promise.all(
+      files.map(async (file) => {
+        const reader = new FileReader();
+        return new Promise<{ name: string; content: string }>(
+          (resolve, reject) => {
+            reader.onload = () => {
+              resolve({
+                name: file.name,
+                content: reader.result?.toString().split(",")[1] || "",
+              });
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+          }
+        );
+      })
+    );
+
+    console.log("Base64 Files:", base64Files);
 
     const itemData = {
       title,
@@ -99,12 +120,13 @@ export default function ListItemPage() {
       brand,
       category,
       condition,
-      ageYears,
+      ageYears: ageYears,
       originalMsrp: intMSRP,
       estimatedMarketPrice: intEstimatedMarketPrice ?? 0,
-      pointsValue: intPointsValue,
+      pointsValue,
       locationPincode,
-      owner: owner, // Set ownerId to 1 for now
+      owner: owner,
+      images: base64Files, // Send base64 files to the API
     };
 
     try {
@@ -125,6 +147,8 @@ export default function ListItemPage() {
     } catch (error) {
       console.error("Error submitting form:", error);
     }
+
+    setLoading(false);
   };
 
   function calculatePoints({
@@ -183,7 +207,7 @@ export default function ListItemPage() {
     }
   }, [brand, model, year]);
 
-  if (!session) return <h2>Please Login </h2>; // TODO />;
+  if (session == null) return <h2>Please Login </h2>; // TODO />;
 
   return (
     <div className="create-listing-page">
@@ -274,6 +298,7 @@ export default function ListItemPage() {
           <p className="hint">
             Upload images to showcase your item. You can select multiple images.
           </p>
+          <p>{files.map((file) => file.name).join(", ")}</p>
         </section>
 
         {/* Additional Details ---------------------------- */}
@@ -318,6 +343,7 @@ export default function ListItemPage() {
                   setYear(e.target.value)
                 }
                 className="w-full"
+                required
               />
             </div>
           </div>
@@ -417,7 +443,12 @@ export default function ListItemPage() {
           >
             Save as Draft
           </Button>
-          <Button type="submit" size={"lg"} className="publish">
+          <Button
+            type="submit"
+            size={"lg"}
+            className="publish"
+            disabled={loading}
+          >
             Publish Listing
           </Button>
         </section>

@@ -27,7 +27,7 @@ export async function POST(request: Request) {
                 owner: {
                     connect: { phone: data.owner }
                 },
-                images: [], // Placeholder for images
+                images: data.images, // Corrected to use data.images
             },
         });
 

@@ -18,13 +18,13 @@ import { toast } from "sonner";
 
 interface Props {
   files: File[];
-  setFiles: (files: File[]) => void;
+  setFiles: React.Dispatch<React.SetStateAction<File[]>>;
 }
 
 export function ImageUpload({ files, setFiles }: Props) {
   const onUpload = React.useCallback(
     async (
-      files: File[],
+      newFiles: File[],
       {
         onProgress,
         onSuccess,
@@ -36,28 +36,21 @@ export function ImageUpload({ files, setFiles }: Props) {
       }
     ) => {
       try {
-        // Process each file individually
-        const uploadPromises = files.map(async (file) => {
+        const uploadPromises = newFiles.map(async (file) => {
           try {
-            // Simulate file upload with progress
             const totalChunks = 10;
             let uploadedChunks = 0;
 
-            // Simulate chunk upload with delays
             for (let i = 0; i < totalChunks; i++) {
-              // Simulate network delay (100-300ms per chunk)
-              await new Promise((resolve) =>
-                setTimeout(resolve, Math.random() * 200 + 100)
+              await new Promise((res) =>
+                setTimeout(res, Math.random() * 200 + 100)
               );
-
-              // Update progress for this specific file
               uploadedChunks++;
               const progress = (uploadedChunks / totalChunks) * 100;
               onProgress(file, progress);
             }
 
-            // Simulate server processing delay
-            await new Promise((resolve) => setTimeout(resolve, 500));
+            setFiles((prevFiles) => [...prevFiles, file]);
             onSuccess(file);
           } catch (error) {
             onError(
@@ -67,14 +60,13 @@ export function ImageUpload({ files, setFiles }: Props) {
           }
         });
 
-        // Wait for all uploads to complete
         await Promise.all(uploadPromises);
       } catch (error) {
-        // This handles any error that might occur outside the individual upload processes
-        console.error("Unexpected error during upload:", error);
+        toast.error("Unexpected error during file upload.");
+        console.error("Upload Error:", error);
       }
     },
-    []
+    [setFiles]
   );
 
   const onFileReject = React.useCallback((file: File, message: string) => {
@@ -85,6 +77,10 @@ export function ImageUpload({ files, setFiles }: Props) {
     });
   }, []);
 
+  const handleFileDelete = (fileToDelete: File) => {
+    setFiles((prev) => prev.filter((f) => f !== fileToDelete));
+  };
+
   return (
     <FileUpload
       value={files}
@@ -92,11 +88,11 @@ export function ImageUpload({ files, setFiles }: Props) {
       onUpload={onUpload}
       onFileReject={onFileReject}
       maxFiles={2}
-      className="w-full  bg-stone-100"
+      className="w-full bg-stone-100"
       multiple
     >
       <FileUploadDropzone>
-        <div className="flex flex-col items-center gap-1 text-center  ">
+        <div className="flex flex-col items-center gap-1 text-center">
           <div className="flex items-center text-neutral-300 justify-center rounded-full border border-neutral-400 p-2.5">
             <Camera className="size-6 text-neutral-400" />
           </div>
@@ -117,6 +113,7 @@ export function ImageUpload({ files, setFiles }: Props) {
           </Button>
         </FileUploadTrigger>
       </FileUploadDropzone>
+
       <FileUploadList>
         {files.map((file, index) => (
           <FileUploadItem key={index} value={file} className="flex-col">
@@ -124,7 +121,12 @@ export function ImageUpload({ files, setFiles }: Props) {
               <FileUploadItemPreview />
               <FileUploadItemMetadata />
               <FileUploadItemDelete asChild>
-                <Button variant="ghost" size="icon" className="size-7">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="size-7"
+                  onClick={() => handleFileDelete(file)}
+                >
                   <X />
                 </Button>
               </FileUploadItemDelete>
