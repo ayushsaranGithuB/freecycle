@@ -8,48 +8,64 @@ import { Textarea } from "@/app/components/ui/textarea";
 import { Label } from "@/app/components/ui/label";
 import Link from "next/link";
 import { categories } from "../components/ui/categories.";
+import { ImageUpload } from "../components/ui/imageDropzone";
+import { ItemCondition } from "@prisma/client";
+import { useSession } from "next-auth/react";
 
-interface ItemCondition {
-  condition: string;
+interface ItemConditionOptions {
+  condition: ItemCondition;
+  label: string;
   hint: string;
   guide: string[];
 }
 
-const ConditionOptions: ItemCondition[] = [
+const ConditionOptions: ItemConditionOptions[] = [
   {
-    condition: "Poor",
+    condition: "POOR",
+    label: "Poor",
     hint: "Parts Only",
     guide: ["Physical or Cosmetic Damage", "May not be functional"],
   },
   {
-    condition: "Fair",
+    condition: "FAIR",
+    label: "Fair",
     hint: "Parts Only",
     guide: ["Physical or Cosmetic Damage", "May not be functional"],
   },
   {
-    condition: "Good",
+    condition: "GOOD",
+    label: "Good",
     hint: "Parts Only",
     guide: ["Physical or Cosmetic Damage", "May not be functional"],
   },
   {
-    condition: "Excellent",
+    condition: "EXCELLENT",
+    label: "Excellent",
     hint: "Parts Only",
     guide: ["Physical or Cosmetic Damage", "May not be functional"],
   },
 ];
 
 export default function ListItemPage() {
+  // Get User Session
+  const { data: session } = useSession();
+
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [brand, setBrand] = useState("");
-  const [category, setCategory] = useState("Phones");
-  const [condition, setCondition] = useState("LIKE_NEW");
-  const [ageYears, setAgeYears] = useState(0);
-  const [originalMsrp, setOriginalMsrp] = useState(0);
-  const [estimatedMarketPrice, setEstimatedMarketPrice] = useState(0);
+  const [category, setCategory] = useState("PHONE");
+  const [model, setModel] = useState("");
+  const [year, setYear] = useState("");
+  const [condition, setCondition] = useState("GOOD");
+  const [originalMsrp, setOriginalMsrp] = useState("");
+  const [estimatedMarketPrice, setEstimatedMarketPrice] = useState("");
   const [pointsValue, setPointsValue] = useState(0);
   const [locationPincode, setLocationPincode] = useState("");
+  const [files, setFiles] = useState<File[]>([]);
+  const owner: number = Number(session?.user?.id) || 0;
+
+  console.log("Session:", session);
 
   //  Points
   const [calculatedPoints, setCalculatedPoints] = useState<number | null>(null);
@@ -60,16 +76,22 @@ export default function ListItemPage() {
       condition,
       originalMsrp,
       estimatedMarketPrice,
-      ageYears,
+      year,
     });
 
     setCalculatedPoints(points);
     setPointsBreakdown(breakdown);
     setPointsValue(points); // optionally sync to the input too
-  }, [condition, originalMsrp, estimatedMarketPrice, ageYears]);
+  }, [condition, originalMsrp, estimatedMarketPrice, year]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const intMSRP = parseInt(originalMsrp, 10);
+    const intEstimatedMarketPrice =
+      estimatedMarketPrice !== "" ? parseInt(estimatedMarketPrice, 10) : 0;
+    const ageYears = new Date().getFullYear() - parseInt(year);
+    const intPointsValue = parseInt(pointsValue.toString(), 10);
 
     const itemData = {
       title,
@@ -78,11 +100,11 @@ export default function ListItemPage() {
       category,
       condition,
       ageYears,
-      originalMsrp,
-      estimatedMarketPrice,
-      pointsValue,
+      originalMsrp: intMSRP,
+      estimatedMarketPrice: intEstimatedMarketPrice ?? 0,
+      pointsValue: intPointsValue,
       locationPincode,
-      ownerId: "1", // Set ownerId to 1 for now
+      owner: owner, // Set ownerId to 1 for now
     };
 
     try {
@@ -109,12 +131,12 @@ export default function ListItemPage() {
     condition,
     originalMsrp,
     estimatedMarketPrice,
-    ageYears,
+    year,
   }: {
     condition: string;
-    originalMsrp: number;
-    estimatedMarketPrice: number;
-    ageYears: number;
+    originalMsrp: string;
+    estimatedMarketPrice: string;
+    year: string;
   }) {
     let conditionMultiplier = 1;
 
@@ -135,17 +157,33 @@ export default function ListItemPage() {
         conditionMultiplier = 0.5;
     }
 
-    const agePenalty = Math.max(0.1, 1 - ageYears * 0.1); // Lose 10% per year, floor at 10%
-    const baseValue = estimatedMarketPrice || originalMsrp * 0.5; // fallback if estimatedMarketPrice is 0
+    // age Penalty
+    // Lose 30% in the first year and then 10% every subsequent year
+
+    const age = new Date().getFullYear() - parseInt(year);
+    const agePenalty = Math.max(0.1, 1 - age * 0.1);
+    console.log("Age :", age);
+
+    const baseValue =
+      parseFloat(estimatedMarketPrice) || parseFloat(originalMsrp);
 
     const points = Math.round(baseValue * conditionMultiplier * agePenalty);
 
-    const breakdown = `Base: ₹${baseValue}, Condition ×${conditionMultiplier}, Age ×${agePenalty.toFixed(
+    const breakdown = `Base: ₹${baseValue}, Condition x ${conditionMultiplier}, Age x ${agePenalty.toFixed(
       2
     )}`;
 
     return { points, breakdown };
   }
+
+  useEffect(() => {
+    // If title is empty, build a title from brand, model, and year
+    if (title === "" && brand !== "" && model !== "" && year !== "") {
+      setTitle(`${brand} ${model} (${year}) - ${condition} condition`);
+    }
+  }, [brand, model, year]);
+
+  if (!session) return <h2>Please Login </h2>; // TODO />;
 
   return (
     <div className="create-listing-page">
@@ -175,14 +213,14 @@ export default function ListItemPage() {
           <ul className="categories">
             {categories.map((cat) => (
               <li key={cat.name}>
-                <label className={category == cat.name ? "selected" : ""}>
+                <label className={category == cat.category ? "selected" : ""}>
                   <input
                     type="radio"
                     name="category"
-                    value={cat.name}
+                    value={cat.category}
                     hidden
-                    checked={category === cat.name}
-                    onChange={() => setCategory(cat.name)}
+                    checked={category === cat.category}
+                    onChange={() => setCategory(cat.category)}
                   />
                   <span className="icon">
                     <img
@@ -216,7 +254,7 @@ export default function ListItemPage() {
                     onChange={() => setCondition(state.condition)}
                   />
 
-                  <p className="condition">{state.condition}</p>
+                  <p className="condition">{state.label}</p>
                   <p className="hint">{state.hint}</p>
                   <p className="guide">
                     {state.guide[0]}
@@ -228,47 +266,21 @@ export default function ListItemPage() {
             ))}
           </ul>
         </section>
+
+        {/* Images ---------------------------- */}
         <section>
-          <h2 className="text-lg font-semibold mb-2">Basic Information</h2>
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="title">Title</Label>
-              <Input
-                id="title"
-                type="text"
-                placeholder="Enter the item title"
-                value={title}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setTitle(e.target.value)
-                }
-                className="w-full"
-              />
-              <p className="text-sm text-gray-500">
-                Provide a short and descriptive title for your item.
-              </p>
-            </div>
-            <div>
-              <Label htmlFor="description">Description</Label>
-              <Textarea
-                id="description"
-                placeholder="Enter a detailed description of the item"
-                value={description}
-                onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-                  setDescription(e.target.value)
-                }
-                className="w-full"
-              />
-              <p className="text-sm text-gray-500">
-                Include details like features, defects, or special notes.
-              </p>
-            </div>
-          </div>
+          <h2 className="title">Images</h2>
+          <ImageUpload />
+          <p className="hint">
+            Upload images to showcase your item. You can select multiple images.
+          </p>
         </section>
 
+        {/* Additional Details ---------------------------- */}
         <section>
-          <h2 className="text-lg font-semibold mb-2">Item Details</h2>
-          <div className="space-y-4">
-            <div>
+          <h2 className="title">Item Details</h2>
+          <div className="flex  gap-6 items-center justify-between w-full">
+            <div className="w-1/3">
               <Label htmlFor="brand">Brand</Label>
               <Input
                 id="brand"
@@ -278,144 +290,137 @@ export default function ListItemPage() {
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setBrand(e.target.value)
                 }
+              />
+            </div>
+            <div className="w-2/3">
+              <Label htmlFor="model">Model</Label>
+              <Input
+                id="model"
+                type="text"
+                placeholder="Enter the model name"
+                value={model}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setModel(e.target.value)
+                }
                 className="w-full"
               />
-              <p className="text-sm text-gray-500">
-                Specify the brand or manufacturer of the item.
-              </p>
+            </div>
+            <div className="w-1/4">
+              <Label htmlFor="year">Year</Label>
+              <Input
+                id="year"
+                type="number"
+                max={new Date().getFullYear()}
+                min={1900}
+                placeholder="Year of manufacture or release"
+                value={year}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setYear(e.target.value)
+                }
+                className="w-full"
+              />
             </div>
           </div>
         </section>
 
+        {/* Item Details ---------------------------- */}
         <section>
-          <h2 className="text-lg font-semibold mb-2">Pricing and Location</h2>
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="ageYears">Age in Years</Label>
-              <Input
-                id="ageYears"
-                type="number"
-                placeholder="Enter the age of the item in years"
-                value={ageYears}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setAgeYears(Number(e.target.value))
-                }
-                className="w-full"
-              />
-              <p className="text-sm text-gray-500">
-                Provide the approximate age of the item.
-              </p>
-            </div>
-            <div>
+          <h2 className="title">Basic Information</h2>
+
+          <Label htmlFor="title">Title</Label>
+          <Input
+            id="title"
+            type="text"
+            placeholder="Provide a short and descriptive title for your item."
+            value={title}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setTitle(e.target.value)
+            }
+            className="w-full"
+          />
+          <Label htmlFor="description">Description</Label>
+          <Textarea
+            id="description"
+            placeholder="Include details like features, defects and included accessories."
+            value={description}
+            onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+              setDescription(e.target.value)
+            }
+            className="w-full"
+            rows={6}
+          />
+          <p className="hint">2000 characters max.</p>
+        </section>
+
+        {/* Pricing  ---------------------------- */}
+        <section>
+          <h2 className="title">Pricing and Location</h2>
+          <div className="flex  gap-6 items-center justify-between w-full">
+            <div className="w-1/2">
               <Label htmlFor="originalMsrp">Original MSRP</Label>
               <Input
                 id="originalMsrp"
-                type="number"
-                placeholder="Enter the original MSRP"
+                type="text"
+                placeholder="Or Purchase Price"
                 value={originalMsrp}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setOriginalMsrp(Number(e.target.value))
+                  setOriginalMsrp(e.target.value)
                 }
                 className="w-full"
+                required
               />
-              <p className="text-sm text-gray-500">
-                Enter the Manufacturer's Suggested Retail Price.
-              </p>
             </div>
-            <div>
-              <Label htmlFor="estimatedMarketPrice">
-                Estimated Market Price
-              </Label>
+            <div className="w-1/2">
+              <Label htmlFor="estimatedMarketPrice">Current Price</Label>
               <Input
                 id="estimatedMarketPrice"
-                type="number"
-                placeholder="Enter the estimated market price"
+                type="text"
+                placeholder="(Optional) Approiximate Market Value"
                 value={estimatedMarketPrice}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setEstimatedMarketPrice(Number(e.target.value))
+                  setEstimatedMarketPrice(e.target.value)
                 }
                 className="w-full"
               />
-              <p className="text-sm text-gray-500">
-                Provide the current market value of the item.
-              </p>
-            </div>
-            <div>
-              <Label htmlFor="pointsValue">Points Value</Label>
-              <Input
-                id="pointsValue"
-                type="number"
-                placeholder="Enter the points value"
-                value={pointsValue}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setPointsValue(Number(e.target.value))
-                }
-                className="w-full"
-              />
-              <p className="text-sm text-gray-500">
-                Specify the points value for this item.
-              </p>
-            </div>
-            <div>
-              <Label htmlFor="locationPincode">Location Pincode</Label>
-              <Input
-                id="locationPincode"
-                type="text"
-                placeholder="Enter your location pincode"
-                value={locationPincode}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setLocationPincode(e.target.value)
-                }
-                className="w-full"
-              />
-              <p className="text-sm text-gray-500">
-                Provide the pincode for pickup/drop-off location.
-              </p>
             </div>
           </div>
         </section>
 
+        {/* Listing Price ---------------------------- */}
         <section>
-          <h2 className="text-lg font-semibold mb-2">Images</h2>
-          <div className="space-y-4">
+          <h2 className="title">Listing Price:</h2>
+          <div className="flex  gap-6 items-center justify-between w-full">
             <div>
-              <Label htmlFor="images">Upload Images</Label>
-              <Input
-                id="images"
-                type="file"
-                multiple
-                accept="image/*"
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  const files = e.target.files;
-                  if (files) {
-                    // Handle file uploads here
-                    console.log("Selected files:", files);
-                  }
-                }}
-                className="w-full"
-              />
-              <p className="text-sm text-gray-500">
-                Upload images to showcase your item. You can select multiple
-                images.
+              <Label htmlFor="pointsValue">Your Item will be listed at:</Label>
+              <p className="hint">
+                This is based on the Original Price, Item Condition and Age
               </p>
+              <h3>Points Breakdown</h3>
+              <p>{pointsBreakdown}</p>
+            </div>
+            <div>
+              {pointsValue > 0 ? (
+                <h2 className="pointsValue">{pointsValue}</h2>
+              ) : (
+                <p className="hint">Enter details to calculate</p>
+              )}
             </div>
           </div>
         </section>
 
-        <section>
-          <h2>Calculated Points Value:</h2>
-          <p>
-            {calculatedPoints !== null
-              ? calculatedPoints
-              : "Enter details to calculate"}
-          </p>
-          <h3>Points Breakdown</h3>
-          <p>{pointsBreakdown}</p>
+        {/* Form Actions --------------------------- */}
+        <section className="formAction">
+          <Button
+            type="button"
+            size={"lg"}
+            className="saveDraft border text-neutral-400 border-neutral-200 hover:bg-neutral-100 hover:text-neutral-500"
+          >
+            Save as Draft
+          </Button>
+          <Button type="submit" size={"lg"} className="publish">
+            Publish Listing
+          </Button>
         </section>
-
-        <Button type="submit" className="w-full">
-          Submit
-        </Button>
       </form>
     </div>
   );

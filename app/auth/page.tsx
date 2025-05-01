@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 
 export default function OTPLoginPage() {
   const [step, setStep] = useState(1);
-  const [phone, setPhone] = useState("");
-  const [otp, setOtp] = useState(["", "", "", ""]);
+  const [phone, setPhone] = useState("9847632510");
+  const [otp, setOtp] = useState(["9", "9", "9", "9"]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [resendTimer, setResendTimer] = useState(30);

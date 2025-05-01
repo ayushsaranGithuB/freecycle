@@ -24,7 +24,9 @@ export async function POST(request: Request) {
                 estimatedMarketPrice: data.estimatedMarketPrice,
                 pointsValue: data.pointsValue,
                 locationPincode: data.locationPincode,
-                ownerId: 1, // Use ownerId directly
+                owner: {
+                    connect: { phone: data.owner }
+                },
                 images: [], // Placeholder for images
             },
         });

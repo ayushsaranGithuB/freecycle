@@ -6,6 +6,38 @@
     margin: 2rem auto;
 }
 
+.create-listing-page form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+form label {
+    margin: 0.5rem 0;
+}
+
+form input,
+form textarea {
+    border-color: #CCC;
+    padding: 1.25rem 0.75rem;
+}
+
+form textarea {
+    height: auto;
+}
+
+form input:focus,
+form textarea:focus {
+    outline: var(--primary-green) solid 1px;
+    box-shadow: none;
+}
+
+form .hint {
+    font-size: 0.75rem;
+    color: #ABA;
+    margin-top: 0.25rem;
+}
+
 .page_title {
     margin-top: 0.5rem;
     padding-bottom: 1rem;
@@ -25,10 +57,9 @@
 }
 
 h2 {
-
     font-size: 1rem;
     color: #2c3e50;
-    margin-bottom: 24px;
+    margin-bottom: 1rem;
     font-weight: 700;
     letter-spacing: -0.04rem;
 }
@@ -51,6 +82,8 @@ h2 {
     overflow: hidden;
     opacity: 0.8;
     cursor: pointer;
+    margin: 0;
+    text-transform: capitalize;
 }
 
 
@@ -121,4 +154,40 @@ label.selected p {
 .item-condition label.selected p.condition {
     color: var(--link);
     font-weight: 700;
+}
+
+section .title {
+    border-bottom: 3px solid var(--link);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+
+/* Form Actions */
+
+.formAction {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1.5rem;
+    border-top: 1px solid #DDD;
+    padding-top: 2rem;
+}
+
+/*  Submit Button */
+
+button.publish {
+    width: fit-content;
+    padding: 24px 36px;
+    background-color: var(--link);
+    color: white;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+button.publish:hover {
+    background-color: var(--primary-green);
 }

@@ -1,16 +1,23 @@
 import styles from "@/app/styles/itemCategories.module.css";
 import Link from "next/link";
+import { ItemCategory } from "@prisma/client";
 
-export const categories = [
-  { name: "Phones", icon: "mobile.svg" },
-  { name: "Laptops", icon: "laptop.svg" },
-  { name: "Tablets", icon: "tablet.svg" },
-  { name: "Cameras & Photography", icon: "camera.svg" },
-  { name: "Accessories", icon: "keyboard.svg" },
-  { name: "Audio Equipment", icon: "headphones.svg" },
-  { name: "Gaming Consoles", icon: "gaming.svg" },
-  { name: "Computer Components", icon: "cpu-fan.svg" },
-  { name: "Cables & Adapters", icon: "hdmi.svg" },
+interface DisplayCategory {
+  icon: string;
+  name: string;
+  category: ItemCategory;
+}
+
+export const categories: DisplayCategory[] = [
+  { name: "Phones", icon: "mobile.svg", category: "PHONE" },
+  { name: "Laptops", icon: "laptop.svg", category: "LAPTOP" },
+  { name: "Tablets", icon: "tablet.svg", category: "TABLET" },
+  { name: "Cameras & Photography", icon: "camera.svg", category: "CAMERA" },
+  { name: "Accessories", icon: "keyboard.svg", category: "ACCESSORIES" },
+  { name: "Audio Equipment", icon: "headphones.svg", category: "AUDIO" },
+  { name: "Gaming Consoles", icon: "gaming.svg", category: "GAMING" },
+  { name: "Computer Components", icon: "cpu-fan.svg", category: "COMPONENTS" },
+  { name: "Cables & Adapters", icon: "hdmi.svg", category: "CABLES" },
 ];
 
 const ItemCategories = () => {

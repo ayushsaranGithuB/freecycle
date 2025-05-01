@@ -14,7 +14,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         CredentialsProvider({
             name: "Phone OTP",
             credentials: {
-                phone: { label: "Phone Number", type: "text" },
+                phone: { label: "Phone Number", type: "number" },
                 otp: { label: "OTP", type: "text" },
             },
             async authorize(credentials, request) {
@@ -34,7 +34,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                             id: phone,                      // id MUST be a string
                             name: "User " + phone,           // name is optional
                             email: `${phone}@example.com`,   // email is optional
-                            image: null,                     // optional
+                            image: null,
+                            phone: phone                    // optional
                         };
                         console.log("User authenticated:", user);
                         return user;
@@ -51,6 +52,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     debug: true,
     session: {
         strategy: "jwt",
+    },
+    callbacks: {
+        async jwt({ token, user }) {
+            if (user) {
+                token.id = user.id; // Store user ID in the JWT
+            }
+            return token;
+        },
+        async session({ session, token }) {
+            if (token && session.user) {
+                session.user.id = token.id as string; // Make ID available in the session
+            }
+            return session;
+        },
     },
 });
 

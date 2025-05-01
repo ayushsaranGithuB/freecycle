@@ -5,7 +5,6 @@ import Image from "next/image";
 import { SignOut } from "../auth/signout-button";
 import { useSession } from "next-auth/react";
 import { useMemo } from "react";
-import { Button } from "./button";
 import {
   Popover,
   PopoverContent,
