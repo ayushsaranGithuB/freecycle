@@ -11,7 +11,7 @@ import { categories } from "../components/ui/categories.";
 import { ImageUpload } from "../components/ui/imageDropzone";
 import { ItemCondition } from "@prisma/client";
 import { useSession } from "next-auth/react";
-import { Coins } from "lucide-react";
+import { Coins, MapPinCheckInside } from "lucide-react";
 
 interface ItemConditionOptions {
   condition: ItemCondition;
@@ -63,6 +63,7 @@ export default function ListItemPage() {
   const [estimatedMarketPrice, setEstimatedMarketPrice] = useState("");
   const [pointsValue, setPointsValue] = useState(0);
   const [locationPincode, setLocationPincode] = useState("");
+  const [city, setCity] = useState("");
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const owner = session?.user?.id || 0;
@@ -209,6 +210,28 @@ export default function ListItemPage() {
       setTitle(`${brand} ${model} (${year}) - ${condition} condition`);
     }
   }, [brand, model, year]);
+
+  useEffect(() => {
+    // If locationPincode is set, look up the city
+    if (locationPincode.length == 6) {
+      async function fetchCity(pincode: string) {
+        // GET https://api.postalpincode.in/pincode/{PINCODE}
+        const response = await fetch(
+          `https://api.postalpincode.in/pincode/${pincode}`
+        );
+        const data = await response.json();
+        if (data[0].Status == "Success") {
+          setCity(
+            `${data[0].PostOffice[0].Name},  ${data[0].PostOffice[0].District}, ${data[0].PostOffice[0].State}`
+          );
+        } else {
+          // alert(data.status);
+          setCity("Cannot find location. Are you sure the pin-code is valid?");
+        }
+      }
+      fetchCity(locationPincode);
+    }
+  }, [locationPincode]);
 
   //  Session Check -------------------------------
 
@@ -415,6 +438,32 @@ export default function ListItemPage() {
               />
             </div>
           </div>
+        </section>
+
+        {/* Location ---------------------------- */}
+        <section>
+          <h2 className="title">Location</h2>
+          <Label htmlFor="location">Location</Label>
+          <div className="flex gap-6">
+            <Input
+              id="location"
+              type="text"
+              placeholder="Where are you located?"
+              value={locationPincode}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setLocationPincode(e.target.value)
+              }
+              className="w-1/4"
+              required
+              max={6}
+              min={6}
+            />
+            <p>
+              <MapPinCheckInside />
+              {city}
+            </p>
+          </div>
+          <p className="hint">Used to calculate shipping cost for the item</p>
         </section>
 
         {/* Listing Price ---------------------------- */}
