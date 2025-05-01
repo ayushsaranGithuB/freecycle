@@ -111,3 +111,14 @@ label.selected p {
     color: #999;
     text-align: center;
 }
+
+.item-condition label.selected {
+    border-color: var(--primary-green);
+    border-width: 2px;
+    background-color: hsl(var(--secondary-green), 0.1);
+}
+
+.item-condition label.selected p.condition {
+    color: var(--link);
+    font-weight: 700;
+}

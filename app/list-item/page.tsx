@@ -1,6 +1,6 @@
 "use client";
 import "@/app/styles/create_listing.css";
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
@@ -51,6 +51,23 @@ export default function ListItemPage() {
   const [pointsValue, setPointsValue] = useState(0);
   const [locationPincode, setLocationPincode] = useState("");
 
+  //  Points
+  const [calculatedPoints, setCalculatedPoints] = useState<number | null>(null);
+  const [pointsBreakdown, setPointsBreakdown] = useState<string | null>(null);
+
+  useEffect(() => {
+    const { points, breakdown } = calculatePoints({
+      condition,
+      originalMsrp,
+      estimatedMarketPrice,
+      ageYears,
+    });
+
+    setCalculatedPoints(points);
+    setPointsBreakdown(breakdown);
+    setPointsValue(points); // optionally sync to the input too
+  }, [condition, originalMsrp, estimatedMarketPrice, ageYears]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -87,6 +104,48 @@ export default function ListItemPage() {
       console.error("Error submitting form:", error);
     }
   };
+
+  function calculatePoints({
+    condition,
+    originalMsrp,
+    estimatedMarketPrice,
+    ageYears,
+  }: {
+    condition: string;
+    originalMsrp: number;
+    estimatedMarketPrice: number;
+    ageYears: number;
+  }) {
+    let conditionMultiplier = 1;
+
+    switch (condition) {
+      case "Excellent":
+        conditionMultiplier = 1;
+        break;
+      case "Good":
+        conditionMultiplier = 0.85;
+        break;
+      case "Fair":
+        conditionMultiplier = 0.6;
+        break;
+      case "Poor":
+        conditionMultiplier = 0.3;
+        break;
+      default:
+        conditionMultiplier = 0.5;
+    }
+
+    const agePenalty = Math.max(0.1, 1 - ageYears * 0.1); // Lose 10% per year, floor at 10%
+    const baseValue = estimatedMarketPrice || originalMsrp * 0.5; // fallback if estimatedMarketPrice is 0
+
+    const points = Math.round(baseValue * conditionMultiplier * agePenalty);
+
+    const breakdown = `Base: ₹${baseValue}, Condition ×${conditionMultiplier}, Age ×${agePenalty.toFixed(
+      2
+    )}`;
+
+    return { points, breakdown };
+  }
 
   return (
     <div className="create-listing-page">
@@ -341,6 +400,17 @@ export default function ListItemPage() {
               </p>
             </div>
           </div>
+        </section>
+
+        <section>
+          <h2>Calculated Points Value:</h2>
+          <p>
+            {calculatedPoints !== null
+              ? calculatedPoints
+              : "Enter details to calculate"}
+          </p>
+          <h3>Points Breakdown</h3>
+          <p>{pointsBreakdown}</p>
         </section>
 
         <Button type="submit" className="w-full">
