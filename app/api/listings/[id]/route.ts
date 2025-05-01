@@ -89,7 +89,22 @@ export async function PATCH(request: Request, { params }: { params: { id: string
 }
 
 export async function DELETE(req: Request, { params }: { params: { id: string } }) {
-    const itemId = await params.id;
+    const param = await params;
+    const itemId = param.id;
+
+    // Fetch and Delete associated images with this item
+    const item = await prisma.item.findUnique({ where: { id: parseInt(itemId, 10) } })
+    const images = item?.images;
+    if (images && Array.isArray(images)) {
+        for (const image of images) {
+            if (image !== null) {
+                const filePath = path.join(process.cwd(), 'public', image as string);
+                fs.unlinkSync(filePath);
+            }
+        }
+    }
+
+
 
     try {
         await prisma.item.delete({ where: { id: parseInt(itemId, 10) } });
@@ -98,4 +113,7 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
         console.error('Error deleting item:', error);
         return NextResponse.json({ error: 'Failed to delete item' }, { status: 500 });
     }
+
+
+
 }

@@ -1,11 +1,9 @@
 "use client";
 
 import { Button } from "@/app/components/ui/button";
-import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function DeleteItemButton({ id }: { id: string }) {
-  const router = useRouter();
-
   return (
     <Button
       className="w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700"
@@ -20,7 +18,7 @@ export default function DeleteItemButton({ id }: { id: string }) {
               throw new Error("Failed to delete item");
             }
 
-            router.push("/list-item"); // Redirect to the list page after deletion
+            toast.success("Item deleted successfully");
           } catch (error) {
             console.error("Error deleting item:", error);
             alert("Failed to delete the item. Please try again.");
