@@ -60,7 +60,7 @@ export default async function ItemDetailsPage({
     }
 
     return (
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 max-w-[1150px]">
         <ul className="breadcrumbs">
           <li>
             <Link href="/">Home</Link>
@@ -72,9 +72,9 @@ export default async function ItemDetailsPage({
           <li>&raquo;</li>
           <li>{trimAtSpace(item.title, 48)}</li>
         </ul>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
           {/* Image Section */}
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center ">
             {images && <ImageCarousel images={item.images as string[]} />}
           </div>
 
