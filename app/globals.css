@@ -29,7 +29,12 @@ button {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 1rem;
+  gap: 0.3rem;
+  color: #AAA;
+}
+
+.breadcrumbs a {
+  font-size: 0.85rem;
 }
 
 @layer base {
@@ -120,6 +125,14 @@ button {
 
 .bg-popover {
   background-color: var(--background);
+}
+
+.bg-popover a {
+  color: var(--link);
+}
+
+header span.username {
+  color: white;
 }
 
 .pointsValue {

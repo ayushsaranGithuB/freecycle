@@ -30,20 +30,20 @@ const ConditionOptions: ItemConditionOptions[] = [
   {
     condition: "FAIR",
     label: "Fair",
-    hint: "Parts Only",
-    guide: ["Physical or Cosmetic Damage", "May not be functional"],
+    hint: "Still Usable",
+    guide: ["Some Cosmetic Damage", "Still Working"],
   },
   {
     condition: "GOOD",
     label: "Good",
-    hint: "Parts Only",
-    guide: ["Physical or Cosmetic Damage", "May not be functional"],
+    hint: "Works Perfectly",
+    guide: ["Minor Wear or Scuffs", "Original Accessories"],
   },
   {
     condition: "EXCELLENT",
     label: "Excellent",
-    hint: "Parts Only",
-    guide: ["Physical or Cosmetic Damage", "May not be functional"],
+    hint: "Like New!",
+    guide: ["No Cosmetic Damage", "Original Box and Accessories"],
   },
 ];
 
@@ -245,6 +245,7 @@ export default function ListItemPage() {
             Home
           </Link>
         </li>
+        <li>&raquo;</li>
         <li>
           <Link href="/" className="text-blue-500 hover:underline">
             Create a listing
@@ -471,12 +472,16 @@ export default function ListItemPage() {
           <h2 className="title">Listing Price:</h2>
           <div className="flex  gap-6 items-center justify-between w-full">
             <div>
-              <Label htmlFor="pointsValue">Your Item will be listed at:</Label>
+              <Label htmlFor="pointsValue">Your Item will be listed for:</Label>
               <p className="hint">
                 This is based on the Original Price, Item Condition and Age
               </p>
-              <h3>Points Breakdown</h3>
-              <p>{pointsBreakdown}</p>
+              {pointsValue > 1 && (
+                <>
+                  <h3>Points Breakdown</h3>
+                  <p>{pointsBreakdown}</p>
+                </>
+              )}
             </div>
             <div>
               {pointsValue > 0 ? (

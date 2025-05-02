@@ -12,6 +12,7 @@ export const categories: DisplayCategory[] = [
   { name: "Phones", icon: "mobile.svg", category: "PHONE" },
   { name: "Laptops", icon: "laptop.svg", category: "LAPTOP" },
   { name: "Tablets", icon: "tablet.svg", category: "TABLET" },
+  { name: "Wearables", icon: "watch.svg", category: "WEARABLES" },
   { name: "Cameras & Photography", icon: "camera.svg", category: "CAMERA" },
   { name: "Accessories", icon: "keyboard.svg", category: "ACCESSORIES" },
   { name: "Audio Equipment", icon: "headphones.svg", category: "AUDIO" },

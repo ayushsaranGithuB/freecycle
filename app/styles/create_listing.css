@@ -135,8 +135,10 @@ label.selected p {
 }
 
 .item-condition p.hint {
-    font-size: 0.8rem;
-    font-weight: 500;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #666;
+    padding-bottom: 0.15rem;
 }
 
 .item-condition p.guide {

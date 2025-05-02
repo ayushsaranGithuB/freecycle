@@ -10,6 +10,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/app/components/ui/popover";
+import { CircleUserRound } from "lucide-react";
 
 export default function Navigation() {
   const { data: session } = useSession();
@@ -32,12 +33,7 @@ export default function Navigation() {
 
           {!memoizedSession && (
             <p className="flex items-center gap-2">
-              <Image
-                src="/icons/circle-user-round.svg"
-                alt="Profile"
-                width={24}
-                height={24}
-              />
+              <CircleUserRound color="#fff" />
               <Link href="/auth">Login</Link>
             </p>
           )}
@@ -45,13 +41,10 @@ export default function Navigation() {
             <Popover>
               <PopoverTrigger>
                 <p className="flex items-center gap-2">
-                  <Image
-                    src="/icons/circle-user-round.svg"
-                    alt="Profile"
-                    width={24}
-                    height={24}
-                  />
-                  {memoizedSession?.user?.name}
+                  <CircleUserRound color="#fff" />
+                  <span className="username">
+                    {memoizedSession?.user?.name}
+                  </span>
                 </p>
               </PopoverTrigger>
               <PopoverContent className="w-40 popover-content">
