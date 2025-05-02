@@ -1,6 +1,6 @@
 import styles from "@/app/styles/productGrid.module.css";
 import Link from "next/link";
-
+import { trimAtSpace } from "@/app/helpers/text";
 import { FC } from "react";
 
 type ProductGridProps = {
@@ -17,17 +17,6 @@ export interface Listing {
 }
 
 const ProductGrid: FC<ProductGridProps> = ({ listings }) => {
-  function trimAtSpace(description: string, maxLength: number): string {
-    if (description.length <= maxLength) {
-      return description;
-    }
-    const trimmed = description.slice(0, maxLength);
-    const lastSpaceIndex = trimmed.lastIndexOf(" ");
-    return lastSpaceIndex > -1
-      ? trimmed.slice(0, lastSpaceIndex) + "..."
-      : trimmed + "...";
-  }
-
   return (
     <section className={styles.listingsGrid}>
       <div className={styles.title}>

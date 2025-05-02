@@ -3,8 +3,13 @@ import path from 'path';
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
-export async function GET() {
-    const items = await prisma.item.findMany();
+export async function GET(request: Request) {
+    const { searchParams } = new URL(request.url);
+    const limit = parseInt(searchParams.get('limit') || '12', 10); // Default limit to 12
+    const items = await prisma.item.findMany({
+        take: limit,
+    });
+
     return NextResponse.json(items);
 }
 

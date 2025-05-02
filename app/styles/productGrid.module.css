@@ -43,16 +43,20 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 100%;
     display: grid;
-    grid-template-rows: 136px 1rem 2.5rem 2rem 3.5rem;
+    grid-template-rows: 150px 1rem 2.5rem 2rem 3.5rem;
     /* gap: 10px; */
 }
 
 .card img {
     max-width: 100%;
     height: auto;
+    max-height: 140px;
     object-fit: cover;
+    object-position: center;
+
     border-radius: 5px;
     aspect-ratio: 3/2;
+    margin: 0 auto;
 }
 
 .card h3 {

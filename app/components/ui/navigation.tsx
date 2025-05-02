@@ -29,6 +29,7 @@ export default function Navigation() {
           />
         </Link>
         <nav>
+          <Link href="/">Browse Listings</Link>
           <Link href="/list-item">List an Item</Link>
 
           {!memoizedSession && (

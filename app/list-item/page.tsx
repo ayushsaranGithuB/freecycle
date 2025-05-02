@@ -241,15 +241,11 @@ export default function ListItemPage() {
     <div className="create-listing-page">
       <ul className="breadcrumbs">
         <li>
-          <Link href="/" className="text-blue-500 hover:underline">
-            Home
-          </Link>
+          <Link href="/">Home</Link>
         </li>
         <li>&raquo;</li>
         <li>
-          <Link href="/" className="text-blue-500 hover:underline">
-            Create a listing
-          </Link>
+          <Link href="/">Create a listing</Link>
         </li>
       </ul>
       <div className="page_title">
