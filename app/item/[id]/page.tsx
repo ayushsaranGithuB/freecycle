@@ -9,6 +9,11 @@ import ProductGrid from "@/app/components/ui/productGrid";
 import { fetchListings } from "@/app/helpers/api";
 import { trimAtSpace } from "@/app/helpers/text";
 import ShippingEstimator from "@/app/components/ui/shippingEstimator";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@radix-ui/react-popover";
 
 export default async function ItemDetailsPage({
   params,
@@ -79,16 +84,23 @@ export default async function ItemDetailsPage({
             <div>{nl2br(item.description)}</div>
 
             <div className="buyItemActions">
-              <h2 className="pointsValue">
-                <Coins />
-                {item.pointsValue} points
-              </h2>
+              <div>
+                <h2 className="pointsValue">
+                  <Coins />
+                  {item.pointsValue} points
+                </h2>
+                {/* Shipping Charges ------------------------------------- */}
+                <Popover>
+                  <PopoverTrigger>
+                    <p>+ Shipping Charges</p>
+                  </PopoverTrigger>
+                  <PopoverContent className="popover-content">
+                    <ShippingEstimator sellerPincode={item.locationPincode} />
+                  </PopoverContent>
+                </Popover>
+              </div>
               <Button className="primary">Claim this item</Button>
             </div>
-
-            {/* Shipping Charges ------------------------------------- */}
-
-            <ShippingEstimator sellerPincode={item.locationPincode} />
 
             <div className="grid grid-cols-2 gap-3 text-gray-500 text-sm">
               <p className="">Brand:</p>

@@ -14,35 +14,34 @@ const ShippingEstimator = ({ sellerPincode }: ShippingEstimatorProps) => {
     useState<ShippingEstimate | null>(null);
   const [loading, setLoading] = useState(false);
 
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    try {
+      const data = await estimateShipping(
+        parseInt(buyerPincode),
+        parseInt(sellerPincode),
+        2, // Dummy weight in kg
+        "medium" // Dummy size
+      );
+      setShippingDetails(data);
+    } catch (error) {
+      console.error("Error fetching shipping details:", error);
+    }
+  }
+
   return (
-    <div>
-      <h2 className="text-2xl font-bold text-gray-800">+ ₹ Shipping</h2>
+    <div className="bg-white  p-4">
       <div className="flex items-center gap-2">
-        <input
-          type="text"
-          placeholder="Enter your pincode"
-          className="border rounded px-2 py-1"
-          value={buyerPincode}
-          onChange={(e) => setBuyerPincode(e.target.value)}
-        />
-        <Button
-          className="primary"
-          onClick={async () => {
-            try {
-              const data = await estimateShipping(
-                parseInt(buyerPincode),
-                parseInt(sellerPincode),
-                2, // Dummy weight in kg
-                "medium" // Dummy size
-              );
-              setShippingDetails(data);
-            } catch (error) {
-              console.error("Error fetching shipping details:", error);
-            }
-          }}
-        >
-          Estimate Shipping
-        </Button>
+        <form onSubmit={handleSubmit} className="shipping-estimator">
+          <input
+            type="text"
+            placeholder="Enter your pincode"
+            className="border rounded px-2 py-1"
+            value={buyerPincode}
+            onChange={(e) => setBuyerPincode(e.target.value)}
+          />
+          <button type="submit">&raquo;</button>
+        </form>
       </div>
       {shippingDetails && buyerPincode.length === 6 && (
         <p>

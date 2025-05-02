@@ -7,9 +7,46 @@
     padding: 1rem 0 1.5rem;
 }
 
+.buyItemActions>div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--link);
+}
+
 .related {
     margin: 3rem auto;
     max-width: 1200px;
     padding: 2rem 0;
     border-top: 1px solid #DDD;
+}
+
+form.shipping-estimator {
+    display: flex;
+    border: 1px solid #AAA;
+    border-radius: 8px;
+    padding: 0.2rem;
+}
+
+form.shipping-estimator button {
+    background-color: var(--link);
+    color: white;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+}
+
+form.shipping-estimator input {
+    border: none;
+}
+
+form.shipping-estimator input:focus {
+    border: none;
+    outline: none;
+}
+
+.popover-content {
+    border: none
 }
