@@ -3,6 +3,7 @@ import { Open_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/app/components/ui/navigation";
 import { SessionProvider } from "next-auth/react";
+import Footer from "./components/ui/footer";
 
 const openSans = Open_Sans({
   variable: "--font-open-sans",
@@ -28,6 +29,7 @@ export default function RootLayout({
           <Navigation />
           {children}
         </SessionProvider>
+        <Footer />
       </body>
     </html>
   );

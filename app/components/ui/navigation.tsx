@@ -22,7 +22,7 @@ export default function Navigation() {
       <div className="container">
         <Link href="/">
           <Image
-            src="/logo_v3.svg"
+            src="/logo_1.svg"
             alt="Freecycle Logo"
             width={120}
             height={30}

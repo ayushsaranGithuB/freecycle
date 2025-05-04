@@ -4,12 +4,18 @@
 html,
 body {
   max-width: 100vw;
-  overflow-x: hidden;
 }
 
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: space-between;
+  overflow-x: hidden;
+  min-height: 100vh;
+  background-color: #F6F6F2;
 }
 
 
@@ -31,10 +37,17 @@ button {
   align-items: center;
   gap: 0.3rem;
   color: #AAA;
+  max-width: 90%;
 }
 
 .breadcrumbs a {
   font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.breadcrumbs .home {
+  padding-left: 16px;
+  background: url('/icons/home.svg') left 3px no-repeat;
 }
 
 @layer base {
@@ -50,7 +63,7 @@ button {
 
 
 :root {
-  --link: #94B840;
+  --link: #4BA950;
   --link-foreground: #FFF;
   --primary-green: #B6E250;
   --secondary-green: 108deg, 33.9%, 76.86%;
@@ -87,6 +100,7 @@ button {
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --shadow-10: 4px 7px 10px 0 rgba(0, 0, 0, 0.1);
 }
 
 .dark {
@@ -161,3 +175,33 @@ button.primary {
 button.primary:hover {
   background-color: var(--primary-green);
 }
+
+/* Cards */
+
+.card {
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: var(--shadow-10);
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Typography */
+
+.titleUnderlined {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.4rem;
+  letter-spacing: -0.04rem;
+  border-bottom: 2px solid var(--link);
+  padding-bottom: 0.2rem;
+  margin-top: 1rem;
+}
+
+/* Footer  ---------------------- */
+
+footer#globalFooter {}

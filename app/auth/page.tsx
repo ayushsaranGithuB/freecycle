@@ -1,5 +1,5 @@
 "use client";
-
+import "@/app/styles/loginForm.css";
 import { useState, useEffect, useRef } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -97,18 +97,29 @@ export default function OTPLoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+    <div className=" flex flex-col gap-[16px] items-center justify-center p-4 h-full">
+      <ul className="breadcrumbs w-sm">
+        <li>
+          <Link href="/" className="home">
+            Home
+          </Link>
+        </li>
+        <li>&raquo;</li>
+        <li>
+          <Link href="/auth/sign-in">Sign-In</Link>
+        </li>
+      </ul>
       {step === 1 && (
-        <form
-          onSubmit={handlePhoneSubmit}
-          className="bg-white p-6 rounded shadow-md w-full max-w-sm"
-        >
-          <h1 className="text-2xl font-bold mb-4">Enter your phone number</h1>
+        <form onSubmit={handlePhoneSubmit} className="card w-sm loginForm">
+          <h1 className="titleUnderlined">Enter your phone number</h1>
 
-          <div className="mb-6">
+          <div>
+            <label htmlFor="phone">Phone Number</label>
             <input
+              id="phone"
+              name="phone"
               type="tel"
-              placeholder="Phone Number"
+              placeholder="10 digit mobile number"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               className="mt-1 block w-full border rounded-md p-2"
@@ -116,15 +127,14 @@ export default function OTPLoginPage() {
             />
           </div>
 
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-          >
-            Send OTP
-          </button>
-          <p className="text-sm text-neutral-600 text-center mt-4">
-            Don't have an account <Link href="/auth/signup">Signup here</Link>
-          </p>
+          <div className="actions">
+            <button type="submit" className="primary">
+              Send OTP
+            </button>
+            <p className="text-sm text-neutral-600 text-center mt-4">
+              Don't have an account <Link href="/auth/signup">Signup here</Link>
+            </p>
+          </div>
         </form>
       )}
 
