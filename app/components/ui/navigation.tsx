@@ -10,7 +10,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/app/components/ui/popover";
-import { CircleUserRound } from "lucide-react";
+import { CircleUserRound, SquareMenu } from "lucide-react";
 
 export default function Navigation() {
   const { data: session } = useSession();
@@ -28,40 +28,60 @@ export default function Navigation() {
             height={30}
           />
         </Link>
-        <nav>
-          <Link href="/">Browse Listings</Link>
-          <Link href="/list-item">List an Item</Link>
-
-          {!memoizedSession && (
-            <p className="flex items-center gap-2">
-              <CircleUserRound color="#fff" />
-              <Link href="/auth">Login</Link>
-            </p>
-          )}
-          {memoizedSession && (
-            <Popover>
-              <PopoverTrigger>
-                <p className="flex items-center gap-2">
-                  <CircleUserRound color="#fff" />
-                  <span className="username">
-                    {memoizedSession?.user?.name}
-                  </span>
-                </p>
-              </PopoverTrigger>
-              <PopoverContent className="w-40 popover-content">
-                <div className="flex flex-col gap-2 p-2">
-                  <Link href="/profile">Profile</Link>
-                  <Link href="/settings">Settings</Link>
-                  <Link href="/help">Help</Link>
-                </div>
-                <div className="flex justify-end p-2 border-t mt-2 pt-4 border-t-gray-400">
-                  <SignOut />
-                </div>
-              </PopoverContent>
-            </Popover>
-          )}
-        </nav>
+        <nav>{navLinks()}</nav>
+        <button
+          className="menuToggle"
+          onClick={() => {
+            const menu = document.querySelector(".mobileMenu");
+            const isOpen = menu?.getAttribute("data-open");
+            menu?.setAttribute(
+              "data-open",
+              isOpen === "true" ? "false" : "true"
+            );
+          }}
+        >
+          <SquareMenu color="#fff" />
+        </button>
+        <div className="mobileMenu" data-open="false">
+          {navLinks()}
+        </div>
       </div>
     </header>
   );
+
+  function navLinks() {
+    return (
+      <>
+        <Link href="/">Browse Listings</Link>
+        <Link href="/list-item">List an Item</Link>
+
+        {!memoizedSession && (
+          <p className="flex items-center gap-2">
+            <CircleUserRound color="#fff" />
+            <Link href="/auth">Login</Link>
+          </p>
+        )}
+        {memoizedSession && (
+          <Popover>
+            <PopoverTrigger>
+              <p className="flex items-center gap-2">
+                <CircleUserRound color="#fff" />
+                <span className="username">{memoizedSession?.user?.name}</span>
+              </p>
+            </PopoverTrigger>
+            <PopoverContent className="w-40 popover-content">
+              <div className="flex flex-col gap-2 p-2">
+                <Link href="/profile">Profile</Link>
+                <Link href="/settings">Settings</Link>
+                <Link href="/help">Help</Link>
+              </div>
+              <div className="flex justify-end p-2 border-t mt-2 pt-4 border-t-gray-400">
+                <SignOut />
+              </div>
+            </PopoverContent>
+          </Popover>
+        )}
+      </>
+    );
+  }
 }

@@ -157,8 +157,9 @@ a.secondary {
   font-family: "Open Sans", sans-serif;
   margin: 0 auto;
   padding: 20px;
-  max-width: 1200px;
+  max-width: min(1200px, 100vw);
   color: #333;
+  overflow: hidden;
 }
 
 /* Hero Section */

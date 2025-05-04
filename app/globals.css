@@ -67,7 +67,7 @@ button {
   --link-foreground: #FFF;
   --primary-green: #B6E250;
   --secondary-green: 108deg, 33.9%, 76.86%;
-  --dark: #0F172A;
+  --dark: #32302A;
   --radius: 0.625rem;
   --background: #FFF;
   --foreground: #333;
@@ -203,4 +203,3 @@ button.primary:hover {
   padding-bottom: 0.2rem;
   margin-top: 1rem;
 }
-

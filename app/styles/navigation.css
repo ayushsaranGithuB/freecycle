@@ -5,9 +5,8 @@
 
 .navigation .container {
     margin: 0 auto;
-    padding: 0 0.5rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding: 0.75rem 1rem;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -26,13 +25,40 @@
 
 
 .navigation nav {
-    display: flex;
+    display: none;
     gap: 2rem;
     align-items: center;
 }
 
 .popover-content {
     border: 1px solid #94B840
+}
+
+/* Mobile Menu */
+
+.menuToggle {
+    margin-left: auto;
+}
+
+.mobileMenu {
+    position: fixed;
+    top: 3.75rem;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background: var(--dark);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    font-size: 1.2rem;
+}
+
+.mobileMenu[data-open="true"] {
+    transform: translateX(0);
 }
 
 /* SearchBar */
@@ -129,7 +155,7 @@ footer nav {
     display: flex;
     gap: 0.5rem;
     justify-content: center;
-    background-color: #32302A;
+    background-color: var(--dark);
     padding: 1.5rem 0 3rem;
     font-size: 0.8rem;
     line-height: 130%;
@@ -173,6 +199,18 @@ footer nav h5 {
     .navigation .container {
         padding: 0.75rem 1rem;
         max-width: 1140px;
+    }
+
+    .navigation nav {
+        display: flex;
+    }
+
+    .menuToggle {
+        display: none;
+    }
+
+    .mobileMenu {
+        display: none;
     }
 
 }
