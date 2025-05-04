@@ -1,7 +1,3 @@
-:root {
-    --gradient-1: linear-gradient(90deg, #4BA950, #99D04F);
-}
-
 .navigation {
     background: var(--gradient-1);
     border-bottom: 2px solid #444C4420;

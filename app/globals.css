@@ -101,6 +101,8 @@ button {
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
   --shadow-10: 4px 7px 10px 0 rgba(0, 0, 0, 0.1);
+  --gradient-1: linear-gradient(90deg, #4BA950, #99D04F);
+
 }
 
 .dark {
@@ -204,4 +206,9 @@ button.primary:hover {
 
 /* Footer  ---------------------- */
 
-footer#globalFooter {}
+footer#globalFooter {
+  background: var(--gradient-1);
+  border-top: 2px solid #444C4420;
+  padding: 32px 0;
+  padding-bottom: 0;
+}
