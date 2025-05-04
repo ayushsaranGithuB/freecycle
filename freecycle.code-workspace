@@ -1,0 +1,13 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "postman.settings.dotenv-detection-notification-visibility": false,
+    "workbench.colorCustomizations": {
+      "titleBar.activeBackground": "#0b452a"
+    }
+  }
+}
