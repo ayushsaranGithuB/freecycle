@@ -41,6 +41,7 @@ export default function Navigation() {
           }}
         >
           <SquareMenu color="#fff" />
+          <img src="/icons/menu.svg" alt="" />
         </button>
         <div className="mobileMenu" data-open="false">
           {navLinks()}
