@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { SignOut } from "../auth/signout-button";
 import { useSession } from "next-auth/react";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   Popover,
   PopoverContent,
@@ -14,7 +14,7 @@ import { CircleUserRound, SquareMenu } from "lucide-react";
 
 export default function Navigation() {
   const { data: session } = useSession();
-
+  const [menuOpen, setMenuOpen] = useState(false);
   const memoizedSession = useMemo(() => session, [session]);
 
   return (
@@ -32,18 +32,16 @@ export default function Navigation() {
         <button
           className="menuToggle"
           onClick={() => {
-            const menu = document.querySelector(".mobileMenu");
-            const isOpen = menu?.getAttribute("data-open");
-            menu?.setAttribute(
-              "data-open",
-              isOpen === "true" ? "false" : "true"
-            );
+            setMenuOpen(!menuOpen);
           }}
         >
-          <SquareMenu color="#fff" />
-          <img src="/icons/menu.svg" alt="" />
+          {!menuOpen ? (
+            <SquareMenu color="#fff" />
+          ) : (
+            <img src="/icons/menu.svg" alt="" />
+          )}
         </button>
-        <div className="mobileMenu" data-open="false">
+        <div className="mobileMenu" data-open={menuOpen}>
           {navLinks()}
         </div>
       </div>
