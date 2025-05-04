@@ -97,7 +97,7 @@ export default function OTPLoginPage() {
   };
 
   return (
-    <div className=" flex flex-col gap-[16px] items-center justify-center p-4 h-full">
+    <div className=" flex flex-col gap-[16px] items-center justify-center p-4 h-full min-h-[600px]">
       <ul className="breadcrumbs w-sm">
         <li>
           <Link href="/" className="home">
@@ -139,46 +139,17 @@ export default function OTPLoginPage() {
       )}
 
       {step === 2 && (
-        <div className="bg-white p-6 rounded shadow-md w-full max-w-sm">
-          <h1 className="text-2xl font-bold mb-4">Enter OTP</h1>
-
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleOtpSubmit(otp.join(""));
+          }}
+          className="card w-sm loginForm"
+        >
+          <h1 className="titleUnderlined">Verify your phone number</h1>
           {error && <div className="mb-4 text-red-500">{error}</div>}
-
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleOtpSubmit(otp.join(""));
-            }}
-          >
-            <div className="flex justify-between mb-6">
-              {otp.map((digit, idx) => (
-                <input
-                  key={idx}
-                  ref={(el) => {
-                    otpRefs.current[idx] = el;
-                  }}
-                  type="text"
-                  inputMode="numeric"
-                  maxLength={1}
-                  value={digit}
-                  onChange={(e) => handleOtpChange(idx, e.target.value)}
-                  onKeyDown={(e) => handleOtpKeyDown(idx, e)}
-                  className="w-12 h-12 text-center text-xl border rounded-md"
-                  required
-                />
-              ))}
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 disabled:opacity-50"
-              disabled={loading || otp.some((d) => !d)}
-            >
-              {loading ? "Verifying..." : "Verify OTP"}
-            </button>
-          </form>
-
-          <div className="mt-4 text-center text-gray-500 text-sm">
+          <p>
+            We sent a 4 digit code your phone number.{" "}
             {resendTimer > 0 ? (
               <>Resend OTP in {resendTimer}s</>
             ) : (
@@ -189,8 +160,35 @@ export default function OTPLoginPage() {
                 Resend OTP
               </button>
             )}
+          </p>
+          <div className="flex justify-between mb-6 gap-4">
+            {otp.map((digit, idx) => (
+              <input
+                key={idx}
+                ref={(el) => {
+                  otpRefs.current[idx] = el;
+                }}
+                type="text"
+                inputMode="numeric"
+                maxLength={1}
+                value={digit}
+                onChange={(e) => handleOtpChange(idx, e.target.value)}
+                onKeyDown={(e) => handleOtpKeyDown(idx, e)}
+                className="w-12 h-12 text-center text-xl border rounded-md"
+                required
+              />
+            ))}
           </div>
-        </div>
+          <div className="actions">
+            <button
+              type="submit"
+              className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 disabled:opacity-50"
+              disabled={loading || otp.some((d) => !d)}
+            >
+              {loading ? "Verifying..." : "Verify OTP"}
+            </button>
+          </div>
+        </form>
       )}
     </div>
   );
