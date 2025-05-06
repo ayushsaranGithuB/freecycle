@@ -7,6 +7,7 @@ import { Textarea } from "@/app/components/ui/textarea";
 import { Button } from "@/app/components/ui/button";
 import { Label } from "@/app/components/ui/label";
 import { toast } from "sonner";
+import { productCategoriesList } from "@/app/components/ui/categories";
 
 export default function EditItemPage() {
   const router = useRouter();
@@ -251,11 +252,11 @@ export default function EditItemPage() {
                 onChange={handleChange}
                 className="w-full border p-2"
               >
-                <option value="PHONE">Phone</option>
-                <option value="LAPTOP">Laptop</option>
-                <option value="TABLET">Tablet</option>
-                <option value="ACCESSORIES">Accessories</option>
-                <option value="OTHER">Other</option>
+                {productCategoriesList.map((category) => (
+                  <option key={category.category} value={category.category}>
+                    {category.name}
+                  </option>
+                ))}
               </select>
               <p className="text-sm text-gray-500">
                 Select the category that best fits your item.

@@ -9,7 +9,7 @@ import ProductGrid from "@/app/components/ui/productGrid";
 import { fetchListings } from "@/app/helpers/api";
 import { trimAtSpace } from "@/app/helpers/text";
 import ShippingEstimator from "@/app/components/ui/shippingEstimator";
-
+import { productCategoriesList } from "@/app/components/ui/categories";
 
 export default async function ItemDetailsPage({
   params,
@@ -18,7 +18,7 @@ export default async function ItemDetailsPage({
 }) {
   const { id } = await params;
 
-  const listings = await fetchListings(4);
+  const listings = await fetchListings({ limit: 4 });
 
   try {
     const item = await prisma.item.findUnique({
@@ -86,8 +86,7 @@ export default async function ItemDetailsPage({
                   {item.pointsValue} points
                 </h2>
                 {/* Shipping Charges ------------------------------------- */}
-                    <ShippingEstimator sellerPincode={item.locationPincode} />
-                
+                <ShippingEstimator sellerPincode={item.locationPincode} />
               </div>
               <Button className="primary">Claim this item</Button>
             </div>
@@ -97,7 +96,13 @@ export default async function ItemDetailsPage({
               <p className="">{item.brand}</p>
 
               <p>Category:</p>
-              <p>{item.category}</p>
+              <p>
+                {
+                  productCategoriesList.find(
+                    (cat) => cat.category === item.category
+                  )?.name
+                }
+              </p>
 
               <p>Condition:</p>
               <p>{item.condition}</p>
