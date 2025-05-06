@@ -8,13 +8,9 @@
 }
 
 .callout-green {
-    background-color: var(--primary-green);
+    background: url('/logo-watermark.svg') calc(100% - 20px) center / 120px no-repeat, var(--gradient-1);
     font-size: 0.75rem;
-    background-image: url('/logo-watermark.svg');
-    background-repeat: no-repeat;
-    background-position: calc(100% - 20px) center;
-    background-size: 120px;
-    color: #44732d;
+    color: #e8ede6;
 }
 
 .callout-green h1 {

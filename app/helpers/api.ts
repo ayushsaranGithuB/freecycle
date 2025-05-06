@@ -6,9 +6,32 @@ export interface ShippingEstimate {
     estimatedDeliveryTime: number;
 }
 
-export async function fetchListings(limit: number = 12): Promise<Listing[]> {
+export async function fetchListings({
+    limit = 12,
+    searchQuery = "",
+    category = null,
+    condition = null,
+    minPrice = 0,
+    maxPrice = 10000,
+}: {
+    limit?: number;
+    searchQuery?: string;
+    category?: string | null;
+    condition?: string | null;
+    minPrice?: number;
+    maxPrice?: number;
+}): Promise<Listing[]> {
+    const queryParams = new URLSearchParams({
+        limit: limit.toString(),
+        searchQuery,
+        category: category || "",
+        condition: condition || "",
+        minPrice: minPrice.toString(),
+        maxPrice: maxPrice.toString(),
+    });
+
     const response = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + "/api/listings?limit=" + limit
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/listings?${queryParams.toString()}`
     );
     const data: Listing[] = await response.json();
     return data;

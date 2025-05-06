@@ -4,11 +4,11 @@ import Link from "next/link";
 import styles from "./page.module.css";
 import SearchBar from "@/app/components/ui/searchBar";
 import ProductGrid from "@/app/components/ui/productGrid";
-import ItemCategories from "./components/ui/categories.";
+import ItemCategories from "./components/ui/categories";
 import { fetchListings } from "./helpers/api";
 
 export default async function HomePage() {
-  const listings = await fetchListings(12);
+  const listings = await fetchListings({ limit: 12 });
 
   return (
     <div className={styles.container}>

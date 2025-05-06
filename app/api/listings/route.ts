@@ -2,12 +2,29 @@ import fs from 'fs';
 import path from 'path';
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { ItemCategory } from '@prisma/client';
+import { ItemCondition } from '@prisma/client';
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get('limit') || '12', 10); // Default limit to 12
+    const searchQuery = searchParams.get('searchQuery') || '';
+    const category = searchParams.get('category') || null;
+    const condition = searchParams.get('condition') || null;
+    const minPrice = parseFloat(searchParams.get('minPrice') || '0');
+    const maxPrice = parseFloat(searchParams.get('maxPrice') || '10000');
+
     const items = await prisma.item.findMany({
         take: limit,
+        where: {
+            title: searchQuery ? { contains: searchQuery } : undefined,
+            category: category ? (category as ItemCategory) : undefined,
+            condition: condition ? (condition as ItemCondition) : undefined,
+            estimatedMarketPrice: {
+                gte: minPrice,
+                lte: maxPrice,
+            },
+        },
     });
 
     return NextResponse.json(items);

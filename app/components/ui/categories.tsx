@@ -2,13 +2,13 @@ import styles from "@/app/styles/itemCategories.module.css";
 import Link from "next/link";
 import { ItemCategory } from "@prisma/client";
 
-interface DisplayCategory {
+export interface DisplayCategory {
   icon: string;
   name: string;
   category: ItemCategory;
 }
 
-export const categories: DisplayCategory[] = [
+export const productCategoriesList: DisplayCategory[] = [
   { name: "Phones", icon: "mobile.svg", category: "PHONE" },
   { name: "Laptops", icon: "laptop.svg", category: "LAPTOP" },
   { name: "Tablets", icon: "tablet.svg", category: "TABLET" },
@@ -31,7 +31,7 @@ const ItemCategories = () => {
         </Link>
       </div>
       <ul className={styles.categories}>
-        {categories.map((category) => (
+        {productCategoriesList.map((category) => (
           <li key={category.name}>
             <Link href={`/category/${category.name.toLowerCase()}`}>
               <span className={styles.icon}>

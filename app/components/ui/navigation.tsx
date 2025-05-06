@@ -51,7 +51,7 @@ export default function Navigation() {
   function navLinks() {
     return (
       <>
-        <Link href="/">Browse Listings</Link>
+        <Link href="/listings">Browse Listings</Link>
         <Link href="/list-item">List an Item</Link>
 
         {!memoizedSession && (

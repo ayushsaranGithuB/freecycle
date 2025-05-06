@@ -48,5 +48,8 @@ form.shipping-estimator input:focus {
 }
 
 .popover-content {
-    border: none
+    border: none;
+    box-shadow: 2px 2px 5px #0000001c;
+    border-radius: 18px;
+    background-color: white;
 }
