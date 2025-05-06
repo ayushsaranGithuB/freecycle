@@ -7,7 +7,6 @@ import { ItemCategory, ItemCondition } from "@prisma/client";
 import { fetchListings } from "../helpers/api";
 import { Listing } from "@/app/components/ui/productGrid";
 import "@/app/styles/listings.css";
-import { DisplayCategory } from "@/app/components/ui/categories";
 import { productCategoriesList } from "../components/ui/categories";
 
 export default function ListingsPage() {

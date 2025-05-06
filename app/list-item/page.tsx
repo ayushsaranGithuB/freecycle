@@ -7,7 +7,7 @@ import { Input } from "@/app/components/ui/input";
 import { Textarea } from "@/app/components/ui/textarea";
 import { Label } from "@/app/components/ui/label";
 import Link from "next/link";
-import { categories } from "../components/ui/categories.";
+import { productCategoriesList } from "../components/ui/categories";
 import { ImageUpload } from "../components/ui/imageDropzone";
 import { ItemCondition } from "@prisma/client";
 import { useSession } from "next-auth/react";
@@ -260,7 +260,7 @@ export default function ListItemPage() {
         <section>
           <h2>What are you looking to trade?</h2>
           <ul className="categories">
-            {categories.map((cat) => (
+            {productCategoriesList.map((cat) => (
               <li key={cat.name}>
                 <label className={category == cat.category ? "selected" : ""}>
                   <input

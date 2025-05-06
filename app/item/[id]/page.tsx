@@ -29,6 +29,8 @@ export default async function ItemDetailsPage({
       return <p className="text-center text-gray-500">Item not found</p>;
     }
 
+    const locationCity = await pincodeToCity(item.locationPincode);
+
     // Ensure images is treated as an array of strings
     const images = Array.isArray(item.images)
       ? item.images.filter(
@@ -45,13 +47,18 @@ export default async function ItemDetailsPage({
     }
 
     async function pincodeToCity(pincode: string) {
-      if (pincode.length != 6) return;
+      if (pincode.length != 6) {
+        return "Invalid Pincode";
+      }
       const response = await fetch(
         `https://api.postalpincode.in/pincode/${pincode}`
       );
       const data = await response.json();
       if (data[0].Status == "Success") {
         return `${data[0].PostOffice[0].Name},  ${data[0].PostOffice[0].District}, ${data[0].PostOffice[0].State}`;
+      } else {
+        console.log("Invalid Pincode", data);
+        return "Invalid Pincode";
       }
     }
 
@@ -63,7 +70,11 @@ export default async function ItemDetailsPage({
           </li>
           <li>&raquo;</li>
           <li>
-            <Link href="/">{item.category}</Link>
+            <Link href={"/listings?category=" + item.category}>
+              {productCategoriesList.find(
+                (cat) => cat.category === item.category
+              )?.name || "Unknown Category"}
+            </Link>
           </li>
           <li>&raquo;</li>
           <li>{trimAtSpace(item.title, 48)}</li>
@@ -97,11 +108,9 @@ export default async function ItemDetailsPage({
 
               <p>Category:</p>
               <p>
-                {
-                  productCategoriesList.find(
-                    (cat) => cat.category === item.category
-                  )?.name
-                }
+                {productCategoriesList.find(
+                  (cat) => cat.category === item.category
+                )?.name || "Unknown Category"}
               </p>
 
               <p>Condition:</p>
@@ -121,7 +130,7 @@ export default async function ItemDetailsPage({
               )}
 
               <p>Ships from:</p>
-              <p>{pincodeToCity(item.locationPincode)}</p>
+              <p>{locationCity}</p>
             </div>
 
             <div className="flex gap-4 border-t border-gray-200 pt-4">

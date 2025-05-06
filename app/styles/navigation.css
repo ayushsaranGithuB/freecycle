@@ -213,4 +213,26 @@ footer nav h5 {
         display: none;
     }
 
+    #globalFooter .content {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    #globalFooter .logo {
+        align-items: flex-start;
+        margin: 0;
+    }
+
+    #globalFooter .banner {
+        padding: 0;
+        align-items: flex-start;
+    }
+
+    #globalFooter .banner div {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+        width: 200px;
+    }
+
 }

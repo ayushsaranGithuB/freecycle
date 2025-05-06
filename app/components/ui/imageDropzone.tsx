@@ -22,6 +22,8 @@ interface Props {
 }
 
 export function ImageUpload({ files, setFiles }: Props) {
+  const uploadedFiles = React.useRef(new Set<string>());
+
   const onUpload = React.useCallback(
     async (
       newFiles: File[],
@@ -37,6 +39,11 @@ export function ImageUpload({ files, setFiles }: Props) {
     ) => {
       try {
         const uploadPromises = newFiles.map(async (file) => {
+          if (uploadedFiles.current.has(file.name)) {
+            onSuccess(file);
+            return;
+          }
+
           try {
             const totalChunks = 10;
             let uploadedChunks = 0;
@@ -51,6 +58,7 @@ export function ImageUpload({ files, setFiles }: Props) {
             }
 
             setFiles((prevFiles) => [...prevFiles, file]);
+            uploadedFiles.current.add(file.name);
             onSuccess(file);
           } catch (error) {
             onError(
@@ -79,6 +87,7 @@ export function ImageUpload({ files, setFiles }: Props) {
 
   const handleFileDelete = (fileToDelete: File) => {
     setFiles((prev) => prev.filter((f) => f !== fileToDelete));
+    uploadedFiles.current.delete(fileToDelete.name);
   };
 
   return (
