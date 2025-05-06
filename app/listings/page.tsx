@@ -8,6 +8,7 @@ import { fetchListings } from "../helpers/api";
 import { Listing } from "@/app/components/ui/productGrid";
 import "@/app/styles/listings.css";
 import { productCategoriesList } from "../components/ui/categories";
+import { Button } from "../components/ui/button";
 
 export default function ListingsPage() {
   const searchParams = useSearchParams();
@@ -62,133 +63,89 @@ export default function ListingsPage() {
     window.history.replaceState(null, "", newUrl);
   }, [searchQuery, selectedCategory, selectedCondition, priceRange]);
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    setSearchQuery(formData.get("searchQuery") as string);
+    setSelectedCategory(formData.get("category") as ItemCategory | null);
+    setSelectedCondition(formData.get("condition") as ItemCondition | null);
+    setPriceRange([
+      Number(formData.get("minPrice")) || 0,
+      Number(formData.get("maxPrice")) || 10000,
+    ]);
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mx-auto max-w-[1150px] mt-8">
       {/* Left Column: Filters */}
-      <div className="filters">
+      <form className="filters" onSubmit={handleSubmit}>
         <h2 className="text-lg font-bold">Filters</h2>
 
         {/* Search Bar */}
         <Input
+          name="searchQuery"
           placeholder="Search..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          defaultValue={searchQuery}
         />
 
         {/* Category Filter */}
         <div>
           <h3 className="font-semibold">Category</h3>
-          {selectedCategory ? (
-            <div className="flex items-center space-x-2 bg-gray-200 px-3 py-1 rounded-full">
-              <span>
-                {
-                  productCategoriesList.find(
-                    (cat) => cat.category === selectedCategory
-                  )?.name
-                }
-              </span>
-              <button
-                className="text-red-500 font-bold"
-                onClick={() => setSelectedCategory(null)}
-              >
-                ×
-              </button>
-            </div>
-          ) : (
-            <select
-              className="w-full border rounded p-2"
-              value={selectedCategory || ""}
-              onChange={(e) => {
-                const selectedValue = e.target.value;
-                const selectedCategory = productCategoriesList.find(
-                  (category) => category.category === selectedValue
-                );
-                setSelectedCategory(selectedCategory?.category || null);
-              }}
-            >
-              <option value="">All Categories</option>
-              {productCategoriesList.map((category) => (
-                <option key={category.category} value={category.category}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          )}
+          <select
+            name="category"
+            className="w-full border rounded p-2"
+            defaultValue={selectedCategory || ""}
+          >
+            <option value="">All Categories</option>
+            {productCategoriesList.map((category) => (
+              <option key={category.category} value={category.category}>
+                {category.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* Condition Filter */}
         <div>
           <h3 className="font-semibold">Condition</h3>
-          {selectedCondition ? (
-            <div className="flex items-center space-x-2 bg-gray-200 px-3 py-1 rounded-full">
-              <span>{selectedCondition}</span>
-              <button
-                className="text-red-500 font-bold"
-                onClick={() => setSelectedCondition(null)}
-              >
-                ×
-              </button>
-            </div>
-          ) : (
-            <select
-              className="w-full border rounded p-2"
-              value={selectedCondition || ""}
-              onChange={(e) => {
-                const selectedValue = e.target.value;
-                const selectedCondition = conditions.find(
-                  (condition) => condition === selectedValue
-                );
-                setSelectedCondition(selectedCondition || null);
-              }}
-            >
-              <option value="">All Conditions</option>
-              {conditions.map((condition) => (
-                <option key={condition} value={condition}>
-                  {condition}
-                </option>
-              ))}
-            </select>
-          )}
+          <select
+            name="condition"
+            className="w-full border rounded p-2"
+            defaultValue={selectedCondition || ""}
+          >
+            <option value="">All Conditions</option>
+            {conditions.map((condition) => (
+              <option key={condition} value={condition}>
+                {condition}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* Price Range Filter */}
         <div>
           <h3 className="font-semibold">Price Range</h3>
-          {priceRange[0] !== 0 || priceRange[1] !== 10000 ? (
-            <div className="flex items-center space-x-2 bg-gray-200 px-3 py-1 rounded-full">
-              <span>
-                {priceRange[0]} - {priceRange[1]}
-              </span>
-              <button
-                className="text-red-500 font-bold"
-                onClick={() => setPriceRange([0, 10000])}
-              >
-                ×
-              </button>
-            </div>
-          ) : (
-            <div className="flex items-center space-x-2">
-              <Input
-                type="number"
-                placeholder="Min"
-                value={priceRange[0]}
-                onChange={(e) =>
-                  setPriceRange([Number(e.target.value), priceRange[1]])
-                }
-              />
-              <span>-</span>
-              <Input
-                type="number"
-                placeholder="Max"
-                value={priceRange[1]}
-                onChange={(e) =>
-                  setPriceRange([priceRange[0], Number(e.target.value)])
-                }
-              />
-            </div>
-          )}
+          <div className="flex items-center space-x-2">
+            <Input
+              name="minPrice"
+              type="number"
+              placeholder="Min"
+              defaultValue={priceRange[0]}
+            />
+            <span>-</span>
+            <Input
+              name="maxPrice"
+              type="number"
+              placeholder="Max"
+              defaultValue={priceRange[1]}
+            />
+          </div>
         </div>
-      </div>
+        <Button type="submit" className="primary mx-auto mt-4">
+          Apply Filters
+        </Button>
+      </form>
 
       {/* Right Column: Listings */}
       <div className="col-span-3">
