@@ -47,7 +47,7 @@ const Footer = () => {
             <Link href="/sell-your-tech">Sell Your Tech</Link>
           </li>
           <li>
-            <Link href="/shipping-info">Shipping Info</Link>
+            <Link href="/help/shipping">Shipping Info</Link>
           </li>
         </ul>
         <ul>

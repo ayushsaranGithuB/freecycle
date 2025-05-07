@@ -175,8 +175,7 @@ a.primary {
   font-size: 1rem;
 }
 
-button.primary:hover,
-a.primary:hover {
+button.primary:hover {
   background-color: var(--primary-green);
 }
 
