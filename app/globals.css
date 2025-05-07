@@ -162,7 +162,8 @@ header span.username {
   font-weight: 700;
 }
 
-button.primary {
+button.primary,
+a.primary {
   width: fit-content;
   padding: 24px 36px;
   background-color: var(--link);
@@ -174,7 +175,8 @@ button.primary {
   font-size: 1rem;
 }
 
-button.primary:hover {
+button.primary:hover,
+a.primary:hover {
   background-color: var(--primary-green);
 }
 
