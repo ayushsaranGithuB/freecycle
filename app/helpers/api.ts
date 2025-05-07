@@ -37,6 +37,37 @@ export async function fetchListings({
     return data;
 }
 
+export async function fetchUserListings(userId: string, {
+    limit = 10,
+    searchQuery = "",
+    category = null,
+    condition = null,
+    minPrice = 0,
+    maxPrice = 10000,
+}: {
+    limit?: number;
+    searchQuery?: string;
+    category?: string | null;
+    condition?: string | null;
+    minPrice?: number;
+    maxPrice?: number;
+}): Promise<Listing[]> {
+    const queryParams = new URLSearchParams({
+        limit: limit.toString(),
+        searchQuery,
+        category: category || "",
+        condition: condition || "",
+        minPrice: minPrice.toString(),
+        maxPrice: maxPrice.toString(),
+    });
+
+    const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/listings?userId=${userId}&${queryParams.toString()}`
+    );
+    const data: Listing[] = await response.json();
+    return data;
+}
+
 export async function estimateShipping(buyerPincode: number, sellerPincode: number, weight: number, size: string) {
     try {
         const response = await fetch("/api/estimate-shipping", {

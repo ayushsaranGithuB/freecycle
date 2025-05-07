@@ -70,8 +70,10 @@ export default function Navigation() {
             </PopoverTrigger>
             <PopoverContent className="w-40 popover-content">
               <div className="flex flex-col gap-2 p-2">
-                <Link href="/profile">Profile</Link>
-                <Link href="/settings">Settings</Link>
+                <Link href="/account/dashboard">Dashboard</Link>
+
+                <Link href="/account/profile">Profile</Link>
+                <Link href="/account/settings">Settings</Link>
                 <Link href="/help">Help</Link>
               </div>
               <div className="flex justify-end p-2 border-t mt-2 pt-4 border-t-gray-400">

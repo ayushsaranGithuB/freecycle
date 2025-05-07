@@ -65,7 +65,7 @@ button {
 :root {
   --link: #4BA950;
   --link-foreground: #FFF;
-  --primary-green: #B6E250;
+  --primary-green: #4BA950;
   --secondary-green: 108deg, 33.9%, 76.86%;
   --dark: #32302A;
   --radius: 0.625rem;
@@ -192,6 +192,21 @@ button.primary:hover {
 }
 
 /* Typography */
+
+:root {
+  --bodyFont: 'Open Sans', sans-serif;
+  --headingFont: 'Nunito', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--headingFont);
+  color: var(--primary-green);
+}
 
 .titleUnderlined {
   font-family: 'Open Sans', sans-serif;

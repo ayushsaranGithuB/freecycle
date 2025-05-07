@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Open_Sans, Geist_Mono } from "next/font/google";
+import { Open_Sans, Nunito } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/app/components/ui/navigation";
 import { SessionProvider } from "next-auth/react";
@@ -7,6 +7,11 @@ import Footer from "./components/ui/footer";
 
 const openSans = Open_Sans({
   variable: "--font-open-sans",
+  subsets: ["latin"],
+});
+
+const nunito = Nunito({
+  variable: "--font-nunito",
   subsets: ["latin"],
 });
 
@@ -27,7 +32,7 @@ export default function RootLayout({
       >
         <SessionProvider>
           <Navigation />
-          {children}
+          <main className="max-w-[1160px] mx-auto w-full px-4">{children}</main>
         </SessionProvider>
         <Footer />
       </body>
