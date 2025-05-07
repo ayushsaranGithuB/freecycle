@@ -3,23 +3,66 @@ import { useEffect, useState } from "react";
 import { fetchUserListings } from "@/app/helpers/api";
 import { DataTable } from "@/app/components/ui/dataTable";
 import { Listing } from "@/app/components/ui/productGrid";
+import { Column } from "@tanstack/react-table";
+import { MoreHorizontal, ArrowUpDown } from "lucide-react";
+import { Button } from "@/app/components/ui/button";
 
 const columns = [
   {
     accessorKey: "title",
-    header: "Title",
+    header: ({ column }: { column: Column<any, unknown> }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Title
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "category",
-    header: "Category",
+    header: ({ column }: { column: Column<any, unknown> }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Category
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "condition",
-    header: "Condition",
+    header: ({ column }: { column: Column<any, unknown> }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Condition
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "pointsValue",
-    header: "Price",
+    header: ({ column }: { column: Column<any, unknown> }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Price
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
 ];
 
