@@ -1,10 +1,34 @@
+.listing-container {
+    padding: 1rem 0;
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+h1,
+h2 {
+    color: var(--dark);
+}
+
+h2.title {
+    font-weight: 800;
+    font-size: 1rem;
+}
+
+
 .buyItemActions {
     display: flex;
-    gap: 4rem;
+    gap: 1rem;
     border-top: 1px solid #EEE;
     border-bottom: 1px solid #EEE;
-
     padding: 1rem 0 1.5rem;
+    flex-direction: column;
+    align-items: center;
+
 }
 
 .buyItemActions>div {
@@ -52,4 +76,166 @@ form.shipping-estimator input:focus {
     box-shadow: 2px 2px 5px #0000001c;
     border-radius: 18px;
     background-color: white;
+}
+
+/* Condition Slider -------------- */
+
+.condition {
+    width: 100%;
+    max-width: 500px;
+}
+
+.condition h3 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--dark);
+}
+
+.condition-slider {
+    display: flex;
+    align-items: flex-end;
+    margin-top: 0.5rem;
+}
+
+.slider-value {
+    width: 25%;
+    flex-shrink: 0;
+    border-bottom: 4px solid var(--text-100);
+    text-align: center;
+    position: relative;
+    padding-bottom: 1.2rem;
+}
+
+.slider-value::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 100%;
+    background-color: var(--text-100);
+    bottom: -8px;
+    left: calc(50% - 6px);
+}
+
+.slider-value.active {
+    border-bottom: 4px solid var(--link);
+}
+
+.slider-value.active::after {
+    width: 16px;
+    height: 16px;
+    background-color: var(--link);
+    bottom: -10px;
+
+    left: calc(50% - 8px);
+}
+
+.slider-value p {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: var(--text-100);
+}
+
+.slider-value.active p {
+    background-color: var(--link);
+    color: white;
+    padding: 0.2rem 0.5rem;
+    width: fit-content;
+    margin: 0 auto;
+    border-radius: 4px;
+    position: relative;
+}
+
+/* CSS Triangle */
+.slider-value.active p::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid var(--link);
+    bottom: -6px;
+    left: calc(50% - 6px);
+}
+
+.condition-details {
+    font-size: 0.8rem;
+    color: var(--text-300);
+    margin-top: 1rem;
+}
+
+/* Pincode Info --------------- */
+
+.pincode-info {}
+
+p.title {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    text-transform: uppercase;
+    color: var(--text-200);
+    font-size: 0.7rem;
+}
+
+.pincode-info .city {
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+/*  Item Stats ---------------- */
+
+.about-item {
+    border-top: 1px solid var(--grey-100);
+    padding: 1rem;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+div.stats {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.stats .stat-title {
+    text-transform: uppercase;
+    color: var(--text-200);
+    font-size: 0.7rem;
+}
+
+.stats .stat-value {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+
+@media screen and (min-width: 768px) {
+
+    .listing-container {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: var(--shadow-10);
+        padding: 2rem 1rem;
+        margin: 1rem auto;
+    }
+
+
+    .buyItemActions {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 4rem;
+    }
+
+    .about-item {
+        flex-direction: row;
+        justify-content: space-between;
+
+    }
+
+
 }

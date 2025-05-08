@@ -8,24 +8,13 @@ import { Button } from "@/app/components/ui/button";
 import { Label } from "@/app/components/ui/label";
 import { toast } from "sonner";
 import { productCategoriesList } from "@/app/components/ui/categories";
+import { Item } from "@prisma/client";
 
 export default function EditItemPage() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
   const id = params.id as string; // Ensure id is a string
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    brand: "",
-    category: "",
-    condition: "",
-    ageYears: "",
-    originalMsrp: "",
-    estimatedMarketPrice: "",
-    pointsValue: "",
-    locationPincode: "",
-    images: [] as string[],
-  });
+  const [formData, setFormData] = useState<Partial<Item> | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -42,12 +31,12 @@ export default function EditItemPage() {
           brand: data.brand || "",
           category: data.category || "",
           condition: data.condition || "",
-          ageYears: data.ageYears || "",
-          originalMsrp: data.originalMsrp || "",
+          ageYears: data.ageYears || 0, // Assuming ageYears is a number
+          originalMsrp: data.originalMsrp || 0, // Assuming originalMsrp is a number
           estimatedMarketPrice: data.estimatedMarketPrice || 0,
-          pointsValue: data.pointsValue || "",
+          pointsValue: data.pointsValue || 0, // Assuming pointsValue is a number
           locationPincode: data.locationPincode || "",
-          images: data.images || "",
+          images: data.images || [], // Assuming images is an array of strings
         });
       } catch (err) {
         if (err instanceof Error) {
@@ -100,10 +89,10 @@ export default function EditItemPage() {
           brand: updatedData.brand || "",
           category: updatedData.category || "",
           condition: updatedData.condition || "",
-          ageYears: updatedData.ageYears || "",
-          originalMsrp: updatedData.originalMsrp || "",
+          ageYears: updatedData.ageYears || 0,
+          originalMsrp: updatedData.originalMsrp || 0,
           estimatedMarketPrice: updatedData.estimatedMarketPrice || 0,
-          pointsValue: updatedData.pointsValue || "",
+          pointsValue: updatedData.pointsValue || 0,
           locationPincode: updatedData.locationPincode || "",
           images: updatedData.images || [],
         });
@@ -122,6 +111,8 @@ export default function EditItemPage() {
     imageToDelete: string
   ) => {
     e.preventDefault();
+    if (!formData || !Array.isArray(formData.images)) return;
+
     try {
       const response = await fetch(`/api/listings/${id}/delete-image`, {
         method: "POST",
@@ -135,12 +126,16 @@ export default function EditItemPage() {
         throw new Error("Failed to delete image");
       }
 
-      setFormData((prev) => ({
-        ...prev,
-        images: prev.images.filter((img) => img !== imageToDelete),
-      }));
+      setFormData((prev) => {
+        if (!prev || !Array.isArray(prev.images)) return prev;
+        return {
+          ...prev,
+          images: prev.images.filter(
+            (img) => typeof img === "string" && img !== imageToDelete
+          ),
+        };
+      });
 
-      // Show success toast
       toast.success("Image deleted successfully!");
     } catch (error) {
       console.error("Error deleting image:", error);
@@ -150,18 +145,26 @@ export default function EditItemPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData) {
+      setError("Form data is not available.");
+      return;
+    }
+
     try {
       const formDataToSend = new FormData();
 
       // Append all form fields to FormData
       Object.entries(formData).forEach(([key, value]) => {
-        // Handle array fields like 'images'
+        if (value === null || value === undefined) return; // Skip null or undefined values
+
         if (Array.isArray(value)) {
           value.forEach((item) => {
-            formDataToSend.append(key, item);
+            if (typeof item === "string") {
+              formDataToSend.append(key, item);
+            }
           });
-        } else {
-          formDataToSend.append(key, value);
+        } else if (typeof value === "string" || typeof value === "number") {
+          formDataToSend.append(key, value.toString());
         }
       });
 
@@ -183,6 +186,8 @@ export default function EditItemPage() {
       }
     }
   };
+
+  if (!formData) return;
 
   return (
     <div className="p-8 flex flex-col items-center justify-center">
@@ -234,9 +239,23 @@ export default function EditItemPage() {
               <Input
                 id="brand"
                 name="brand"
-                value={formData.brand}
+                value={formData.brand ?? ""}
                 onChange={handleChange}
                 placeholder="Enter the brand name"
+                className="w-full"
+              />
+              <p className="text-sm text-gray-500">
+                Specify the brand or manufacturer of the item.
+              </p>
+            </div>
+            <div>
+              <Label htmlFor="brand">Model</Label>
+              <Input
+                id="model"
+                name="model"
+                value={formData.model ?? ""}
+                onChange={handleChange}
+                placeholder="Model Name or Number"
                 className="w-full"
               />
               <p className="text-sm text-gray-500">
@@ -366,14 +385,14 @@ export default function EditItemPage() {
         <section>
           <h2 className="text-lg font-semibold mb-2">Existing Images</h2>
           <div className="space-y-4">
-            {formData.images && formData.images.length > 0 ? (
+            {Array.isArray(formData.images) && formData.images.length > 0 ? (
               <div className="grid grid-cols-3 gap-4">
                 {(() => {
                   const imagesArray = formData.images;
                   return imagesArray.map((image, index) => (
                     <div key={index} className="relative">
                       <img
-                        src={image}
+                        src={image as string}
                         alt={`Existing Image ${index + 1}`}
                         className="w-full h-32 object-cover rounded-lg shadow-md"
                       />
@@ -381,7 +400,7 @@ export default function EditItemPage() {
                         Image {index + 1}
                       </p>
                       <button
-                        onClick={(e) => handleDeleteImage(e, image)}
+                        onClick={(e) => handleDeleteImage(e, image as string)}
                         className="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 rounded"
                       >
                         Delete

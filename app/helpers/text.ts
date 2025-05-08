@@ -8,3 +8,11 @@ export function trimAtSpace(description: string, maxLength: number): string {
         ? trimmed.slice(0, lastSpaceIndex) + "..."
         : trimmed + "...";
 }
+
+export function formatCurrency(amount: number, symbol: string = '₹'): string {
+    return new Intl.NumberFormat("en-IN", {
+        style: "currency",
+        currency: "INR",
+        minimumFractionDigits: 0,
+    }).format(amount);
+}
