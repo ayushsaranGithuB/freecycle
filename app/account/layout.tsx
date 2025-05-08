@@ -8,7 +8,7 @@ export default function AccountLayout({
   return (
     <div className="account-layout">
       <AccountNavigation />
-      <div className="content">{children}</div>
+      <div className="content card">{children}</div>
     </div>
   );
 }
