@@ -194,7 +194,7 @@ export default async function ItemDetailsPage({
                 </div>
               )}
 
-              {item.estimatedMarketPrice && (
+              {item.estimatedMarketPrice > 0 && (
                 <div className="stat">
                   <div className="stat-title">Current Value:</div>
                   <div className="stat-value">
