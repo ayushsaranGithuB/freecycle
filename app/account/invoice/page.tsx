@@ -2,7 +2,7 @@
 // redirect to /account/dashboard
 import { useSession } from "next-auth/react";
 
-const Account = () => {
+const InvoiceRedirect = () => {
   // Check if the user is authenticated
   // If not, redirect to the login page
   // If authenticated, redirect to the dashboard page
@@ -30,4 +30,4 @@ const Account = () => {
   return <></>;
 };
 
-export default Account;
+export default InvoiceRedirect;

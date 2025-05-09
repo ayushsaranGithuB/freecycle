@@ -9,6 +9,7 @@ import { Coins } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 type PurchaseWithItem = Transaction & {
+  transactionId: string; // Added transactionId property
   item: Item & {
     images: string[]; // Assuming images is an array of strings
   };
@@ -51,10 +52,10 @@ const PurchasesList = ({ limit }: { limit: number }) => {
   }
 
   return (
-    <ul className="purchases-list">
+    <ul className="listings-list">
       {purchases.map((purchase) => (
-        <li key={purchase.id} className="purchase-item">
-          <Link href={`/item/${purchase.itemId}`} className="purchase-image">
+        <li key={purchase.id} className="listing-item">
+          <Link href={`/item/${purchase.itemId}`} className="listing-image">
             {purchase.item.images && purchase.item.images.length > 0 ? (
               <Image
                 src={purchase.item.images[0]}
@@ -66,7 +67,7 @@ const PurchasesList = ({ limit }: { limit: number }) => {
               <p>No image available</p>
             )}
           </Link>
-          <div className="purchase-details">
+          <div className="listing-details">
             <h4>
               <Link href={`/item/${purchase.itemId}`}>
                 {purchase.item.title}
@@ -75,7 +76,7 @@ const PurchasesList = ({ limit }: { limit: number }) => {
             <p className="condition">{purchase.item.condition}</p>
           </div>
 
-          <div className="purchase-meta">
+          <div className="listing-meta">
             <p className="date">
               {new Date(purchase.createdAt).toLocaleDateString("en-US", {
                 year: "numeric",
@@ -87,7 +88,10 @@ const PurchasesList = ({ limit }: { limit: number }) => {
               <Coins width={14} height={14} />
               {purchase.item.pointsValue}
             </p>
-            <Link href={`/item/${purchase.itemId}`} className="button-small">
+            <Link
+              href={`/account/invoice/${purchase.id}`}
+              className="button-small"
+            >
               View Details
             </Link>
           </div>

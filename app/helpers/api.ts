@@ -154,5 +154,35 @@ export async function handlePurchase(itemId: number, userId: string) {
         throw new Error("Failed to handle purchase");
     }
 
-    return response.json();
+    const purchaseData = await response.json();
+
+    // Update the item's status to 'RESERVED'
+    const updateResponse = await fetch(`/api/listings/${itemId}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: "RESERVED" }),
+    });
+
+    if (!updateResponse.ok) {
+        throw new Error("Failed to update item status to RESERVED");
+    }
+
+    return purchaseData;
+}
+
+export async function fetchInvoice(transactionId: string) {
+    try {
+        const response = await fetch(`/api/invoice/${transactionId}`);
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch invoice details");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching invoice details:", error);
+        throw error;
+    }
 }
