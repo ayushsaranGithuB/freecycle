@@ -146,7 +146,9 @@ export default async function ItemDetailsPage({
                 {/* Shipping Charges ------------------------------------- */}
                 <ShippingEstimator sellerPincode={item.locationPincode} />
               </div>
-              <Button className="primary">Claim this item</Button>
+              <Link href={`/checkout/${item.id}`} className="button primary">
+                Claim this item
+              </Link>
             </div>
 
             {locationCity && (

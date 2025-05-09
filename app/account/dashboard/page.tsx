@@ -93,9 +93,10 @@ const Dashboard = () => {
           <PurchasesList limit={8} />
         </div>
         <div className="listings">
-          <h2 className="page_title">Your Listings</h2>
-          <ListingsList status={"AVAILABLE"} limit={8} />
-          <ListingsList status={"COMPLETED"} limit={8} />
+          <h2 className="page_title">Active Listings</h2>
+          <ListingsList status={"AVAILABLE"} limit={4} />
+          <h2 className="page_title">Previous Listings</h2>
+          <ListingsList status={"COMPLETED"} limit={4} />
         </div>
       </section>
     </>

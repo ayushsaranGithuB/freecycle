@@ -42,7 +42,7 @@ const ListingsList = ({ status, limit }: ListingsListProps) => {
   }
 
   if (listings.length === 0) {
-    return <p>No listings found.</p>;
+    return;
   }
 
   return (

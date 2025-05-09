@@ -1,0 +1,137 @@
+.listing {
+    display: grid;
+    grid-template-columns: 120px 1fr 110px;
+    gap: 0.5rem;
+    border: 2px solid hsl(var(--secondary-green));
+    padding: 0.5rem;
+    border-radius: 8px;
+    align-items: center;
+}
+
+.listing-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    background-color: var(--grey-50);
+    overflow: hidden;
+}
+
+.listing-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.listing .category {
+    text-transform: uppercase;
+    font-size: 0.6rem;
+    letter-spacing: 0.03rem;
+    color: var(--text-200);
+}
+
+.listing h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 130%;
+    color: var(--dark);
+}
+
+.listing h4 a {
+    color: var(--dark);
+}
+
+.listing h4 a:hover {
+    color: var(--link);
+}
+
+.listing .condition {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--primary-green);
+}
+
+.listing-meta {
+    font-size: 0.8rem;
+    color: var(--text-200);
+    text-align: center;
+    border-left: 1px solid var(--grey-50);
+    align-self: center;
+}
+
+.listing-meta .date {
+    font-size: 0.6rem;
+    letter-spacing: 0.03rem;
+}
+
+.listing-meta .pointsValue {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--primary-green);
+    justify-content: center;
+}
+
+.listing-meta .button-small {
+    padding: 2px 12px;
+    width: fit-content;
+    margin: 0.5rem auto;
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+}
+
+/* Checkout ----------------------------- */
+
+.checkout {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 300px;
+    border-radius: 4px;
+    border: 2px solid var(--text-200);
+}
+
+.checkout .title {
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: white;
+    background-color: var(--dark);
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.checkout .line-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    padding: 0 0.75rem;
+    justify-content: space-between;
+}
+
+.line-item .item-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--dark);
+    text-align: right;
+}
+
+.balance-warning {
+    padding: 0 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary-green);
+    border-top: 2px solid var(--link);
+    padding-top: 0.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+}

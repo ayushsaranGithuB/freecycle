@@ -106,3 +106,20 @@ export async function fetchUserPurchases(limit: number, userId: string) {
     const data = await response.json();
     return data;
 }
+
+export async function fetchItemDetails(itemId: string) {
+    const response = await fetch(`/api/listings/${itemId}`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch item details');
+    }
+    return response.json();
+}
+
+export async function fetchUserPoints(userId: string) {
+    const response = await fetch(`/api/user/points?userId=${userId}`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch user points');
+    }
+    return response.json();
+}
+
