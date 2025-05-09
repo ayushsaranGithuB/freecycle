@@ -5,7 +5,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { userId, action, points } = body;
 
-    if (!userId || !action || !points || (action !== 'add' && action !== 'deduct')) {
+    if (!userId || !action || !points || !['EARN', 'SPEND', 'BONUS', 'PURCHASE'].includes(action)) {
         return NextResponse.json({ error: 'Invalid request data' }, { status: 400 });
     }
 
@@ -13,8 +13,17 @@ export async function POST(req: Request) {
         where: { phone: userId },
         data: {
             pointsBalance: {
-                increment: action === 'add' ? points : -points,
+                increment: ['EARN', 'BONUS', 'PURCHASE'].includes(action) ? points : -points,
             },
+        },
+    });
+
+    await prisma.pointsTransaction.create({
+        data: {
+            userId,
+            type: action,
+            pointsChange: ['EARN', 'BONUS', 'PURCHASE'].includes(action) ? points : -points,
+            source: 'Top-Up', // Example source, adjust as needed
         },
     });
 

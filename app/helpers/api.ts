@@ -123,3 +123,19 @@ export async function fetchUserPoints(userId: string) {
     return response.json();
 }
 
+export async function setUserPoints(userId: string, points: number, action: 'EARN' | 'SPEND' | 'BONUS' | 'PURCHASE') {
+    const response = await fetch(`/api/user/points`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId, points, action }),
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to set user points");
+    }
+
+    return response.json();
+}
+
