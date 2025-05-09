@@ -6,9 +6,18 @@ import {
   AvatarImage,
 } from "@/app/components/ui/avatar";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
+import Spinner from "./spinner";
 
 const AccountNavigation = () => {
+  // User Details
+  const { data: session } = useSession();
   const path = usePathname();
+
+  if (session == undefined) {
+    return <Spinner />;
+  }
+
   return (
     <div className="account-navigation card">
       <div className="user">
@@ -16,24 +25,24 @@ const AccountNavigation = () => {
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-        <p className="name">Rahul Khurana</p>
-        <p className="email">satyajit.mishra2035@rediffmail.com</p>
+        <p className="name">{session?.user?.name}</p>
+        <p className="email">{session?.user?.email ?? session?.user?.id}</p>
       </div>
       <ul className="nav-list">
         <li className={path === "/account/dashboard" ? "active" : ""}>
-          <Link href="/account/my-listings">Dashboard</Link>
+          <Link href="/account/dashboard">Dashboard</Link>
         </li>
-        <li>
+        <li className={path === "/account/my-listings" ? "active" : ""}>
           <Link href="/account/my-listings">Listings</Link>
         </li>
-        <li>
+        <li className={path === "/account/my-purchases" ? "active" : ""}>
           <Link href="/account/my-purchases">Purchases</Link>
         </li>
-        <li>
+        <li className={path === "/account/my-sold" ? "active" : ""}>
           <Link href="/account/my-points">Points</Link>
         </li>
-        <li>
-          <Link href="/account/my-points">Settings</Link>
+        <li className={path === "/account/profile" ? "active" : ""}>
+          <Link href="/account/profile">Profile</Link>
         </li>
       </ul>
     </div>
