@@ -97,3 +97,12 @@ export async function estimateShipping(buyerPincode: number, sellerPincode: numb
         throw error;
     }
 }
+
+// fetchUserPurchases
+export async function fetchUserPurchases(limit: number, userId: string) {
+    const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/purchases?limit=${limit}&userId=${userId}`
+    );
+    const data = await response.json();
+    return data;
+}

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import Spinner from "@/app/components/ui/spinner";
 import ListingsList from "@/app/components/ui/listingsList";
+import PurchasesList from "@/app/components/ui/purchasesList";
 
 const Dashboard = () => {
   const { data: session } = useSession();
@@ -89,6 +90,7 @@ const Dashboard = () => {
       <section className="dashboard-recent-activity row">
         <div className="purchases">
           <h2 className="page_title">Your Purchases</h2>
+          <PurchasesList limit={8} />
         </div>
         <div className="listings">
           <h2 className="page_title">Your Listings</h2>
