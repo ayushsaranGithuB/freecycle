@@ -14,6 +14,7 @@ export interface Listing {
   pointsValue: number;
   category: string;
   condition: string;
+  createdAt: string;
 }
 
 const ProductGrid: FC<ProductGridProps> = ({ listings }) => {

@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { ItemCategory } from '@prisma/client';
 import { ItemCondition } from '@prisma/client';
+import { ItemStatus } from '@prisma/client'; // Import ItemStatus type
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
@@ -13,6 +14,7 @@ export async function GET(request: Request) {
     const condition = searchParams.get('condition') || null;
     const minPrice = parseFloat(searchParams.get('minPrice') || '0');
     const maxPrice = parseFloat(searchParams.get('maxPrice') || '10000');
+    const status = searchParams.get('status') || null; // Extract status from query params
 
     const items = await prisma.item.findMany({
         take: limit,
@@ -24,6 +26,7 @@ export async function GET(request: Request) {
                 gte: minPrice,
                 lte: maxPrice,
             },
+            status: status ? (status as ItemStatus) : undefined, // Cast status to ItemStatus
         },
     });
 

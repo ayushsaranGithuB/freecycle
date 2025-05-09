@@ -106,7 +106,9 @@ button {
   --text-200: #8d8b8b;
   --red-100: #DA562E;
   --red-200: #b43711;
+  --grey-50: #eeeeee8b;
   --grey-100: #EEEEEE;
+
 }
 
 
@@ -218,4 +220,11 @@ h6 {
 .button-delete:hover {
   border-color: var(--red-200);
   color: var(--red-200);
+}
+
+@media screen and (min-width: 768px) {
+
+  main {
+    padding: 0 24px;
+  }
 }

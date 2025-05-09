@@ -32,7 +32,7 @@ export default function RootLayout({
       >
         <SessionProvider>
           <Navigation />
-          <main className="max-w-[1160px] mx-auto w-full px-4">{children}</main>
+          <main className="max-w-[1160px] mx-auto w-full ">{children}</main>
         </SessionProvider>
         <Footer />
       </body>

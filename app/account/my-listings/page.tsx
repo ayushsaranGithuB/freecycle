@@ -4,8 +4,9 @@ import { fetchUserListings } from "@/app/helpers/api";
 import { DataTable } from "@/app/components/ui/dataTable";
 import { Listing } from "@/app/components/ui/productGrid";
 import { Column } from "@tanstack/react-table";
-import { MoreHorizontal, ArrowUpDown } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
+import { useSession } from "next-auth/react";
 
 const columns = [
   {
@@ -69,19 +70,22 @@ const columns = [
 const MyListings = () => {
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
+  const { data: session } = useSession();
 
   useEffect(() => {
-    const userId = "current-user-id"; // Replace with actual user ID retrieval logic
-    fetchUserListings(userId, { limit: 10 })
-      .then((data) => {
-        setListings(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching user listings:", error);
-        setLoading(false);
-      });
-  }, []);
+    const userId = session?.user?.id;
+    if (userId) {
+      fetchUserListings(userId, { limit: 10 })
+        .then((data) => {
+          setListings(data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching user listings:", error);
+          setLoading(false);
+        });
+    }
+  }, [session]);
 
   if (loading) {
     return <div>Loading...</div>;

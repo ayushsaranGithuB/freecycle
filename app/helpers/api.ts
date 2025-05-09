@@ -1,5 +1,6 @@
 // Helpers for API Rules
 import { Listing } from "@/app/components/ui/productGrid";
+import { ItemStatus } from "@prisma/client";
 
 export interface ShippingEstimate {
     estimatedShippingCharges: number;
@@ -44,6 +45,7 @@ export async function fetchUserListings(userId: string, {
     condition = null,
     minPrice = 0,
     maxPrice = 10000,
+    status = "AVAILABLE"
 }: {
     limit?: number;
     searchQuery?: string;
@@ -51,6 +53,7 @@ export async function fetchUserListings(userId: string, {
     condition?: string | null;
     minPrice?: number;
     maxPrice?: number;
+    status?: ItemStatus;
 }): Promise<Listing[]> {
     const queryParams = new URLSearchParams({
         limit: limit.toString(),
@@ -59,6 +62,7 @@ export async function fetchUserListings(userId: string, {
         condition: condition || "",
         minPrice: minPrice.toString(),
         maxPrice: maxPrice.toString(),
+        status: status || "",
     });
 
     const response = await fetch(

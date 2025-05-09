@@ -54,7 +54,12 @@ export default function Navigation() {
         <Link href="/listings">Browse Listings</Link>
         <Link href="/list-item">List an Item</Link>
 
-        {!memoizedSession && (
+        {memoizedSession == undefined && (
+          <p className="flex items-center gap-2">
+            <CircleUserRound color="#fff" />
+          </p>
+        )}
+        {!memoizedSession && memoizedSession !== undefined && (
           <p className="flex items-center gap-2">
             <CircleUserRound color="#fff" />
             <Link href="/auth">Login</Link>
