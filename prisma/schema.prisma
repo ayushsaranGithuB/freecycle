@@ -11,7 +11,11 @@ datasource db {
 model User {
   phone              String             @id @unique
   name               String
+  email              String?
   profilePhotoUrl    String?
+  address            String?
+  pincode            String?
+  cityState          String?
   verificationStatus VerificationStatus @default(UNVERIFIED)
   pointsBalance      Int                @default(0)
   createdAt          DateTime           @default(now())
