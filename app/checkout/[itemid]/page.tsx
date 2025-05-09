@@ -12,6 +12,8 @@ import { useSession } from "next-auth/react";
 import { trimAtSpace } from "@/app/helpers/text";
 import Link from "next/link";
 import { Coins } from "lucide-react";
+import { Button } from "@/app/components/ui/button";
+import { handlePurchase } from "@/app/helpers/api";
 
 const CheckoutPage = () => {
   const router = useRouter();
@@ -25,6 +27,8 @@ const CheckoutPage = () => {
   const [shippingCost, setShippingCost] = useState<number | null>(null);
   const [difference, setDifference] = useState(0);
   const images = (itemDetails?.images as string[]) || [];
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (itemid && userId) {
@@ -66,6 +70,22 @@ const CheckoutPage = () => {
   }, [itemDetails, userPoints]);
 
   if (!itemDetails) return <div>Loading...</div>;
+
+  const handleSubmit = async () => {
+    if (loading) return;
+    setLoading(true);
+    if (userId) {
+      try {
+        const response = await handlePurchase(itemDetails.id, userId);
+        if (response) {
+          router.push("/account/dashboard");
+        }
+      } catch (error) {
+        console.error("Error handling purchase:", error);
+      }
+    }
+    setLoading(false);
+  };
 
   return (
     <>
@@ -116,6 +136,13 @@ const CheckoutPage = () => {
               Shipping cost:{" "}
               {shippingCost !== null ? `$${shippingCost}` : "Calculating..."}
             </p>
+            <Button
+              className="primary button"
+              onClick={handleSubmit}
+              disabled={loading}
+            >
+              Claim!
+            </Button>
           </div>
         </div>
       </div>

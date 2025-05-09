@@ -4,9 +4,20 @@ import { useSession } from "next-auth/react";
 import Spinner from "@/app/components/ui/spinner";
 import ListingsList from "@/app/components/ui/listingsList";
 import PurchasesList from "@/app/components/ui/purchasesList";
+import { useEffect, useState } from "react";
+import { fetchUserPoints } from "@/app/helpers/api";
 
 const Dashboard = () => {
   const { data: session } = useSession();
+  const [points, setPoints] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (session?.user?.id) {
+      fetchUserPoints(session.user.id)
+        .then((data) => setPoints(data.pointsBalance))
+        .catch((error) => console.error("Error fetching user points:", error));
+    }
+  }, [session]);
 
   if (session == undefined) {
     return <Spinner />;
@@ -77,8 +88,8 @@ const Dashboard = () => {
         <h2 className="page_title">Your Points</h2>
         <div className="row">
           <p className="summary">
-            You have <strong>24,505 points</strong> to spend towards new
-            purchases
+            You have <strong>{points !== null ? points : "..."} points</strong>{" "}
+            to spend towards new purchases
           </p>
           <p className="actions">
             <Link href="/account/points">View Transactions</Link>

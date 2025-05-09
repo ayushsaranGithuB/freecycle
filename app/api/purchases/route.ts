@@ -9,11 +9,21 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: 'Invalid request data' }, { status: 400 });
     }
 
+    // Fetch the seller's phone based on the itemId
+    const item = await prisma.item.findUnique({
+        where: { id: itemId },
+        select: { ownerPhone: true },
+    });
+
+    if (!item || !item.ownerPhone) {
+        return NextResponse.json({ error: 'Seller not found for the given item' }, { status: 404 });
+    }
+
     const purchase = await prisma.transaction.create({
         data: {
             item: { connect: { id: itemId } },
             buyer: { connect: { phone: userId } },
-            seller: { connect: { phone: "SELLER_PHONE_PLACEHOLDER" } }, // Replace with actual seller phone
+            seller: { connect: { phone: item.ownerPhone } },
             status: 'PENDING',
             shippingCostPaid: 0, // Default value
             ewasteKg: 0,

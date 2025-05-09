@@ -139,3 +139,20 @@ export async function setUserPoints(userId: string, points: number, action: 'EAR
     return response.json();
 }
 
+//  Handle Purchases -------------------------------------------------
+
+export async function handlePurchase(itemId: number, userId: string) {
+    const response = await fetch(`/api/purchases`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ itemId, userId }),
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to handle purchase");
+    }
+
+    return response.json();
+}
