@@ -54,7 +54,7 @@ export default function Navigation() {
         <Link href="/listings">Browse Listings</Link>
         <Link href="/list-item">List an Item</Link>
 
-        {memoizedSession == undefined && (
+        {session === undefined && (
           <p className="flex items-center gap-2">
             <CircleUserRound color="#fff" />
           </p>

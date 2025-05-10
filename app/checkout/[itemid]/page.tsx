@@ -205,7 +205,7 @@ const CheckoutPage = () => {
               <p className="number">- {itemDetails.pointsValue}</p>
               <p>Shipping Charges</p>
               <p className="number">
-                ₹ {shippingCost !== null ? `${shippingCost}` : "Calculating..."}
+                ₹ {shippingCost !== null ? `${shippingCost}` : "..."}
               </p>
               <p className="total">To Pay</p>
               <p className="number total">₹ {shippingCost}</p>
