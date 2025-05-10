@@ -108,11 +108,7 @@ const VerifyOtp = () => {
       if (value && index < otp.length - 1) {
         otpInputRefs[index + 1].current?.focus();
       }
-
-      // Auto-submit if all filled
-      if (index === otp.length - 1 && value && newOtp.every((digit) => digit)) {
-        handleOtpSubmit();
-      }
+      // Removed auto-submit on last digit to prevent partial OTP submission
     }
   };
 
