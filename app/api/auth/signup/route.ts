@@ -25,18 +25,21 @@ export async function POST(req: Request) {
         // Check if the user already exists
         const existingUser = await prisma.user.findUnique({ where: { phone } });
         if (existingUser) {
-            return NextResponse.json({ error: "User already exists." }, { status: 400 });
+            return NextResponse.json({
+                message: "OTP verified successfully.",
+                user: existingUser
+            });
         }
 
-        // Create a new user
+        // Create a new user with minimal info - name will be updated in profile setup
         const newUser = await prisma.user.create({
             data: {
                 phone,
-                name: name || "Anonymous",
+                name: name || "User", // Temporary name, will be updated in profile setup
             },
         });
 
-        return NextResponse.json({ message: "User created successfully.", user: newUser });
+        return NextResponse.json({ message: "OTP verified successfully.", user: newUser });
     } catch (error) {
         console.error(error);
         return NextResponse.json({ error: "An error occurred." }, { status: 500 });

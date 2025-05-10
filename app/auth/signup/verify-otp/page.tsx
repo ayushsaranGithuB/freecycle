@@ -10,9 +10,7 @@ const VerifyOtp = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const phone = searchParams.get("phone") || "";
-
   const [otp, setOtp] = useState(["", "", "", ""]);
-  const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -43,7 +41,6 @@ const VerifyOtp = () => {
     }
     return () => clearInterval(interval);
   }, [phone, resendTimer, router]);
-
   const handleOtpSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
 
@@ -61,15 +58,19 @@ const VerifyOtp = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ phone, otp: otp.join(""), name }),
+        body: JSON.stringify({ phone, otp: otp.join("") }),
       });
 
       if (response.ok) {
-        setSuccess("Account created successfully! You can now sign in.");
-        // Redirect to login page after successful signup
+        const data = await response.json();
+        setSuccess("OTP verified successfully!");
+
+        // Redirect to profile setup page after successful verification
         setTimeout(() => {
-          router.push("/auth");
-        }, 2000);
+          router.push(
+            `/auth/signup/profile-setup?phone=${phone}&userId=${data.user.phone}`
+          );
+        }, 1000);
       } else {
         const data = await response.json();
         setError(data.message || "An error occurred.");
