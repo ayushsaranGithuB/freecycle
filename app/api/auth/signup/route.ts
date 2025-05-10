@@ -15,7 +15,10 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Phone and OTP are required." }, { status: 400 });
         }
 
-        if (otp !== "9999") {
+        // Convert OTP to string if it's an array
+        const otpString = Array.isArray(otp) ? otp.join("") : otp;
+
+        if (otpString !== "9999") {
             return NextResponse.json({ error: "Invalid OTP." }, { status: 400 });
         }
 

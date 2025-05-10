@@ -137,7 +137,7 @@ const CheckoutPage = () => {
         <ul className="breadcrumbs">
           <li>
             <Link href="/" className="flex items-center gap-1">
-              <House width={12} />
+              <House width={12} height={12} />
               Home
             </Link>
           </li>

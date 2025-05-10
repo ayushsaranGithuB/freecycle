@@ -1,59 +1,64 @@
 "use client";
+import { House } from "lucide-react";
 import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import "@/app/styles/auth.css";
+import { Button } from "@/app/components/ui/button";
 
 const SignUp = () => {
+  const router = useRouter();
   const [phone, setPhone] = useState("");
-  const [otp, setOtp] = useState("");
-  const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
 
-  const handleSendOtp = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (loading) return;
+    if (phone.length < 10) return;
+
+    setLoading(true);
     setError("");
+
     try {
+      console.log("Sending OTP to:", phone);
       const response = await fetch(`/api/auth/signup?phone=${phone}`);
+
       if (response.ok) {
-        setOtpSent(true);
+        // Redirect to OTP verification page if request was successful
+        router.push(`/auth/signup/verify-otp?phone=${phone}`);
       } else {
         const data = await response.json();
         setError(data.message || "Failed to send OTP.");
       }
     } catch (err) {
       setError("An unexpected error occurred.");
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setSuccess("");
-
-    try {
-      const response = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ phone, otp, name }),
-      });
-
-      if (response.ok) {
-        setSuccess("Account created successfully! You can now sign in.");
-      } else {
-        const data = await response.json();
-        setError(data.message || "An error occurred.");
-      }
-    } catch (err) {
-      setError("An unexpected error occurred.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <h1 className="text-3xl font-bold mb-6">Sign Up</h1>
-      <form onSubmit={handleSubmit} className="w-full max-w-sm">
-        <div className="mb-4">
+    <div className="login-screen">
+      <ul className="breadcrumbs">
+        <li>
+          <Link href="/" className="flex items-center gap-1">
+            <House width={12} height={12} /> Home
+          </Link>
+        </li>
+        <li>&raquo;</li>
+        <li>
+          <Link href="/auth/signup">Create an account</Link>
+        </li>
+      </ul>
+
+      <form onSubmit={handleSubmit} className="w-full max-w-sm card">
+        <h1 className="titleUnderlined">Create an account</h1>
+
+        {error && <div className="mb-4 text-red-500">{error}</div>}
+
+        <div className="field">
           <label
             htmlFor="phone"
             className="block text-sm font-medium text-gray-700"
@@ -63,65 +68,23 @@ const SignUp = () => {
           <input
             type="tel"
             id="phone"
+            placeholder="10 digit mobile phone number"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             required
           />
         </div>
-        {otpSent && (
-          <>
-            <div className="mb-4">
-              <label
-                htmlFor="otp"
-                className="block text-sm font-medium text-gray-700"
-              >
-                OTP
-              </label>
-              <input
-                type="text"
-                id="otp"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              />
-            </div>
-          </>
-        )}
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-        {success && <p className="text-green-500 text-sm mb-4">{success}</p>}
-        {!otpSent ? (
-          <button
-            type="button"
-            onClick={handleSendOtp}
-            className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-          >
-            Send OTP
-          </button>
-        ) : (
-          <button
+
+        <div className="action">
+          <Button
             type="submit"
-            className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            disabled={loading || phone.length < 10}
+            className="primary"
           >
-            Sign Up
-          </button>
-        )}
+            {loading ? "Sending..." : "Continue"}
+          </Button>
+        </div>
       </form>
     </div>
   );
