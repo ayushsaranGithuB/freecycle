@@ -101,9 +101,14 @@
 .shipping-details {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
     color: var(--text-200);
     margin-bottom: 2rem;
+}
+
+
+.shipping-details div {
+    max-width: 100px;
 }
 
 .shipping-details .direction {
@@ -302,6 +307,9 @@ ul.payment-options input {
 .payment form {
     border-top: 1px solid var(--text-100);
     padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 
 }
 
@@ -326,6 +334,16 @@ form input:hover {
     outline: none;
 }
 
+form .card-meta {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.card-meta input {
+    max-width: 80px;
+}
+
 button.primary {
     width: 100%;
 }
@@ -343,6 +361,10 @@ button.primary {
     .content {
         flex-direction: row;
         gap: 3rem;
+    }
+
+    .shipping-details {
+        gap: 2rem;
     }
 
 }

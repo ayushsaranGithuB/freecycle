@@ -10,8 +10,8 @@ import { fetchListings } from "@/app/helpers/api";
 import { formatCurrency, trimAtSpace } from "@/app/helpers/text";
 import ShippingEstimator from "@/app/components/ui/shippingEstimator";
 import { productCategoriesList } from "@/app/components/ui/categories";
-import { ItemCondition } from "@prisma/client"; // Import ItemCondition type
-
+import { ItemCondition } from "@prisma/client";
+import { pincodeToCity } from "@/app/helpers/calculations";
 interface ItemConditionOptions {
   condition: ItemCondition;
   label: string;
@@ -79,22 +79,6 @@ export default async function ItemDetailsPage({
           {line}
         </p>
       ));
-    }
-
-    async function pincodeToCity(pincode: string) {
-      if (pincode.length != 6) {
-        return "Invalid Pincode";
-      }
-      const response = await fetch(
-        `https://api.postalpincode.in/pincode/${pincode}`
-      );
-      const data = await response.json();
-      if (data[0].Status == "Success") {
-        return `${data[0].PostOffice[0].Name},  ${data[0].PostOffice[0].District}, ${data[0].PostOffice[0].State}`;
-      } else {
-        console.log("Invalid Pincode", data);
-        return "Invalid Pincode";
-      }
     }
 
     return (

@@ -121,3 +121,20 @@ export function calculateEwastePrevention(userItems: { category: string; count: 
 
     return total;
 }
+
+
+export async function pincodeToCity(pincode: string) {
+    if (pincode.length != 6) {
+        return "Invalid Pincode";
+    }
+    const response = await fetch(
+        `https://api.postalpincode.in/pincode/${pincode}`
+    );
+    const data = await response.json();
+    if (data[0].Status == "Success") {
+        return `${data[0].PostOffice[0].Name},  ${data[0].PostOffice[0].District}, ${data[0].PostOffice[0].State}`;
+    } else {
+        console.log("Invalid Pincode", data);
+        return "Invalid Pincode";
+    }
+}

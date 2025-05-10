@@ -7,16 +7,27 @@ import {
   estimateShipping,
 } from "@/app/helpers/api";
 import "@/app/styles/checkout.css";
-import { Item } from "@prisma/client";
+import { Item, User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { trimAtSpace } from "@/app/helpers/text";
 import Link from "next/link";
-import { CircleArrowRight, Coins, House } from "lucide-react";
+import { CircleArrowRight, Coins, House, Info } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
 import { handlePurchase } from "@/app/helpers/api";
 import { Label } from "@/app/components/ui/label";
 import { Input } from "@/app/components/ui/input";
 import Spinner from "@/app/components/ui/spinner";
+import { fetchUserProfile } from "@/app/helpers/user";
+import { pincodeToCity } from "@/app/helpers/calculations";
+
+// Tooltips
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/app/components/ui/tooltip";
 
 const CheckoutPage = () => {
   const router = useRouter();
@@ -28,10 +39,14 @@ const CheckoutPage = () => {
   const [itemDetails, setItemDetails] = useState<Item | null>(null);
   const [userPoints, setUserPoints] = useState(0);
   const [shippingCost, setShippingCost] = useState<number | null>(null);
+  const [shippingTime, setShippingTime] = useState("");
+
   const [difference, setDifference] = useState(0);
   const images = (itemDetails?.images as string[]) || [];
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [itemLocation, setItemLocation] = useState<string | null>(null);
 
   // Payment Methods
   const paymentMethods = [
@@ -57,6 +72,12 @@ const CheckoutPage = () => {
           setUserPoints(data.pointsBalance);
         })
         .catch((error) => console.error("Error fetching user points:", error));
+
+      fetchUserProfile(userId)
+        .then((data) => {
+          setUser(data);
+        })
+        .catch((error) => console.error("Error fetching user profile:", error));
     }
   }, [itemid, userId]);
 
@@ -74,9 +95,19 @@ const CheckoutPage = () => {
       ) // Replace '123456' with actual buyer pincode
         .then((data) => {
           setShippingCost(data.estimatedShippingCharges);
+          setShippingTime(data.estimatedDeliveryTime);
         })
         .catch((error) =>
           console.error("Error estimating shipping cost:", error)
+        );
+    }
+    if (itemDetails?.locationPincode !== undefined) {
+      pincodeToCity(itemDetails?.locationPincode as string)
+        .then((cityState) => {
+          setItemLocation(cityState);
+        })
+        .catch((error) =>
+          console.error("Error fetching item location:", error)
         );
     }
   }, [itemDetails, userPoints]);
@@ -141,22 +172,22 @@ const CheckoutPage = () => {
               <div className="origin">
                 <p className="direction">FROM:</p>
                 <p className="pincode">{itemDetails.locationPincode}</p>
-                <p className="cityState">city, State</p>
+                <p className="cityState">{itemLocation}</p>
               </div>
               <span className="arrow">
                 <CircleArrowRight width={20} />
               </span>
               <div className="destination">
                 <p className="direction">TO:</p>
-                <p className="pincode">get user pincode</p>
-                <p className="cityState">city, State</p>
+                <p className="pincode">{user?.pincode}</p>
+                <p className="cityState">{user?.cityState}</p>
               </div>
               <div className="shipping-cost">
                 <p className="amount">
                   ₹{" "}
                   {shippingCost !== null ? `${shippingCost}` : "Calculating..."}
                 </p>
-                <p className="time">~ X-X days</p>
+                <p className="time">~ {shippingTime} days</p>
               </div>
             </div>
 
@@ -249,18 +280,31 @@ const CheckoutPage = () => {
                       required
                     />
                   </div>
-                  <div className="field">
-                    <Label htmlFor="expiry-date">Expiry Date</Label>
-                    <Input
-                      type="text"
-                      id="expiry-date"
-                      name="expiry-date"
-                      required
-                    />
-                  </div>
-                  <div className="field">
-                    <label htmlFor="cvv">CVV</label>
-                    <Input type="text" id="cvv" name="cvv" required />
+                  <div className="card-meta">
+                    <div className="field">
+                      <Label htmlFor="expiry-date">Expiry Date</Label>
+                      <Input
+                        type="text"
+                        id="expiry-date"
+                        name="expiry-date"
+                        required
+                      />
+                    </div>
+                    <div className="field">
+                      <Label htmlFor="cvv">
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger className="flex items-center gap-1">
+                              CVV <Info width={12} height={12} />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>The last 3 digits on the back of your card</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </Label>
+                      <Input type="text" id="cvv" name="cvv" required />
+                    </div>
                   </div>
                 </>
               )}
