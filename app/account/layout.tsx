@@ -1,4 +1,4 @@
-import AccountNavigation from "../components/ui/accountNavigation";
+import AccountNavigation from "@/components/ui/accountNavigation";
 import "@/app/styles/accountLayout.css";
 export default function AccountLayout({
   children,

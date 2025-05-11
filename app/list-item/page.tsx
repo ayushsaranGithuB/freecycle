@@ -13,7 +13,7 @@ import { useSession } from "next-auth/react";
 import { Coins, MapPinCheckInside } from "lucide-react";
 import Image from "next/image";
 import { useDropzone } from "react-dropzone";
-import { calculateEwastePrevention, Totals } from "../../helpers/calculations";
+import { calculateEwastePrevention, Totals } from "@/helpers/calculations";
 
 interface ItemConditionOptions {
   condition: ItemCondition;
