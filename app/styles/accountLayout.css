@@ -267,6 +267,22 @@ section.impact {
 }
 
 
+/* Bonus Points ---------------------------------------- */
+.bonus-points {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    background-color: aquamarine;
+    border-radius: 16px;
+    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
+    padding: 1rem 1.25rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+/* Responsive Styles ---------------------------------------- */
+
 @media screen and (min-width: 768px) {
 
     main {

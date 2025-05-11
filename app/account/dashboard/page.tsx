@@ -6,28 +6,30 @@ import ListingsList from "@/app/components/ui/listingsList";
 import PurchasesList from "@/app/components/ui/purchasesList";
 import { useEffect, useState } from "react";
 import { fetchUserPoints } from "@/app/helpers/api";
+import { Button } from "@/app/components/ui/button";
 
 const Dashboard = () => {
   const { data: session } = useSession();
   const [points, setPoints] = useState<number | null>(null);
+  const [isNewSignup, setIsNewSignup] = useState(false);
 
-  let isNewSignup = false;
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      const newSignupCookie = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("newSignup="));
+      const isNew = newSignupCookie
+        ? newSignupCookie.split("=")[1] === "true"
+        : false;
+      setIsNewSignup(isNew);
 
-  // fetch new signup cookie
-  if (document) {
-    const newSignupCookie = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("newSignup="));
-    isNewSignup = newSignupCookie
-      ? newSignupCookie.split("=")[1] === "true"
-      : false;
-
-    // remove cookie after reading
-    if (isNewSignup) {
-      document.cookie =
-        "newSignup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      // remove cookie after reading
+      if (isNew) {
+        document.cookie =
+          "newSignup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      }
     }
-  }
+  }, []);
 
   useEffect(() => {
     if (session?.user?.id) {
@@ -69,6 +71,21 @@ const Dashboard = () => {
           Welcome{isNewSignup ? " " : " back"}, {session.user?.name}{" "}
         </h2>
         <Link href="/account/profile">My Profile</Link>
+      </section>
+
+      {/* Bonus Points --------------- */}
+
+      <section className="bonus-points callout">
+        <div>
+          <h3>Bonus Points</h3>
+          <p>
+            You have received <strong>1000 points</strong> for signing up
+          </p>
+          <p>You can use these points to get discounts on your next purchase</p>
+        </div>
+        <div className="action">
+          <Button className="primary">Claim</Button>
+        </div>
       </section>
 
       {/* Impact --------------- */}
