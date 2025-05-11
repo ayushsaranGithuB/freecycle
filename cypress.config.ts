@@ -6,7 +6,7 @@ module.exports = defineConfig({
     baseUrl: "http://localhost:3000",
     video: false,
     specPattern: "tests/**/*.cy.{js,ts}",
-    supportFile: "cypress/support/e2e.js",
+    supportFile: false, // Disable supportFile as suggested by Cypress error
     setupNodeEvents(on, config) { },
   },
   component: {
