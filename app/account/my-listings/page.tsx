@@ -8,10 +8,10 @@ import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
 import { useSession } from "next-auth/react";
 
-const columns: ColumnDef<Listing, any>[] = [
+const columns: ColumnDef<Listing, unknown>[] = [
   {
     accessorKey: "title",
-    header: ({ column }: HeaderContext<Listing, any>) => (
+    header: ({ column }: HeaderContext<Listing, unknown>) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
@@ -23,7 +23,7 @@ const columns: ColumnDef<Listing, any>[] = [
   },
   {
     accessorKey: "category",
-    header: ({ column }: HeaderContext<Listing, any>) => (
+    header: ({ column }: HeaderContext<Listing, unknown>) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
@@ -35,7 +35,7 @@ const columns: ColumnDef<Listing, any>[] = [
   },
   {
     accessorKey: "condition",
-    header: ({ column }: HeaderContext<Listing, any>) => (
+    header: ({ column }: HeaderContext<Listing, unknown>) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
@@ -47,7 +47,7 @@ const columns: ColumnDef<Listing, any>[] = [
   },
   {
     accessorKey: "pointsValue",
-    header: ({ column }: HeaderContext<Listing, any>) => (
+    header: ({ column }: HeaderContext<Listing, unknown>) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
