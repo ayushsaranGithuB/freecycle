@@ -1,13 +1,7 @@
 import styles from "@/app/styles/itemCategories.module.css";
 import Link from "next/link";
-import { ItemCategory } from "@prisma/client";
 import Image from "next/image";
-
-export interface DisplayCategory {
-  icon: string;
-  name: string;
-  category: ItemCategory;
-}
+import { DisplayCategory } from "@/helpers/interfaces/items";
 
 export const productCategoriesList: DisplayCategory[] = [
   { name: "Phones", icon: "mobile.svg", category: "PHONE" },

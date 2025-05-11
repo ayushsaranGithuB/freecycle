@@ -2,7 +2,8 @@
 import { useEffect, useState } from "react";
 import { fetchUserListings } from "@/helpers/api";
 import { DataTable } from "@/components/ui/dataTable";
-import { Listing } from "@/components/ui/productGrid";
+import { Listing } from "@/helpers/interfaces/items";
+
 import { ColumnDef, HeaderContext } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";

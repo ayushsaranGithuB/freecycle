@@ -8,19 +8,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { productCategoriesList } from "@/components/ui/categories";
-import { ItemCondition } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { Coins, MapPinCheckInside } from "lucide-react";
 import Image from "next/image";
 import { useDropzone } from "react-dropzone";
 import { calculateEwastePrevention, Totals } from "@/helpers/calculations";
-
-interface ItemConditionOptions {
-  condition: ItemCondition;
-  label: string;
-  hint: string;
-  guide: string[];
-}
+import { ItemConditionOptions } from "@/helpers/interfaces/items";
 
 const ConditionOptions: ItemConditionOptions[] = [
   {

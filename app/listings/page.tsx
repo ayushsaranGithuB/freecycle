@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import ProductGrid from "@/components/ui/productGrid";
 import { ItemCategory, ItemCondition } from "@prisma/client";
 import { fetchListings } from "@/helpers/api";
-import { Listing } from "@/components/ui/productGrid";
+import { Listing } from "@/helpers/interfaces/items";
 import "@/app/styles/listings.css";
 import { productCategoriesList } from "@/components/ui/categories";
 import { Button } from "@/components/ui/button";

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { fetchUserListings } from "@/helpers/api";
-import { Listing } from "@/components/ui/productGrid";
+import { Listing } from "@/helpers/interfaces/items";
 import Spinner from "@/components/ui/spinner";
 import Link from "next/link";
 import { ItemStatus } from "@prisma/client";

@@ -3,20 +3,11 @@ import Link from "next/link";
 import { trimAtSpace } from "@/helpers/text";
 import { FC } from "react";
 import Image from "next/image";
+import { Listing } from "@/helpers/interfaces/items";
 
 type ProductGridProps = {
   listings: Listing[];
 };
-export interface Listing {
-  id: string;
-  title: string;
-  description: string;
-  images: string[];
-  pointsValue: number;
-  category: string;
-  condition: string;
-  createdAt: string;
-}
 
 const ProductGrid: FC<ProductGridProps> = ({ listings }) => {
   return (
