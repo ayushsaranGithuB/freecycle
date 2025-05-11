@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import { productCategoriesList } from "../components/ui/categories";
+import { productCategoriesList } from "@/components/ui/categories";
 import { ItemCondition } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { Coins, MapPinCheckInside } from "lucide-react";
