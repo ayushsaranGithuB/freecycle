@@ -1,5 +1,5 @@
 // Helpers for API Rules
-import { Listing } from "@/app/components/ui/productGrid";
+import { Listing } from "@/components/ui/productGrid";
 import { ItemStatus } from "@prisma/client";
 
 export interface ShippingEstimate {

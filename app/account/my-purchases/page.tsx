@@ -1,10 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import { fetchUserPurchases } from "@/helpers/api";
-import { DataTable } from "@/app/components/ui/dataTable";
+import { DataTable } from "@/components/ui/dataTable";
 import { Column } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
-import { Button } from "@/app/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { Transaction } from "@prisma/client";
 

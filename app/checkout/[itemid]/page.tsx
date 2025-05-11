@@ -12,11 +12,11 @@ import { useSession } from "next-auth/react";
 import { trimAtSpace } from "@/helpers/text";
 import Link from "next/link";
 import { CircleArrowRight, Coins, House, Info } from "lucide-react";
-import { Button } from "@/app/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { handlePurchase } from "@/helpers/api";
-import { Label } from "@/app/components/ui/label";
-import { Input } from "@/app/components/ui/input";
-import Spinner from "@/app/components/ui/spinner";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import Spinner from "@/components/ui/spinner";
 import { fetchUserProfile } from "@/helpers/user";
 import { pincodeToCity } from "@/helpers/calculations";
 import Image from "next/image";
@@ -28,7 +28,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/app/components/ui/tooltip";
+} from "@/components/ui/tooltip";
 
 const CheckoutPage = () => {
   const router = useRouter();

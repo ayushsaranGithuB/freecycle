@@ -2,10 +2,10 @@
 import "@/app/styles/create_listing.css";
 import { useState, ChangeEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/app/components/ui/button";
-import { Input } from "@/app/components/ui/input";
-import { Textarea } from "@/app/components/ui/textarea";
-import { Label } from "@/app/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { productCategoriesList } from "../components/ui/categories";
 import { ItemCondition } from "@prisma/client";

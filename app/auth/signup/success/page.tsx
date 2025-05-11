@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import "@/app/styles/auth.css";
-import { Button } from "@/app/components/ui/button";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
 const SignupSuccess = () => {

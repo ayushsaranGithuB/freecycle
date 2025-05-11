@@ -1,14 +1,14 @@
 import prisma from "@/lib/prisma"; // Import Prisma client
 import Link from "next/link";
-import ImageCarousel from "@/app/components/ui/image-carousel";
-import DeleteItemButton from "@/app/components/ui/delete-item-button";
+import ImageCarousel from "@/components/ui/image-carousel";
+import DeleteItemButton from "@/components/ui/delete-item-button";
 import { Coins, EditIcon, MapPin } from "lucide-react";
 import "@/app/styles/singleItemPage.css";
-import ProductGrid from "@/app/components/ui/productGrid";
+import ProductGrid from "@/components/ui/productGrid";
 import { fetchListings } from "@/helpers/api";
 import { formatCurrency, trimAtSpace } from "@/helpers/text";
-import ShippingEstimator from "@/app/components/ui/shippingEstimator";
-import { productCategoriesList } from "@/app/components/ui/categories";
+import ShippingEstimator from "@/components/ui/shippingEstimator";
+import { productCategoriesList } from "@/components/ui/categories";
 import { ItemCondition } from "@prisma/client";
 import { pincodeToCity } from "@/helpers/calculations";
 interface ItemConditionOptions {

@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import styles from "./page.module.css";
-import SearchBar from "@/app/components/ui/searchBar";
-import ProductGrid from "@/app/components/ui/productGrid";
+import SearchBar from "@/components/ui/searchBar";
+import ProductGrid from "@/components/ui/productGrid";
 import ItemCategories from "./components/ui/categories";
 import { fetchListings } from "../helpers/api";
 

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { fetchUserPurchases } from "@/helpers/api";
 import { Transaction, Item } from "@prisma/client";
-import Spinner from "@/app/components/ui/spinner";
+import Spinner from "@/components/ui/spinner";
 import Link from "next/link";
 import Image from "next/image";
 import { Coins } from "lucide-react";

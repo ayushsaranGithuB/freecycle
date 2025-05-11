@@ -1,11 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import { fetchUserListings } from "@/helpers/api";
-import { DataTable } from "@/app/components/ui/dataTable";
-import { Listing } from "@/app/components/ui/productGrid";
+import { DataTable } from "@/components/ui/dataTable";
+import { Listing } from "@/components/ui/productGrid";
 import { ColumnDef, HeaderContext } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
-import { Button } from "@/app/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 
 const columns: ColumnDef<Listing, unknown>[] = [

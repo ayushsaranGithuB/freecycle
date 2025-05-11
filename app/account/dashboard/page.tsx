@@ -1,12 +1,12 @@
 "use client";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import Spinner from "@/app/components/ui/spinner";
-import ListingsList from "@/app/components/ui/listingsList";
-import PurchasesList from "@/app/components/ui/purchasesList";
+import Spinner from "@/components/ui/spinner";
+import ListingsList from "@/components/ui/listingsList";
+import PurchasesList from "@/components/ui/purchasesList";
 import { useEffect, useState } from "react";
 import { fetchUserPoints } from "@/helpers/api";
-import { Button } from "@/app/components/ui/button";
+import { Button } from "@/components/ui/button";
 import BonusPoints from "./bonusPoints";
 
 const Dashboard = () => {

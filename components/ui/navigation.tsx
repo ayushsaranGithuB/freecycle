@@ -9,7 +9,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/app/components/ui/popover";
+} from "@/components/ui/popover";
 import { CircleUserRound, SquareMenu } from "lucide-react";
 
 export default function Navigation() {

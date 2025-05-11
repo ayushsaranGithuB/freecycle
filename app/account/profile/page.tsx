@@ -1,6 +1,6 @@
 "use client";
-import { Button } from "@/app/components/ui/button";
-import { Input } from "@/app/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -10,7 +10,7 @@ import { useSession } from "next-auth/react";
 import { fetchUserProfile, updateUserProfile } from "@/helpers/user";
 
 import "@/app/styles/create_listing.css";
-import Spinner from "@/app/components/ui/spinner";
+import Spinner from "@/components/ui/spinner";
 
 export default function ProfilePage() {
   const { data: session } = useSession();

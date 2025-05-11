@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { fetchUserListings } from "@/helpers/api";
-import { Listing } from "@/app/components/ui/productGrid";
-import Spinner from "@/app/components/ui/spinner";
+import { Listing } from "@/components/ui/productGrid";
+import Spinner from "@/components/ui/spinner";
 import Link from "next/link";
 import { ItemStatus } from "@prisma/client";
 import { useSession } from "next-auth/react";

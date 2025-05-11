@@ -1,11 +1,11 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Input } from "@/app/components/ui/input";
-import ProductGrid from "@/app/components/ui/productGrid";
+import { Input } from "@/components/ui/input";
+import ProductGrid from "@/components/ui/productGrid";
 import { ItemCategory, ItemCondition } from "@prisma/client";
 import { fetchListings } from "../../helpers/api";
-import { Listing } from "@/app/components/ui/productGrid";
+import { Listing } from "@/components/ui/productGrid";
 import "@/app/styles/listings.css";
 import { productCategoriesList } from "../components/ui/categories";
 import { Button } from "../components/ui/button";

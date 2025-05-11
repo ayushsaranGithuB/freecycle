@@ -18,9 +18,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/app/components/ui/table";
+} from "@/components/ui/table";
 
-import { Input } from "@/app/components/ui/input";
+import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
 interface DataTableProps<TData, TValue> {

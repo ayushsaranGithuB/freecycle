@@ -1,14 +1,14 @@
 "use client";
 
-import { Button } from "@/app/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/app/components/ui/dialog";
-import { Input } from "@/app/components/ui/input";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { setUserPoints } from "@/helpers/api";
 import { updateUserJourney, updateUserProfile } from "@/helpers/user";
 import { Label } from "@radix-ui/react-label";

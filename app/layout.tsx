@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Open_Sans, Nunito } from "next/font/google";
 import "./globals.css";
-import Navigation from "@/app/components/ui/navigation";
+import Navigation from "@/components/ui/navigation";
 import { SessionProvider } from "next-auth/react";
 import Footer from "./components/ui/footer";
 

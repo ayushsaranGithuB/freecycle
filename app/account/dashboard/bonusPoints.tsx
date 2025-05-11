@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Button } from "@/app/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { UserJourney } from "@prisma/client";
 import { fetchUserJourney } from "@/helpers/user";

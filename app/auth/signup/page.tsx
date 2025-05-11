@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import "@/app/styles/auth.css";
-import { Button } from "@/app/components/ui/button";
+import { Button } from "@/components/ui/button";
 
 const SignUp = () => {
   const router = useRouter();

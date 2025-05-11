@@ -3,7 +3,7 @@ import { House } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import "@/app/styles/auth.css";
-import { Button } from "@/app/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const VerifyOtp = () => {
