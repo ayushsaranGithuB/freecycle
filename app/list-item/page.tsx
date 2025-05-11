@@ -357,9 +357,9 @@ export default function ListItemPage() {
             )}
           </div>
           <ul>
-            {files.map((file) => (
+            {files.map((file, idx) => (
               <li
-                key={file.name}
+                key={file.name + idx}
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -382,6 +382,23 @@ export default function ListItemPage() {
                   }
                 />
                 <span>{file.name}</span>
+                <button
+                  type="button"
+                  aria-label="Remove file"
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "#d00",
+                    fontWeight: "bold",
+                    fontSize: "1.2em",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    setFiles((prev) => prev.filter((_, i) => i !== idx));
+                  }}
+                >
+                  ×
+                </button>
               </li>
             ))}
           </ul>

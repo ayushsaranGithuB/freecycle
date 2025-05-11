@@ -396,6 +396,8 @@ export default function EditItemPage() {
                         src={image as string}
                         alt={`Existing Image ${index + 1}`}
                         className="w-full h-32 object-cover rounded-lg shadow-md"
+                        width={280}
+                        height={210}
                       />
                       <p className="text-sm text-gray-500 mt-1">
                         Image {index + 1}
@@ -439,7 +441,7 @@ export default function EditItemPage() {
           </div>
         </section>
 
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full primary">
           Save Changes
         </Button>
       </form>
