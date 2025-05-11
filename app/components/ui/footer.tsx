@@ -12,21 +12,39 @@ const Footer = () => {
         {/* Banner ------------------------- */}
         <div className="banner">
           <div>
-            <Image src="/icons/donate.svg" title="donate" alt="donate" />
+            <Image
+              src="/icons/donate.svg"
+              title="donate"
+              alt="donate"
+              width={40}
+              height={40}
+            />
             <p>
               <strong>DONATE Tech</strong>
               <span>List and trade your unused gadgets.</span>
             </p>
           </div>
           <div>
-            <Image src="/icons/coins.svg" title="claim" alt="claim" />
+            <Image
+              src="/icons/coins.svg"
+              title="claim"
+              alt="claim"
+              width={40}
+              height={40}
+            />
             <p>
               <strong>EARN Credits</strong>
               <span>Use your Points to claim gear that you need.</span>
             </p>
           </div>
           <div>
-            <Image src="/icons/no_trash.svg" title="stop" alt="stop" />
+            <Image
+              src="/icons/no_trash.svg"
+              title="stop"
+              alt="stop"
+              width={40}
+              height={40}
+            />
             <p>
               <strong>STOP Waste</strong>
               <span>Keep Hazardous Materials out of landfills.</span>

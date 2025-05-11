@@ -31,6 +31,8 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
           src={images[currentIndex]}
           alt={`Image ${currentIndex + 1}`}
           className="w-full object-cover rounded-lg shadow-md"
+          width={280}
+          height={210}
         />
 
         {/* Navigation Buttons */}
@@ -40,13 +42,13 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
               onClick={prevImage}
               className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white px-3 py-1 rounded-l"
             >
-              ‹
+              &laquo;
             </button>
             <button
               onClick={nextImage}
               className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white px-3 py-1 rounded-r"
             >
-              ›
+              &raquo;
             </button>
           </>
         )}
@@ -66,6 +68,8 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
                   ? "border-blue-500"
                   : "border-transparent"
               }`}
+              width={280}
+              height={210}
             />
           ))}
         </div>

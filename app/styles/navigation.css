@@ -21,6 +21,7 @@
 
 .navigation a {
     font-weight: 600;
+    font-size: 0.9rem;
 }
 
 
@@ -33,6 +34,7 @@
 .popover-content {
     border: 1px solid #94B840
 }
+
 
 /* Mobile Menu */
 

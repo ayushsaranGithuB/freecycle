@@ -15,8 +15,8 @@ export async function GET(req: Request) {
     return NextResponse.json(listing);
 }
 
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
-    const itemId = await params.id;
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
+    const itemId = (await params).id;
 
     try {
         const formData = await request.formData();
@@ -93,7 +93,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     }
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
     const param = await params;
     const itemId = param.id;
 

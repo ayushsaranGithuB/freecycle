@@ -5,6 +5,8 @@
     height: 100svh;
     padding: 1rem;
     gap: 1rem;
+    max-width: 400px;
+    margin: 1rem auto;
 }
 
 h1.titleUnderlined {

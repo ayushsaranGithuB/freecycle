@@ -34,6 +34,8 @@ const ProductGrid: FC<ProductGridProps> = ({ listings }) => {
               src={item.images[0]}
               alt={item.title}
               className={styles.image}
+              width={280}
+              height={210}
             />
             <p className={styles.category}>{item.category}</p>
             <h3>{trimAtSpace(item.title, 48)}</h3>

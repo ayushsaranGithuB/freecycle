@@ -48,7 +48,7 @@ const ConditionOptions: ItemConditionOptions[] = [
 export default async function ItemDetailsPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
 

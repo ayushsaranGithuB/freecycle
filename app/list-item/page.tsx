@@ -8,11 +8,11 @@ import { Textarea } from "@/app/components/ui/textarea";
 import { Label } from "@/app/components/ui/label";
 import Link from "next/link";
 import { productCategoriesList } from "../components/ui/categories";
-import { ImageUpload } from "../components/ui/imageDropzone";
 import { ItemCondition } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { Coins, MapPinCheckInside } from "lucide-react";
 import Image from "next/image";
+import { useDropzone } from "react-dropzone";
 
 interface ItemConditionOptions {
   condition: ItemCondition;
@@ -71,7 +71,17 @@ export default function ListItemPage() {
 
   console.log("Session:", session);
 
-  //  Points
+  // Dropzone setup
+  const onDrop = (acceptedFiles: File[]) => {
+    setFiles((prev) => [...prev, ...acceptedFiles]);
+  };
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: { "image/*": [] },
+    multiple: true,
+  });
+
+  // Points
   const [pointsBreakdown, setPointsBreakdown] = useState<string | null>(null);
 
   useEffect(() => {
@@ -203,7 +213,7 @@ export default function ListItemPage() {
     return { points, breakdown };
   }
 
-  //  Suggest Title Automatically -------------------------------
+  // Suggest Title Automatically -------------------------------
 
   useEffect(() => {
     // If title is empty, build a title from brand, model, and year
@@ -234,7 +244,7 @@ export default function ListItemPage() {
     }
   }, [locationPincode]);
 
-  //  Session Check -------------------------------
+  // Session Check -------------------------------
 
   if (session === null) return <h2>Please Login </h2>; // TODO />;
 
@@ -320,11 +330,37 @@ export default function ListItemPage() {
         {/* Images ---------------------------- */}
         <section>
           <h2 className="title">Images</h2>
-          <ImageUpload files={files} setFiles={setFiles} />
-          <p className="hint">
-            Upload images to showcase your item. You can select multiple images.
-          </p>
-          <p>{files.map((file) => file.name).join(", ")}</p>
+          <div
+            {...getRootProps()}
+            className={`dropzone${isDragActive ? " active" : ""}`}
+            style={{
+              border: "2px dashed #ccc",
+              padding: "24px",
+              borderRadius: "8px",
+              textAlign: "center",
+              cursor: "pointer",
+              marginBottom: "12px",
+            }}
+          >
+            <input {...getInputProps()} />
+            {isDragActive ? (
+              <p>Drop the files here ...</p>
+            ) : (
+              <p>
+                Drag & drop images here, or click to select files
+                <br />
+                <span className="hint">
+                  Upload images to showcase your item. You can select multiple
+                  images.
+                </span>
+              </p>
+            )}
+          </div>
+          <ul>
+            {files.map((file) => (
+              <li key={file.name}>{file.name}</li>
+            ))}
+          </ul>
         </section>
 
         {/* Additional Details ---------------------------- */}
