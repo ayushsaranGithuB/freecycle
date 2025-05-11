@@ -12,6 +12,7 @@ import { ImageUpload } from "../components/ui/imageDropzone";
 import { ItemCondition } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { Coins, MapPinCheckInside } from "lucide-react";
+import Image from "next/image";
 
 interface ItemConditionOptions {
   condition: ItemCondition;
@@ -209,7 +210,7 @@ export default function ListItemPage() {
     if (title === "" && brand !== "" && model !== "" && year.length == 4) {
       setTitle(`${brand} ${model} (${year}) - ${condition} condition`);
     }
-  }, [brand, model, year]);
+  }, [brand, model, year, title, condition]);
 
   useEffect(() => {
     // If locationPincode is set, look up the city
@@ -272,7 +273,7 @@ export default function ListItemPage() {
                     onChange={() => setCategory(cat.category)}
                   />
                   <span className="icon">
-                    <img
+                    <Image
                       src={`/icons/${cat.icon}`}
                       alt={cat.name}
                       width={36}

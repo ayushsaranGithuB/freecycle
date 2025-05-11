@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
     try {
-        const { userId, phone, name, email, pincode } = await req.json();
+        const { phone, name, email, pincode } = await req.json();
 
         if (!phone) {
             return NextResponse.json({ error: "Phone number is required." }, { status: 400 });

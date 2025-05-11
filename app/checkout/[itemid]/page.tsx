@@ -19,6 +19,7 @@ import { Input } from "@/app/components/ui/input";
 import Spinner from "@/app/components/ui/spinner";
 import { fetchUserProfile } from "@/app/helpers/user";
 import { pincodeToCity } from "@/app/helpers/calculations";
+import Image from "next/image";
 
 // Tooltips
 
@@ -43,7 +44,7 @@ const CheckoutPage = () => {
 
   const [difference, setDifference] = useState(0);
   const images = (itemDetails?.images as string[]) || [];
-  const [error, setError] = useState<string | null>(null);
+  // const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [itemLocation, setItemLocation] = useState<string | null>(null);
@@ -151,7 +152,12 @@ const CheckoutPage = () => {
             <h3 className="title">Item Details</h3>
             <div className="listing">
               <div className="listing-image">
-                <img src={images[0]} alt={itemDetails.title} />
+                <Image
+                  src={images[0]}
+                  alt={itemDetails.title}
+                  width={90}
+                  height={90}
+                />
               </div>
               <div className="listing-details">
                 <p className="category">{itemDetails.category}</p>
@@ -244,7 +250,7 @@ const CheckoutPage = () => {
                     className={paymentMethod === method.id ? "active" : ""}
                   >
                     <label htmlFor={method.id}>
-                      <img
+                      <Image
                         src={method.icon}
                         alt={method.name}
                         className="payment-icon"

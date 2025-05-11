@@ -20,6 +20,7 @@ const ShippingEstimator = ({ sellerPincode }: ShippingEstimatorProps) => {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setLoading(true);
     try {
       const data = await estimateShipping(
         parseInt(buyerPincode),
@@ -31,6 +32,7 @@ const ShippingEstimator = ({ sellerPincode }: ShippingEstimatorProps) => {
     } catch (error) {
       console.error("Error fetching shipping details:", error);
     }
+    setLoading(false);
   }
 
   if (shippingDetails && buyerPincode.length === 6) {
@@ -62,7 +64,9 @@ const ShippingEstimator = ({ sellerPincode }: ShippingEstimatorProps) => {
                 value={buyerPincode}
                 onChange={(e) => setBuyerPincode(e.target.value)}
               />
-              <button type="submit">&raquo;</button>
+              <button type="submit" disabled={loading}>
+                &raquo;
+              </button>
             </form>
           </div>
 

@@ -41,7 +41,7 @@ const PurchasesList = ({ limit }: { limit: number }) => {
     };
 
     fetchPurchases();
-  }, [limit]);
+  }, [limit, userId]);
 
   if (loading) {
     return <Spinner />;

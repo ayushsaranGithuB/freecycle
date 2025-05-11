@@ -1,5 +1,4 @@
 import prisma from "@/lib/prisma"; // Import Prisma client
-import { Button } from "@/app/components/ui/button"; // Import ShadCN button
 import Link from "next/link";
 import ImageCarousel from "@/app/components/ui/image-carousel";
 import DeleteItemButton from "@/app/components/ui/delete-item-button";

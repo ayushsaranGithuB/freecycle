@@ -1,6 +1,7 @@
 "use client";
 // redirect to /account/dashboard
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 const InvoiceRedirect = () => {
   // Check if the user is authenticated
@@ -16,7 +17,7 @@ const InvoiceRedirect = () => {
     return (
       <div className="unauthenticated">
         <h1>Please log in to view your account</h1>
-        <a href="/api/auth/signin">Log In</a>
+        <Link href="/api/auth/signin">Log In</Link>
       </div>
     );
   }

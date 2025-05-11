@@ -11,7 +11,7 @@ import { useSession } from "next-auth/react";
 const columns = [
   {
     accessorKey: "title",
-    header: ({ column }: { column: Column<any, unknown> }) => {
+    header: ({ column }: { column: Column<string, unknown> }) => {
       return (
         <Button
           variant="ghost"
@@ -25,7 +25,7 @@ const columns = [
   },
   {
     accessorKey: "category",
-    header: ({ column }: { column: Column<any, unknown> }) => {
+    header: ({ column }: { column: Column<string, unknown> }) => {
       return (
         <Button
           variant="ghost"
@@ -39,7 +39,7 @@ const columns = [
   },
   {
     accessorKey: "condition",
-    header: ({ column }: { column: Column<any, unknown> }) => {
+    header: ({ column }: { column: Column<string, unknown> }) => {
       return (
         <Button
           variant="ghost"
@@ -53,7 +53,7 @@ const columns = [
   },
   {
     accessorKey: "pointsValue",
-    header: ({ column }: { column: Column<any, unknown> }) => {
+    header: ({ column }: { column: Column<string, unknown> }) => {
       return (
         <Button
           variant="ghost"

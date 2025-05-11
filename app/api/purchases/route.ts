@@ -1,12 +1,18 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { auth } from '@/auth';
 
 export async function POST(req: Request) {
+    const session = await auth();
+    if (!session || !session.user?.id) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     const body = await req.json();
     const { itemId, userId } = body;
 
-    if (!itemId || !userId) {
-        return NextResponse.json({ error: 'Invalid request data' }, { status: 400 });
+    // Only allow the authenticated user to purchase as themselves
+    if (!itemId || !userId || userId !== session.user.id) {
+        return NextResponse.json({ error: 'Invalid or unauthorized request' }, { status: 400 });
     }
 
     // Fetch the seller's phone based on the itemId
@@ -41,12 +47,17 @@ export async function POST(req: Request) {
 }
 
 export async function GET(req: Request) {
+    const session = await auth();
+    if (!session || !session.user?.id) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get('userId');
     const limit = parseInt(searchParams.get('limit') || '10', 10);
 
-    if (!userId) {
-        return NextResponse.json({ error: 'Missing userId parameter' }, { status: 400 });
+    // Only allow the authenticated user to fetch their own purchases
+    if (!userId || userId !== session.user.id) {
+        return NextResponse.json({ error: 'Invalid or unauthorized request' }, { status: 400 });
     }
 
     try {

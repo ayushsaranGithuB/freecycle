@@ -38,7 +38,7 @@ export default function Navigation() {
           {!menuOpen ? (
             <SquareMenu color="#fff" />
           ) : (
-            <img src="/icons/menu.svg" alt="" />
+            <Image src="/icons/menu.svg" alt="" />
           )}
         </button>
         <div className="mobileMenu" data-open={menuOpen}>

@@ -16,7 +16,7 @@ const ShippingInfo = () => {
       <p className="mb-2">All shipping charges are borne by the buyer.</p>
       <p className="mb-2">
         If an item has to be returned due to an error in the listing or a
-        mismatch between the description and the item's condition, the seller
+        mismatch between the description and the item&apos;s condition, the seller
         will be deducted the return shipping fee, and the buyer will be refunded
         in full.
       </p>

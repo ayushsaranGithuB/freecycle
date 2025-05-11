@@ -1,9 +1,7 @@
 import Link from "next/link";
-import { headers } from "next/headers";
 import Image from "next/image";
 
 export default async function NotFound() {
-  const headersList = await headers();
   return (
     <div className="w-full  flex flex-col items-center justify-center text-center py-12">
       <Image src={"/404.svg"} alt="404" width={800} height={360} />

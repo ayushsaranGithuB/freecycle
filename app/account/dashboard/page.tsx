@@ -56,8 +56,8 @@ const Dashboard = () => {
       <section className="impact">
         <h3>Your Impact</h3>
         <p>
-          You've saved <strong>2.5 Kgs</strong> of e-waste from ending up in
-          landfills and polluting the planet
+          You&apos;ve saved <strong>2.5 Kgs</strong> of e-waste from ending up
+          in landfills and polluting the planet
         </p>
         <ul className="stats">
           <li>

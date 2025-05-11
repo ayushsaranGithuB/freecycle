@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${openSans.variable}  bg-background text-foreground min-h-screen flex flex-col`}
+        className={`${openSans.variable} ${nunito.variable}  bg-background text-foreground min-h-screen flex flex-col`}
       >
         <SessionProvider>
           <Navigation />

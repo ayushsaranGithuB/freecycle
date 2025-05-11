@@ -1,4 +1,5 @@
-const { defineConfig } = require("cypress");
+import { defineConfig } from 'cypress'
+
 
 module.exports = defineConfig({
   e2e: {
@@ -6,5 +7,12 @@ module.exports = defineConfig({
     video: false,
     specPattern: "tests/**/*.cy.{js,ts}",
     supportFile: "cypress/support/e2e.js",
+    setupNodeEvents(on, config) { },
+  },
+  component: {
+    devServer: {
+      framework: 'next',
+      bundler: 'webpack',
+    },
   },
 });

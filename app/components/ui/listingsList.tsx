@@ -35,7 +35,7 @@ const ListingsList = ({ status, limit }: ListingsListProps) => {
         console.error("Error fetching user listings:", error);
         setLoading(false);
       });
-  }, [status, limit]);
+  }, [status, limit, session?.user?.id]);
 
   if (loading) {
     return <Spinner />;

@@ -30,7 +30,7 @@ export default function ListingsPage() {
 
   const [listings, setListings] = useState<Listing[]>([]);
 
-  const categories = Object.values(ItemCategory);
+  // const categories = Object.values(ItemCategory);
   const conditions = Object.values(ItemCondition);
 
   // Fetch listings

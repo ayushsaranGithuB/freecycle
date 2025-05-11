@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useState } from "react";
 
 interface ImageCarouselProps {
@@ -26,7 +27,7 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
     <div className="flex flex-col items-center">
       {/* Main Image */}
       <div className="relative w-full max-w-md">
-        <img
+        <Image
           src={images[currentIndex]}
           alt={`Image ${currentIndex + 1}`}
           className="w-full object-cover rounded-lg shadow-md"
@@ -55,7 +56,7 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
       {hasMultipleImages && (
         <div className="flex mt-4 space-x-2">
           {images.map((img: string, index: number) => (
-            <img
+            <Image
               key={index}
               src={img}
               alt={`Thumbnail ${index + 1}`}

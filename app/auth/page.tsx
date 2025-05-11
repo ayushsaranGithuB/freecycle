@@ -132,7 +132,7 @@ export default function OTPLoginPage() {
               Send OTP
             </button>
             <p className="text-sm text-neutral-600 text-center mt-4">
-              Don't have an account <Link href="/auth/signup">Signup here</Link>
+              Don&apos;t have an account <Link href="/auth/signup">Signup here</Link>
             </p>
           </div>
         </form>

@@ -43,8 +43,8 @@ export default async function HomePage() {
 
       <footer className={styles.tagline}>
         <p>
-          "Freecycle isn't about buying. It's about giving, earning, and reusing
-          — together."
+          &quot;Freecycle isn&apos;t about buying. It&apos;s about giving,
+          earning, and reusing — together.&quot;
         </p>
       </footer>
     </div>

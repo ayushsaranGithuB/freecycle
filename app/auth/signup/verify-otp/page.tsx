@@ -77,6 +77,7 @@ const VerifyOtp = () => {
       }
     } catch (err) {
       setError("An unexpected error occurred.");
+      console.error("Error verifying OTP:", err);
     } finally {
       setLoading(false);
     }
@@ -94,6 +95,7 @@ const VerifyOtp = () => {
         otpInputRefs[0].current?.focus();
       } catch (err) {
         setError("Failed to resend OTP.");
+        console.error("Error resending OTP:", err);
       }
     }
   };
