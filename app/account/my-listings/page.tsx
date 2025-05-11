@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { fetchUserListings } from "@/app/helpers/api";
+import { fetchUserListings } from "@/helpers/api";
 import { DataTable } from "@/app/components/ui/dataTable";
 import { Listing } from "@/app/components/ui/productGrid";
 import { ColumnDef, HeaderContext } from "@tanstack/react-table";

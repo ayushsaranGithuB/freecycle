@@ -2,7 +2,7 @@
 import { Transaction, Item, User as Seller } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { fetchInvoice } from "@/app/helpers/api";
+import { fetchInvoice } from "@/helpers/api";
 import { Coins } from "lucide-react";
 import Image from "next/image";
 

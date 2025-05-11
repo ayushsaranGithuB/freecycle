@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import "@/app/styles/auth.css";
 import { Button } from "@/app/components/ui/button";
-import { updateUserJourney } from "@/app/helpers/user";
+import { updateUserJourney } from "@/helpers/user";
 
 const ProfileSetup = () => {
   const router = useRouter();

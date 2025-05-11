@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
-import { fetchUserProfile, updateUserProfile } from "@/app/helpers/user";
+import { fetchUserProfile, updateUserProfile } from "@/helpers/user";
 
 import "@/app/styles/create_listing.css";
 import Spinner from "@/app/components/ui/spinner";

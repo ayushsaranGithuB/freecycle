@@ -9,8 +9,8 @@ import {
   DialogTitle,
 } from "@/app/components/ui/dialog";
 import { Input } from "@/app/components/ui/input";
-import { setUserPoints } from "@/app/helpers/api";
-import { updateUserJourney, updateUserProfile } from "@/app/helpers/user";
+import { setUserPoints } from "@/helpers/api";
+import { updateUserJourney, updateUserProfile } from "@/helpers/user";
 import { Label } from "@radix-ui/react-label";
 import { useSession } from "next-auth/react";
 import { useState } from "react";

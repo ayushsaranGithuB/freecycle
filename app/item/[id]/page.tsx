@@ -5,12 +5,12 @@ import DeleteItemButton from "@/app/components/ui/delete-item-button";
 import { Coins, EditIcon, MapPin } from "lucide-react";
 import "@/app/styles/singleItemPage.css";
 import ProductGrid from "@/app/components/ui/productGrid";
-import { fetchListings } from "@/app/helpers/api";
-import { formatCurrency, trimAtSpace } from "@/app/helpers/text";
+import { fetchListings } from "@/helpers/api";
+import { formatCurrency, trimAtSpace } from "@/helpers/text";
 import ShippingEstimator from "@/app/components/ui/shippingEstimator";
 import { productCategoriesList } from "@/app/components/ui/categories";
 import { ItemCondition } from "@prisma/client";
-import { pincodeToCity } from "@/app/helpers/calculations";
+import { pincodeToCity } from "@/helpers/calculations";
 interface ItemConditionOptions {
   condition: ItemCondition;
   label: string;

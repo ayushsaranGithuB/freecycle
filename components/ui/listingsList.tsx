@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { fetchUserListings } from "@/app/helpers/api";
+import { fetchUserListings } from "@/helpers/api";
 import { Listing } from "@/app/components/ui/productGrid";
 import Spinner from "@/app/components/ui/spinner";
 import Link from "next/link";
@@ -8,7 +8,7 @@ import { ItemStatus } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { Coins } from "lucide-react";
-import { trimAtSpace } from "@/app/helpers/text";
+import { trimAtSpace } from "@/helpers/text";
 
 type ListingsListProps = {
   status: ItemStatus;

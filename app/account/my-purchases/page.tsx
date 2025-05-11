@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { fetchUserPurchases } from "@/app/helpers/api";
+import { fetchUserPurchases } from "@/helpers/api";
 import { DataTable } from "@/app/components/ui/dataTable";
 import { Column } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";

@@ -5,7 +5,7 @@ import Spinner from "@/app/components/ui/spinner";
 import ListingsList from "@/app/components/ui/listingsList";
 import PurchasesList from "@/app/components/ui/purchasesList";
 import { useEffect, useState } from "react";
-import { fetchUserPoints } from "@/app/helpers/api";
+import { fetchUserPoints } from "@/helpers/api";
 import { Button } from "@/app/components/ui/button";
 import BonusPoints from "./bonusPoints";
 

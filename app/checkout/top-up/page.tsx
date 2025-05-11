@@ -5,7 +5,7 @@ import { Input } from "@/app/components/ui/input";
 import { Button } from "@/app/components/ui/button";
 import { Label } from "@/app/components/ui/label";
 import { useState, useEffect } from "react";
-import { fetchUserPoints, setUserPoints } from "@/app/helpers/api";
+import { fetchUserPoints, setUserPoints } from "@/helpers/api";
 import { useSession } from "next-auth/react";
 
 export default function TopUpPage() {

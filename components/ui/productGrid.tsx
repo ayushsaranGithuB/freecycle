@@ -1,6 +1,6 @@
 import styles from "@/app/styles/productGrid.module.css";
 import Link from "next/link";
-import { trimAtSpace } from "@/app/helpers/text";
+import { trimAtSpace } from "@/helpers/text";
 import { FC } from "react";
 import Image from "next/image";
 

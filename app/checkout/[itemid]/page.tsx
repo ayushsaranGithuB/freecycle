@@ -5,20 +5,20 @@ import {
   fetchItemDetails,
   fetchUserPoints,
   estimateShipping,
-} from "@/app/helpers/api";
+} from "@/helpers/api";
 import "@/app/styles/checkout.css";
 import { Item, User } from "@prisma/client";
 import { useSession } from "next-auth/react";
-import { trimAtSpace } from "@/app/helpers/text";
+import { trimAtSpace } from "@/helpers/text";
 import Link from "next/link";
 import { CircleArrowRight, Coins, House, Info } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
-import { handlePurchase } from "@/app/helpers/api";
+import { handlePurchase } from "@/helpers/api";
 import { Label } from "@/app/components/ui/label";
 import { Input } from "@/app/components/ui/input";
 import Spinner from "@/app/components/ui/spinner";
-import { fetchUserProfile } from "@/app/helpers/user";
-import { pincodeToCity } from "@/app/helpers/calculations";
+import { fetchUserProfile } from "@/helpers/user";
+import { pincodeToCity } from "@/helpers/calculations";
 import Image from "next/image";
 
 // Tooltips

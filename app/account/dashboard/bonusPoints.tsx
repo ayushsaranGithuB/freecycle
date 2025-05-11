@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/app/components/ui/button";
 import { useSession } from "next-auth/react";
 import { UserJourney } from "@prisma/client";
-import { fetchUserJourney } from "@/app/helpers/user";
+import { fetchUserJourney } from "@/helpers/user";
 import ConnectEmailModal from "./modals/connectEmailModal";
 
 const BonusPoints = () => {
