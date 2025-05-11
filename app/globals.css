@@ -67,7 +67,9 @@ button {
   --link: #4BA950;
   --link-foreground: #FFF;
   --primary-green: #4BA950;
-  --secondary-green: 108deg, 33.9%, 76.86%;
+  --secondary-green-hsl: 108deg, 33.9%, 76.86%;
+  --secondary-green: hsl(108deg, 33.9%, 76.86%);
+  --muted-green: #F6F6F0;
   --dark: #32302A;
   --radius: 0.625rem;
   --background: #FFF;

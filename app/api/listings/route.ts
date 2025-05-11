@@ -39,6 +39,7 @@ export async function GET(request: Request) {
     const minPrice = parseFloat(searchParams.get('minPrice') || '0');
     const maxPrice = parseFloat(searchParams.get('maxPrice') || '10000');
     const status = searchParams.get('status') || null; // Extract status from query params
+    const userId = searchParams.get('userId') || null;
 
     const items = await prisma.item.findMany({
         take: limit,
@@ -51,6 +52,7 @@ export async function GET(request: Request) {
                 lte: maxPrice,
             },
             status: status ? (status as ItemStatus) : undefined, // Cast status to ItemStatus
+            owner: userId ? { phone: userId } : undefined,
         },
     });
 

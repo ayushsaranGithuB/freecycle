@@ -245,6 +245,27 @@ section.impact {
     font-weight: 500;
 }
 
+/* No Listings */
+.no-listings {
+    background-color: var(--muted-green);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--secondary-green);
+    text-align: center;
+}
+
+.no-listings a.button {
+    background-color: white;
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border-radius: 24px;
+    border: 2px solid var(--secondary-green);
+    margin: 0.75rem auto 0.2rem;
+    display: inline-block;
+
+}
+
 
 @media screen and (min-width: 768px) {
 

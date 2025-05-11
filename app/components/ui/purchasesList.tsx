@@ -15,6 +15,15 @@ type PurchaseWithItem = Transaction & {
   };
 };
 
+const NoPurchases = () => (
+  <div className="no-listings">
+    <p>You don&apos;t have any orders. </p>
+    <Link href="/list-item" className="button">
+      Explore Marketplace
+    </Link>
+  </div>
+);
+
 const PurchasesList = ({ limit }: { limit: number }) => {
   const [purchases, setPurchases] = useState<PurchaseWithItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -53,7 +62,7 @@ const PurchasesList = ({ limit }: { limit: number }) => {
   }
 
   if (purchases.length === 0) {
-    return <p>No purchases found.</p>;
+    return <NoPurchases />;
   }
 
   return (

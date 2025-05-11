@@ -15,6 +15,15 @@ type ListingsListProps = {
   limit: number;
 };
 
+const NoListings = () => (
+  <div className="no-listings">
+    <p>You don&apos;t have any active listings </p>
+    <Link href="/list-item" className="button">
+      + Create a Listing
+    </Link>
+  </div>
+);
+
 const ListingsList = ({ status, limit }: ListingsListProps) => {
   const { data: session } = useSession();
   const [listings, setListings] = useState<Listing[]>([]);
@@ -42,50 +51,56 @@ const ListingsList = ({ status, limit }: ListingsListProps) => {
   }
 
   if (listings.length === 0) {
-    return;
+    if (status == "COMPLETED") return null;
+    return <NoListings />;
   }
 
   return (
-    <ul className="listings-list">
-      {listings.map((listing) => (
-        <li key={listing.id} className="listing-item">
-          <Link href={`/item/${listing.id}`} className="listing-image">
-            <Image
-              src={listing.images[0]}
-              width={90}
-              height={90}
-              alt={listing.title}
-            />
-          </Link>
-          <div className="listing-details">
-            <p className="category">{listing.category}</p>
-            <h4>
-              <Link href={`/item/${listing.id}`}>
-                {trimAtSpace(listing.title, 30)}
-              </Link>
-            </h4>
-            <p className="condition">{listing.condition}</p>
-          </div>
-
-          <div className="listing-meta">
-            <p className="date">
-              {new Date(listing.createdAt).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </p>
-            <p className="pointsValue">
-              <Coins width={14} height={14} />
-              {listing.pointsValue}
-            </p>
-            <Link href={`/item/${listing.id}`} className="button-small">
-              View Details
+    <>
+      {status == "COMPLETED" && (
+        <h2 className="page_title">Previous Listings</h2>
+      )}
+      <ul className="listings-list">
+        {listings.map((listing) => (
+          <li key={listing.id} className="listing-item">
+            <Link href={`/item/${listing.id}`} className="listing-image">
+              <Image
+                src={listing.images[0]}
+                width={90}
+                height={90}
+                alt={listing.title}
+              />
             </Link>
-          </div>
-        </li>
-      ))}
-    </ul>
+            <div className="listing-details">
+              <p className="category">{listing.category}</p>
+              <h4>
+                <Link href={`/item/${listing.id}`}>
+                  {trimAtSpace(listing.title, 30)}
+                </Link>
+              </h4>
+              <p className="condition">{listing.condition}</p>
+            </div>
+
+            <div className="listing-meta">
+              <p className="date">
+                {new Date(listing.createdAt).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </p>
+              <p className="pointsValue">
+                <Coins width={14} height={14} />
+                {listing.pointsValue}
+              </p>
+              <Link href={`/item/${listing.id}`} className="button-small">
+                View Details
+              </Link>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 };
 

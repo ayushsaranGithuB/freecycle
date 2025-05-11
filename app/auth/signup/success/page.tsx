@@ -1,8 +1,9 @@
 "use client";
-import { Check, House } from "lucide-react";
+import { House } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { signIn } from "next-auth/react";
 import "@/app/styles/auth.css";
 import { Button } from "@/app/components/ui/button";
 import Image from "next/image";
@@ -10,14 +11,34 @@ import Image from "next/image";
 const SignupSuccess = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const name = searchParams.get("name") || "User";
   const phone = searchParams.get("phone") || "";
 
   useEffect(() => {
     // If no phone number, redirect to signup
     if (!phone) {
       router.push("/auth/signup");
+      return;
     }
+
+    // Automatically log the user in using next-auth credentials provider
+    const autoLogin = async () => {
+      try {
+        // Use a default OTP (e.g. 9999) for auto-login after signup
+        const res = await signIn("credentials", {
+          phone,
+          otp: "9999",
+          redirect: false,
+        });
+        if (res?.error) {
+          router.push("/auth/signup");
+        }
+        // Create a cookie to mark the user as new signup
+        document.cookie = `newSignup=true; path=/; max-age=360000`; // expiration set to 10 days
+      } catch (error) {
+        router.push("/auth/signup");
+      }
+    };
+    autoLogin();
   }, [phone, router]);
 
   return (
@@ -31,10 +52,6 @@ const SignupSuccess = () => {
         <li>&raquo;</li>
         <li>
           <Link href="/auth/signup">Create an account</Link>
-        </li>
-        <li>&raquo;</li>
-        <li>
-          <Link href="/auth/signup/success">Success</Link>
         </li>
       </ul>
 
@@ -63,7 +80,7 @@ const SignupSuccess = () => {
           </Button>
 
           <Button asChild variant="link" className="text-gray-600">
-            <Link href="/">Explore Marketplace</Link>
+            <Link href="/listings">Explore Marketplace</Link>
           </Button>
         </div>
       </div>

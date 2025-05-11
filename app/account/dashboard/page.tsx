@@ -11,6 +11,24 @@ const Dashboard = () => {
   const { data: session } = useSession();
   const [points, setPoints] = useState<number | null>(null);
 
+  let isNewSignup = false;
+
+  // fetch new signup cookie
+  if (document) {
+    const newSignupCookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("newSignup="));
+    isNewSignup = newSignupCookie
+      ? newSignupCookie.split("=")[1] === "true"
+      : false;
+
+    // remove cookie after reading
+    if (isNewSignup) {
+      document.cookie =
+        "newSignup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
+  }
+
   useEffect(() => {
     if (session?.user?.id) {
       fetchUserPoints(session.user.id)
@@ -47,7 +65,9 @@ const Dashboard = () => {
       {/* Title --------------- */}
 
       <section className="title page_title">
-        <h2>Welcome back, {session.user?.name} </h2>
+        <h2>
+          Welcome{isNewSignup ? " " : " back"}, {session.user?.name}{" "}
+        </h2>
         <Link href="/account/profile">My Profile</Link>
       </section>
 
@@ -106,7 +126,7 @@ const Dashboard = () => {
         <div className="listings">
           <h2 className="page_title">Active Listings</h2>
           <ListingsList status={"AVAILABLE"} limit={4} />
-          <h2 className="page_title">Previous Listings</h2>
+
           <ListingsList status={"COMPLETED"} limit={4} />
         </div>
       </section>
