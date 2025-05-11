@@ -1,6 +1,6 @@
 // Helper functions for user-related operations
 
-import { User } from "@prisma/client";
+import { User, UserJourney } from "@prisma/client";
 
 // fetchUserProfile 
 export const fetchUserProfile = async (userId: string): Promise<User> => {
@@ -27,6 +27,20 @@ export const updateUserProfile = async (userId: string, data: Partial<User>): Pr
     });
     if (!res.ok) {
         throw new Error("Failed to update user profile");
+    }
+    return res.json();
+};
+
+// fetchUserJourney
+export const fetchUserJourney = async (userId: string): Promise<UserJourney> => {
+    const res = await fetch(`/api/user/${userId}/journey`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    if (!res.ok) {
+        throw new Error("Failed to fetch user journey");
     }
     return res.json();
 };

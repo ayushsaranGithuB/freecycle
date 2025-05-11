@@ -25,6 +25,19 @@ model User {
   soldTransactions   Transaction[]      @relation("SellerTransactions")
   pointsTransactions PointsTransaction[]
   verifications      Verification[]
+  userJourney        UserJourney?
+}
+
+model UserJourney {
+   phone              String             @id @unique
+   emailConnected     Boolean            @default(false)
+   socialConnected    Boolean            @default(false)
+   firstListing       Boolean            @default(false)  
+   firstTransaction   Boolean            @default(false)
+   firstReferral      Boolean            @default(false)
+   firstPointsEarned  Boolean            @default(false)
+   firstTopUp         Boolean            @default(false)
+   User             User              @relation(fields: [phone], references: [phone])
 }
 
 model Item {

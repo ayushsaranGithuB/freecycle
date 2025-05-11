@@ -7,6 +7,7 @@ import PurchasesList from "@/app/components/ui/purchasesList";
 import { useEffect, useState } from "react";
 import { fetchUserPoints } from "@/app/helpers/api";
 import { Button } from "@/app/components/ui/button";
+import BonusPoints from "./bonusPoints";
 
 const Dashboard = () => {
   const { data: session } = useSession();
@@ -75,18 +76,7 @@ const Dashboard = () => {
 
       {/* Bonus Points --------------- */}
 
-      <section className="bonus-points callout">
-        <div>
-          <h3>Bonus Points</h3>
-          <p>
-            You have received <strong>1000 points</strong> for signing up
-          </p>
-          <p>You can use these points to get discounts on your next purchase</p>
-        </div>
-        <div className="action">
-          <Button className="primary">Claim</Button>
-        </div>
-      </section>
+      <BonusPoints />
 
       {/* Impact --------------- */}
 
