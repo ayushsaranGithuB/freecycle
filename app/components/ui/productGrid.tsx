@@ -2,6 +2,7 @@ import styles from "@/app/styles/productGrid.module.css";
 import Link from "next/link";
 import { trimAtSpace } from "@/app/helpers/text";
 import { FC } from "react";
+import Image from "next/image";
 
 type ProductGridProps = {
   listings: Listing[];
@@ -29,10 +30,12 @@ const ProductGrid: FC<ProductGridProps> = ({ listings }) => {
       <div className={styles.grid}>
         {listings.map((item) => (
           <Link href={`/item/${item.id}`} key={item.id} className={styles.card}>
-            <img
+            <Image
               src={item.images[0]}
               alt={item.title}
               className={styles.image}
+              width={280}
+              height={210}
             />
             <p className={styles.category}>{item.category}</p>
             <h3>{trimAtSpace(item.title, 48)}</h3>

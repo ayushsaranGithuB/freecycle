@@ -21,11 +21,12 @@ const PurchasesList = ({ limit }: { limit: number }) => {
   const { data: session } = useSession();
   const userId = session?.user?.id;
 
-  if (!userId) {
-    return;
-  }
-
   useEffect(() => {
+    if (!userId) {
+      setLoading(false);
+      setPurchases([]);
+      return;
+    }
     const fetchPurchases = async () => {
       try {
         const data: PurchaseWithItem[] = await fetchUserPurchases(
@@ -41,7 +42,11 @@ const PurchasesList = ({ limit }: { limit: number }) => {
     };
 
     fetchPurchases();
-  }, [limit]);
+  }, [limit, userId]);
+
+  if (!userId) {
+    return <p>Please log in to view your purchases.</p>;
+  }
 
   if (loading) {
     return <Spinner />;

@@ -1,12 +1,41 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { auth } from '@/auth';
+import jwt from 'jsonwebtoken';
+
+// Helper to extract JWT from Authorization header and verify it
+async function getUserIdFromRequest(req: Request): Promise<string | null> {
+    // Try next-auth session first
+    const session = await auth();
+    if (session && session.user?.id) return session.user.id;
+
+    // Fallback: check for Bearer token
+    const authHeader = req.headers.get('authorization') || req.headers.get('Authorization');
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+        const token = authHeader.slice(7);
+        try {
+            const secret = process.env.AUTH_SECRET;
+            if (!secret) throw new Error('Missing AUTH_SECRET');
+            const decoded = jwt.verify(token, secret) as { id?: string };
+            return decoded.id || null;
+        } catch (err) {
+            return null;
+        }
+    }
+    return null;
+}
 
 export async function POST(req: Request) {
+    const userId = await getUserIdFromRequest(req);
+    if (!userId) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     const body = await req.json();
-    const { itemId, userId } = body;
+    const { itemId } = body;
 
-    if (!itemId || !userId) {
-        return NextResponse.json({ error: 'Invalid request data' }, { status: 400 });
+    // Only allow the authenticated user to purchase as themselves
+    if (!itemId) {
+        return NextResponse.json({ error: 'Invalid or unauthorized request' }, { status: 400 });
     }
 
     // Fetch the seller's phone based on the itemId
@@ -41,13 +70,12 @@ export async function POST(req: Request) {
 }
 
 export async function GET(req: Request) {
-    const { searchParams } = new URL(req.url);
-    const userId = searchParams.get('userId');
-    const limit = parseInt(searchParams.get('limit') || '10', 10);
-
+    const userId = await getUserIdFromRequest(req);
     if (!userId) {
-        return NextResponse.json({ error: 'Missing userId parameter' }, { status: 400 });
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+    const { searchParams } = new URL(req.url);
+    const limit = parseInt(searchParams.get('limit') || '10', 10);
 
     try {
         const purchases = await prisma.transaction.findMany({

@@ -15,13 +15,13 @@ export async function GET(req: Request) {
     return NextResponse.json(listing);
 }
 
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
-    const item = await params
-    const itemId = item.id;
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
+    const itemId = (await params).id;
 
     try {
         const formData = await request.formData();
-        const updates: any = {};
+        // Use Record<string, unknown> for updates
+        const updates: Record<string, unknown> = {};
 
         // Update text fields
         for (const [key, value] of formData.entries()) {
@@ -31,16 +31,16 @@ export async function PATCH(request: Request, { params }: { params: { id: string
         }
 
         // Ensure integer fields are properly converted
-        if (updates.ageYears) {
+        if (typeof updates.ageYears === 'string') {
             updates.ageYears = parseInt(updates.ageYears, 10);
         }
-        if (updates.originalMsrp) {
+        if (typeof updates.originalMsrp === 'string') {
             updates.originalMsrp = parseInt(updates.originalMsrp, 10);
         }
-        if (updates.estimatedMarketPrice) {
+        if (typeof updates.estimatedMarketPrice === 'string') {
             updates.estimatedMarketPrice = parseInt(updates.estimatedMarketPrice, 10) || 0;
         }
-        if (updates.pointsValue) {
+        if (typeof updates.pointsValue === 'string') {
             updates.pointsValue = parseInt(updates.pointsValue, 10);
         }
 
@@ -74,9 +74,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
 
         // Fetch existing images from the database
         const existingItem = await prisma.item.findUnique({ where: { id: parseInt(itemId, 10) } });
-        // const existingImages = existingItem?.images || [];
         const existingImages = Array.isArray(existingItem?.images) ? existingItem.images : [existingItem?.images];
-
 
         // Append new images to existing ones
         const updatedImages = [...existingImages, ...imagePaths];
@@ -95,7 +93,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     }
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
     const param = await params;
     const itemId = param.id;
 
@@ -111,8 +109,6 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
         }
     }
 
-
-
     try {
         await prisma.item.delete({ where: { id: parseInt(itemId, 10) } });
         return NextResponse.json({ message: `Item ${itemId} deleted successfully` });
@@ -120,7 +116,4 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
         console.error('Error deleting item:', error);
         return NextResponse.json({ error: 'Failed to delete item' }, { status: 500 });
     }
-
-
-
 }

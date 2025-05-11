@@ -1,6 +1,7 @@
 import styles from "@/app/styles/itemCategories.module.css";
 import Link from "next/link";
 import { ItemCategory } from "@prisma/client";
+import Image from "next/image";
 
 export interface DisplayCategory {
   icon: string;
@@ -35,7 +36,7 @@ const ItemCategories = () => {
           <li key={category.name}>
             <Link href={`/category/${category.name.toLowerCase()}`}>
               <span className={styles.icon}>
-                <img
+                <Image
                   src={`/icons/${category.icon}`}
                   alt={category.name}
                   width={36}

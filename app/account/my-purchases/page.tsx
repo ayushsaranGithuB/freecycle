@@ -11,7 +11,7 @@ import { Transaction } from "@prisma/client";
 const columns = [
   {
     accessorKey: "item.title", // Access nested item title
-    header: ({ column }: { column: Column<any, unknown> }) => {
+    header: ({ column }: { column: Column<string, unknown> }) => {
       return (
         <Button
           variant="ghost"
@@ -25,7 +25,7 @@ const columns = [
   },
   {
     accessorKey: "item.category", // Access nested item category
-    header: ({ column }: { column: Column<any, unknown> }) => {
+    header: ({ column }: { column: Column<string, unknown> }) => {
       return (
         <Button
           variant="ghost"
@@ -39,7 +39,7 @@ const columns = [
   },
   {
     accessorKey: "item.condition", // Access nested item condition
-    header: ({ column }: { column: Column<any, unknown> }) => {
+    header: ({ column }: { column: Column<string, unknown> }) => {
       return (
         <Button
           variant="ghost"
@@ -53,7 +53,7 @@ const columns = [
   },
   {
     accessorKey: "item.pointsValue", // Access nested item pointsValue
-    header: ({ column }: { column: Column<any, unknown> }) => {
+    header: ({ column }: { column: Column<string, unknown> }) => {
       return (
         <Button
           variant="ghost"

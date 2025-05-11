@@ -38,7 +38,7 @@ export default function Navigation() {
           {!menuOpen ? (
             <SquareMenu color="#fff" />
           ) : (
-            <img src="/icons/menu.svg" alt="" />
+            <Image src="/icons/menu.svg" alt="" />
           )}
         </button>
         <div className="mobileMenu" data-open={menuOpen}>
@@ -62,7 +62,7 @@ export default function Navigation() {
         {!memoizedSession && memoizedSession !== undefined && (
           <p className="flex items-center gap-2">
             <CircleUserRound color="#fff" />
-            <Link href="/auth">Login</Link>
+            <Link href="/auth">Login | Signup</Link>
           </p>
         )}
         {memoizedSession && (

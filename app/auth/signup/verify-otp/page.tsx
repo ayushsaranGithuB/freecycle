@@ -77,6 +77,7 @@ const VerifyOtp = () => {
       }
     } catch (err) {
       setError("An unexpected error occurred.");
+      console.error("Error verifying OTP:", err);
     } finally {
       setLoading(false);
     }
@@ -94,6 +95,7 @@ const VerifyOtp = () => {
         otpInputRefs[0].current?.focus();
       } catch (err) {
         setError("Failed to resend OTP.");
+        console.error("Error resending OTP:", err);
       }
     }
   };
@@ -108,11 +110,7 @@ const VerifyOtp = () => {
       if (value && index < otp.length - 1) {
         otpInputRefs[index + 1].current?.focus();
       }
-
-      // Auto-submit if all filled
-      if (index === otp.length - 1 && value && newOtp.every((digit) => digit)) {
-        handleOtpSubmit();
-      }
+      // Removed auto-submit on last digit to prevent partial OTP submission
     }
   };
 

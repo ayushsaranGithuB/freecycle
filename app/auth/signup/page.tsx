@@ -34,6 +34,7 @@ const SignUp = () => {
       }
     } catch (err) {
       setError("An unexpected error occurred.");
+      console.error("Error sending OTP:", err);
     } finally {
       setLoading(false);
     }

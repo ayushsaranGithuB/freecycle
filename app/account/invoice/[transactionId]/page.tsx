@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { fetchInvoice } from "@/app/helpers/api";
 import { Coins } from "lucide-react";
+import Image from "next/image";
 
 // Use Prisma-generated types directly
 
@@ -51,8 +52,8 @@ const InvoicePage = () => {
           <div className="item-details flex gap-3" key={item.id}>
             <div className="item-image">
               {Array.isArray(item.images) && item.images.length > 0 ? (
-                <img
-                  src={item.images[0]?.toString()}
+                <Image
+                  src={item.images[0]?.toString() || ""}
                   alt={item.title}
                   width={100}
                   height={100}

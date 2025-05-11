@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import type { NextRequest } from "next/server";
 
 const prisma = new PrismaClient();
 
-export async function GET(request: Request, { params }: { params: { transactionId: string } }) {
-    const { transactionId } = params;
+export async function GET(request: NextRequest, { params }: { params: Promise<{ transactionId: string }> }) {
+    const { transactionId } = await params;
 
     try {
         const transaction = await prisma.transaction.findUnique({

@@ -9,6 +9,7 @@ import { Label } from "@/app/components/ui/label";
 import { toast } from "sonner";
 import { productCategoriesList } from "@/app/components/ui/categories";
 import { Item } from "@prisma/client";
+import Image from "next/image";
 
 export default function EditItemPage() {
   const router = useRouter();
@@ -332,7 +333,7 @@ export default function EditItemPage() {
                 className="w-full"
               />
               <p className="text-sm text-gray-500">
-                Enter the Manufacturer's Suggested Retail Price.
+                Enter the Manufacturer&apos;s Suggested Retail Price.
               </p>
             </div>
             <div>
@@ -391,10 +392,12 @@ export default function EditItemPage() {
                   const imagesArray = formData.images;
                   return imagesArray.map((image, index) => (
                     <div key={index} className="relative">
-                      <img
+                      <Image
                         src={image as string}
                         alt={`Existing Image ${index + 1}`}
                         className="w-full h-32 object-cover rounded-lg shadow-md"
+                        width={280}
+                        height={210}
                       />
                       <p className="text-sm text-gray-500 mt-1">
                         Image {index + 1}
@@ -438,7 +441,7 @@ export default function EditItemPage() {
           </div>
         </section>
 
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full primary">
           Save Changes
         </Button>
       </form>

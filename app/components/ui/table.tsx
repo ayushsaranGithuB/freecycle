@@ -1,16 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { useState } from "react";
-import {
-  useReactTable,
-  getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  getFilteredRowModel,
-  ColumnFiltersState,
-  SortingState,
-} from "@tanstack/react-table";
 
 import { cn } from "@/lib/utils";
 

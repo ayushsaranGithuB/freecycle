@@ -8,10 +8,11 @@ import { Textarea } from "@/app/components/ui/textarea";
 import { Label } from "@/app/components/ui/label";
 import Link from "next/link";
 import { productCategoriesList } from "../components/ui/categories";
-import { ImageUpload } from "../components/ui/imageDropzone";
 import { ItemCondition } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { Coins, MapPinCheckInside } from "lucide-react";
+import Image from "next/image";
+import { useDropzone } from "react-dropzone";
 
 interface ItemConditionOptions {
   condition: ItemCondition;
@@ -70,7 +71,17 @@ export default function ListItemPage() {
 
   console.log("Session:", session);
 
-  //  Points
+  // Dropzone setup
+  const onDrop = (acceptedFiles: File[]) => {
+    setFiles((prev) => [...prev, ...acceptedFiles]);
+  };
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: { "image/*": [] },
+    multiple: true,
+  });
+
+  // Points
   const [pointsBreakdown, setPointsBreakdown] = useState<string | null>(null);
 
   useEffect(() => {
@@ -202,14 +213,14 @@ export default function ListItemPage() {
     return { points, breakdown };
   }
 
-  //  Suggest Title Automatically -------------------------------
+  // Suggest Title Automatically -------------------------------
 
   useEffect(() => {
     // If title is empty, build a title from brand, model, and year
     if (title === "" && brand !== "" && model !== "" && year.length == 4) {
       setTitle(`${brand} ${model} (${year}) - ${condition} condition`);
     }
-  }, [brand, model, year]);
+  }, [brand, model, year, title, condition]);
 
   useEffect(() => {
     // If locationPincode is set, look up the city
@@ -233,7 +244,7 @@ export default function ListItemPage() {
     }
   }, [locationPincode]);
 
-  //  Session Check -------------------------------
+  // Session Check -------------------------------
 
   if (session === null) return <h2>Please Login </h2>; // TODO />;
 
@@ -272,7 +283,7 @@ export default function ListItemPage() {
                     onChange={() => setCategory(cat.category)}
                   />
                   <span className="icon">
-                    <img
+                    <Image
                       src={`/icons/${cat.icon}`}
                       alt={cat.name}
                       width={36}
@@ -319,11 +330,78 @@ export default function ListItemPage() {
         {/* Images ---------------------------- */}
         <section>
           <h2 className="title">Images</h2>
-          <ImageUpload files={files} setFiles={setFiles} />
-          <p className="hint">
-            Upload images to showcase your item. You can select multiple images.
-          </p>
-          <p>{files.map((file) => file.name).join(", ")}</p>
+          <div
+            {...getRootProps()}
+            className={`dropzone${isDragActive ? " active" : ""}`}
+            style={{
+              border: "2px dashed #ccc",
+              padding: "24px",
+              borderRadius: "8px",
+              textAlign: "center",
+              cursor: "pointer",
+              marginBottom: "12px",
+            }}
+          >
+            <input {...getInputProps()} />
+            {isDragActive ? (
+              <p>Drop the files here ...</p>
+            ) : (
+              <p>
+                Drag & drop images here, or click to select files
+                <br />
+                <span className="hint">
+                  Upload images to showcase your item. You can select multiple
+                  images.
+                </span>
+              </p>
+            )}
+          </div>
+          <ul>
+            {files.map((file, idx) => (
+              <li
+                key={file.name + idx}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  marginBottom: "8px",
+                }}
+              >
+                <Image
+                  src={URL.createObjectURL(file)}
+                  alt={file.name}
+                  width={48}
+                  height={48}
+                  style={{
+                    objectFit: "cover",
+                    borderRadius: "6px",
+                    border: "1px solid #eee",
+                  }}
+                  onLoad={(e) =>
+                    URL.revokeObjectURL((e.target as HTMLImageElement).src)
+                  }
+                />
+                <span>{file.name}</span>
+                <button
+                  type="button"
+                  aria-label="Remove file"
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "#d00",
+                    fontWeight: "bold",
+                    fontSize: "1.2em",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    setFiles((prev) => prev.filter((_, i) => i !== idx));
+                  }}
+                >
+                  ×
+                </button>
+              </li>
+            ))}
+          </ul>
         </section>
 
         {/* Additional Details ---------------------------- */}

@@ -3,8 +3,8 @@ import prisma from "@/lib/prisma";
 import fs from "fs";
 import path from "path";
 
-export async function POST(request: Request, { params }: { params: { id: string } }) {
-    const { id } = params;
+export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
     const { image } = await request.json();
 
     if (!image) {

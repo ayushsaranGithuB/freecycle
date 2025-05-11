@@ -25,7 +25,7 @@ export default function MissionPage() {
             <strong> lead, mercury, cadmium, and lithium</strong> into the
             environment. A single smartphone can contain up to{" "}
             <strong>900 mg of mercury</strong> and
-            <strong> 15–20 grams of plastic</strong>. Once these devices reach
+            <strong> 15-20 grams of plastic</strong>. Once these devices reach
             landfills, those materials leak into soil and water systems, harming
             ecosystems and public health.
           </p>
@@ -41,9 +41,9 @@ export default function MissionPage() {
             Powering the Circular Economy
           </h2>
           <p className="mb-4">
-            Most electronics still work—or can be repaired—when discarded. We're
+            Most electronics still work—or can be repaired—when discarded. We&apos;re
             here to change how people think about tech ownership. Instead of
-            linear "buy, use, discard" patterns, we support a circular model:
+            linear &apos;buy, use, discard&apos; patterns, we support a circular model:
             one where devices are reused, repurposed, and reloved.
           </p>
           <p>
@@ -60,7 +60,7 @@ export default function MissionPage() {
             A Non-Profit for the Planet
           </h2>
           <p className="mb-4">
-            We're not in this for profit. Our platform is built to serve a
+            We&apos;re not in this for profit. Our platform is built to serve a
             mission—not a margin. That means no commissions, no upsells, and no
             tracking for ad revenue.
           </p>
@@ -77,8 +77,8 @@ export default function MissionPage() {
         <section>
           <h2 className="text-2xl font-semibold mb-4">Join Us</h2>
           <p>
-            Whether you're clearing out an old gadget drawer or looking for your
-            next affordable device, you're part of the solution. Together, we
+            Whether you&apos;re clearing out an old gadget drawer or looking for your
+            next affordable device, you&apos;re part of the solution. Together, we
             can redefine tech ownership and protect the planet—one trade at a
             time.
           </p>

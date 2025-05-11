@@ -67,6 +67,7 @@ const ProfileSetup = () => {
       }
     } catch (err) {
       setError("An unexpected error occurred.");
+      console.error("Error updating profile:", err);
     } finally {
       setLoading(false);
     }
@@ -136,7 +137,7 @@ const ProfileSetup = () => {
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
           <p className="text-sm text-gray-500 mt-1">
-            We'll send important updates to this email
+            We&apos;ll send important updates to this email
           </p>
         </div>{" "}
         <div className="field">

@@ -9,7 +9,7 @@ export function trimAtSpace(description: string, maxLength: number): string {
         : trimmed + "...";
 }
 
-export function formatCurrency(amount: number, symbol: string = '₹'): string {
+export function formatCurrency(amount: number): string {
     return new Intl.NumberFormat("en-IN", {
         style: "currency",
         currency: "INR",
