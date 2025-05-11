@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import "@/app/styles/auth.css";
 import { Button } from "@/app/components/ui/button";
+import Image from "next/image";
 
 const SignupSuccess = () => {
   const router = useRouter();
@@ -37,24 +38,22 @@ const SignupSuccess = () => {
         </li>
       </ul>
 
-      <div className="w-full max-w-sm card text-center">
-        <div className="bg-green-100 p-3 mb-6 rounded-full mx-auto w-16 h-16 flex items-center justify-center">
-          <Check className="w-10 h-10 text-green-600" />
-        </div>
+      <div className="w-full max-w-sm card text-center success-screen">
+        <Image
+          src={"/happyPlanet.svg"}
+          width={310}
+          height={310}
+          alt="Hooray!"
+        />
 
-        <h1 className="titleUnderlined">Account Created!</h1>
+        <h1 className="text-2xl">Hooray!</h1>
 
-        <p className="mb-6 text-gray-700">
-          Welcome, <span className="font-semibold">{name}</span>! Your account
-          has been created successfully.
+        <p className="text">
+          You&apos;re ready to start trading tech and saving the planet from
+          harmful landfill waste
         </p>
 
-        <p className="mb-8 text-gray-600">
-          You can now sell your electronic items, earn points, and buy
-          refurbished devices at affordable prices.
-        </p>
-
-        <div className="flex flex-col gap-3">
+        <div className="actions">
           <Button asChild className="primary">
             <Link href="/account/dashboard">Go to Dashboard</Link>
           </Button>

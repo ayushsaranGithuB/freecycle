@@ -85,20 +85,6 @@ const ProfileSetup = () => {
         <li>
           <Link href="/auth/signup">Create an account</Link>
         </li>
-        <li>&raquo;</li>
-        <li>
-          <Link href={`/auth/signup/verify-otp?phone=${phone}`}>
-            Verify OTP
-          </Link>
-        </li>
-        <li>&raquo;</li>
-        <li>
-          <Link
-            href={`/auth/signup/profile-setup?phone=${phone}&userId=${userId}`}
-          >
-            Complete Profile
-          </Link>
-        </li>
       </ul>
 
       <form onSubmit={handleSubmit} className="w-full max-w-sm card">
@@ -114,7 +100,7 @@ const ProfileSetup = () => {
           <input
             type="text"
             id="name"
-            placeholder="Enter your full name"
+            placeholder="Displayed in Shipping Label"
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
@@ -131,21 +117,18 @@ const ProfileSetup = () => {
           <input
             type="email"
             id="email"
-            placeholder="Enter your email address"
+            placeholder="To send you order confirmations"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
-          <p className="text-sm text-gray-500 mt-1">
-            We&apos;ll send important updates to this email
-          </p>
         </div>{" "}
         <div className="field">
           <label
             htmlFor="pincode"
             className="block text-sm font-medium text-gray-700"
           >
-            Location Pincode <span className="text-gray-500">(optional)</span>
+            Location Pincode
           </label>
           <input
             type="text"
@@ -159,9 +142,11 @@ const ProfileSetup = () => {
             }}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             maxLength={6}
+            required
           />
           <p className="text-sm text-gray-500 mt-1">
-            This helps us show you nearby items
+            This helps us show you nearby items and is used to calculate
+            shipping charges
           </p>
         </div>
         <div className="action">
