@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import "@/app/styles/auth.css";
 import { Button } from "@/app/components/ui/button";
+import { updateUserJourney } from "@/app/helpers/user";
 
 const ProfileSetup = () => {
   const router = useRouter();
@@ -57,6 +58,15 @@ const ProfileSetup = () => {
       });
 
       if (response.ok) {
+        if (email !== undefined) {
+          try {
+            // If email is provided, update the userJourney table
+            await updateUserJourney(userId, { emailConnected: true });
+          } catch (error) {
+            console.error("Error updating user journey:", error);
+          }
+        }
+
         // Redirect to success page
         router.push(
           `/auth/signup/success?phone=${phone}&name=${encodeURIComponent(name)}`

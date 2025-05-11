@@ -118,7 +118,8 @@ button {
 }
 
 
-.bg-popover {
+.bg-popover,
+.bg-background {
   background-color: var(--background);
 }
 

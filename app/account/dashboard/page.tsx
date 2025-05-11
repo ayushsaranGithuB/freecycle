@@ -74,10 +74,6 @@ const Dashboard = () => {
         <Link href="/account/profile">My Profile</Link>
       </section>
 
-      {/* Bonus Points --------------- */}
-
-      <BonusPoints />
-
       {/* Impact --------------- */}
 
       <section className="impact">
@@ -124,6 +120,12 @@ const Dashboard = () => {
           </p>
         </div>
       </section>
+
+      {/* Bonus Points --------------- */}
+
+      <BonusPoints />
+
+      {/* Recent Activity --------------- */}
 
       <section className="dashboard-recent-activity row">
         <div className="purchases">
