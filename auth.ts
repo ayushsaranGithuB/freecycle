@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import prisma from "@/lib/prisma";
 
 // Example: validateOtp function, replace with your real logic
 async function validateOtp(phone: string, otp: string): Promise<boolean> {
@@ -30,12 +31,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     const isValidOtp = await validateOtp(phone, otp);
 
                     if (isValidOtp) {
+                        // Fetch user profile from DB
+                        const dbUser = await prisma.user.findUnique({
+                            where: { phone },
+                            select: { name: true, email: true, phone: true },
+                        });
                         const user = {
-                            id: phone,                      // id MUST be a string
-                            name: "User " + phone,           // name is optional
-                            email: `${phone}@example.com`,   // email is optional
+                            id: phone, // id MUST be a string
+                            name: dbUser?.name || phone,
+                            email: dbUser?.email || undefined,
                             image: null,
-                            phone: phone                    // optional
+                            phone: phone // optional
                         };
                         console.log("User authenticated:", user);
                         return user;

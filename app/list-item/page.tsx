@@ -13,6 +13,7 @@ import { useSession } from "next-auth/react";
 import { Coins, MapPinCheckInside } from "lucide-react";
 import Image from "next/image";
 import { useDropzone } from "react-dropzone";
+import { calculateEwastePrevention, Totals } from "../helpers/calculations";
 
 interface ItemConditionOptions {
   condition: ItemCondition;
@@ -156,12 +157,12 @@ export default function ListItemPage() {
         router.push(`/item/${result.id}?success=true`); // Redirect to the listing page with success message
       } else {
         console.error("Failed to create item:", await response.json());
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error submitting form:", error);
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   function calculatePoints({
@@ -247,6 +248,35 @@ export default function ListItemPage() {
   // Session Check -------------------------------
 
   if (session === null) return <h2>Please Login </h2>; // TODO />;
+
+  // E-Waste Calculator -------------------------------
+  const ewasteCalculation: Totals = calculateEwastePrevention([
+    { category: category.toLowerCase(), count: 1 },
+  ]);
+
+  // Map for correct units
+  const ewasteUnits: Record<keyof Totals, string> = {
+    totalWeightKg: "kg",
+    totalLeadGrams: "g",
+    totalMercuryMilligrams: "mg",
+    totalCadmiumMilligrams: "mg",
+    totalLithiumGrams: "g",
+    totalPlasticGrams: "g",
+    totalGlassGrams: "g",
+    totalRareEarthGrams: "g",
+  };
+
+  // Map for human-friendly labels
+  const ewasteLabels: Record<keyof Totals, string> = {
+    totalWeightKg: "Total Weight",
+    totalLeadGrams: "Lead",
+    totalMercuryMilligrams: "Mercury",
+    totalCadmiumMilligrams: "Cadmium",
+    totalLithiumGrams: "Lithium",
+    totalPlasticGrams: "Plastic",
+    totalGlassGrams: "Glass",
+    totalRareEarthGrams: "Rare Earth Elements",
+  };
 
   return (
     <div className="create-listing-page">
@@ -568,6 +598,35 @@ export default function ListItemPage() {
               )}
             </div>
           </div>
+        </section>
+
+        {/* Impact ------------------------------------------- */}
+
+        <section className="impact">
+          <h3>You are saving the planet by trading your tech!</h3>
+          <p>
+            Each{" "}
+            {productCategoriesList.find((cat) => cat.category === category)
+              ?.name ?? category}{" "}
+            saved from a landfill is equivalent to:
+          </p>
+          <ul className="stats">
+            {Object.keys(ewasteCalculation).map((key) => (
+              <li key={key}>
+                <p className="stat-number">
+                  {Number(
+                    ewasteCalculation[key as keyof Totals]
+                  ).toLocaleString()}{" "}
+                  <span className="unit">
+                    {ewasteUnits[key as keyof Totals]}
+                  </span>{" "}
+                </p>
+                <span className="stat-category">
+                  {ewasteLabels[key as keyof Totals]}
+                </span>
+              </li>
+            ))}
+          </ul>
         </section>
 
         {/* Form Actions --------------------------- */}

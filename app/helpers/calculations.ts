@@ -80,9 +80,22 @@ const EWASTE_DATA: Record<string, EWasteStats> = {
             rareEarthGrams: 0,
         },
     },
+    gaming: {
+        category: "GAMING",
+        avgWeightKg: 1.5,
+        materials: {
+            leadGrams: 0.5,
+            mercuryMilligrams: 2,
+            cadmiumMilligrams: 5,
+            lithiumGrams: 3,
+            plasticGrams: 300,
+            glassGrams: 200,
+            rareEarthGrams: 1.5,
+        },
+    }
 };
 
-type Totals = {
+export type Totals = {
     totalWeightKg: number;
     totalLeadGrams: number;
     totalMercuryMilligrams: number;
