@@ -376,7 +376,7 @@ const FileUploadRoot = React.forwardRef<HTMLDivElement, FileUploadRootProps>(
       (originalFiles: File[]) => {
         if (propsRef.current.disabled) return;
 
-        let filesToProcess = [...originalFiles];
+        const filesToProcess = [...originalFiles];
         let invalid = false;
 
         const acceptedFiles: File[] = [];
