@@ -5,6 +5,30 @@ import prisma from '@/lib/prisma';
 import { ItemCategory } from '@prisma/client';
 import { ItemCondition } from '@prisma/client';
 import { ItemStatus } from '@prisma/client'; // Import ItemStatus type
+import { auth } from '@/auth';
+import jwt from 'jsonwebtoken';
+
+// Helper to extract user ID from session or Bearer token
+async function getUserIdFromRequest(req: Request): Promise<string | null> {
+    // Try next-auth session first
+    const session = await auth();
+    if (session && session.user?.id) return session.user.id;
+
+    // Fallback: check for Bearer token
+    const authHeader = req.headers.get('authorization') || req.headers.get('Authorization');
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+        const token = authHeader.slice(7);
+        try {
+            const secret = process.env.AUTH_SECRET;
+            if (!secret) throw new Error('Missing AUTH_SECRET');
+            const decoded = jwt.verify(token, secret) as { id?: string };
+            return decoded.id || null;
+        } catch (err) {
+            return null;
+        }
+    }
+    return null;
+}
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
@@ -34,6 +58,10 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+    const userId = await getUserIdFromRequest(request);
+    if (!userId) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     try {
         const data = await request.json();
 
@@ -50,9 +78,9 @@ export async function POST(request: Request) {
                 pointsValue: data.pointsValue,
                 locationPincode: data.locationPincode,
                 owner: {
-                    connect: { phone: data.owner }
+                    connect: { phone: userId }
                 },
-                images: data.images, // Corrected to use data.images
+                images: data.images,
             },
         });
 
