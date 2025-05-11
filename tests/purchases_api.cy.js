@@ -5,7 +5,7 @@
 const API_URL = "/api/purchases";
 const TEST_ITEM_ID = 1; // Replace with a valid itemId in your test DB
 const TEST_JWT =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk5OTk5OTk5OTkiLCJpYXQiOjE3NDY5NDAxODcsImV4cCI6MTc0Njk0Mzc4N30.IPjtSUvvUTkMBWnJOjxZz-AuKdKEGMgeks13bgDSpng";
+  Cypress.env("CYPRESS_TEST_JWT") || process.env.CYPRESS_TEST_JWT;
 
 describe("Purchases API", () => {
   it("should reject unauthorized POST", () => {

@@ -7,21 +7,29 @@ import jwt from 'jsonwebtoken';
 async function getUserIdFromRequest(req: Request): Promise<string | null> {
     // Try next-auth session first
     const session = await auth();
-    if (session && session.user?.id) return session.user.id;
+    console.log('Session:', session);
+    if (session && session.user?.id) {
+        console.log('User ID from session:', session.user.id);
+        return session.user.id;
+    }
 
     // Fallback: check for Bearer token
     const authHeader = req.headers.get('authorization') || req.headers.get('Authorization');
+    console.log('Authorization header:', authHeader);
     if (authHeader && authHeader.startsWith('Bearer ')) {
         const token = authHeader.slice(7);
         try {
             const secret = process.env.AUTH_SECRET;
             if (!secret) throw new Error('Missing AUTH_SECRET');
             const decoded = jwt.verify(token, secret) as { id?: string };
+            console.log('Decoded JWT:', decoded);
             return decoded.id || null;
         } catch (err) {
+            console.error('JWT verification error:', err);
             return null;
         }
     }
+    console.log('No valid session or Bearer token found');
     return null;
 }
 

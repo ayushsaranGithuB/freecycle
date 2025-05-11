@@ -1,11 +1,42 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { auth } from '@/auth';
+import jwt from 'jsonwebtoken';
+
+// Helper to extract user ID from session or Bearer token
+async function getUserIdFromRequest(req: Request): Promise<string | null> {
+    // Try next-auth session first
+    const session = await auth();
+    if (session && session.user?.id) return session.user.id;
+
+    // Fallback: check for Bearer token
+    const authHeader = req.headers.get('authorization') || req.headers.get('Authorization');
+    console.log('Authorization header:', authHeader);
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+        const token = authHeader.slice(7);
+        try {
+            const secret = process.env.AUTH_SECRET;
+            if (!secret) throw new Error('Missing AUTH_SECRET');
+            const decoded = jwt.verify(token, secret) as { id?: string };
+            console.log('Decoded JWT:', decoded);
+            return decoded.id || null;
+        } catch (err) {
+            console.error('JWT verification error:', err);
+            return null;
+        }
+    }
+    return null;
+}
 
 export async function POST(req: Request) {
+    const userId = await getUserIdFromRequest(req);
+    if (!userId) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     const body = await req.json();
-    const { userId, action, points } = body;
+    const { action, points } = body;
 
-    if (!userId || !action || !points || !['EARN', 'SPEND', 'BONUS', 'PURCHASE'].includes(action)) {
+    if (!action || !points || !['EARN', 'SPEND', 'BONUS', 'PURCHASE'].includes(action)) {
         return NextResponse.json({ error: 'Invalid request data' }, { status: 400 });
     }
 
@@ -31,11 +62,9 @@ export async function POST(req: Request) {
 }
 
 export async function GET(req: Request) {
-    const { searchParams } = new URL(req.url);
-    const userId = searchParams.get('userId');
-
+    const userId = await getUserIdFromRequest(req);
     if (!userId) {
-        return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const user = await prisma.user.findUnique({

@@ -3,8 +3,9 @@
 // Uses JWT from purchases_api.cy.js for authentication
 
 const API_URL = "/api/listings";
+// Load JWT from Cypress.env or process.env
 const TEST_JWT =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk5OTk5OTk5OTkiLCJpYXQiOjE3NDY5NDAxODcsImV4cCI6MTc0Njk0Mzc4N30.IPjtSUvvUTkMBWnJOjxZz-AuKdKEGMgeks13bgDSpng";
+  Cypress.env("CYPRESS_TEST_JWT") || process.env.CYPRESS_TEST_JWT;
 
 describe("Listings API", () => {
   it("should reject unauthorized POST", () => {
@@ -41,8 +42,8 @@ describe("Listings API", () => {
         title: "Test Item Auth",
         description: "Test Description Auth",
         brand: "Test Brand",
-        category: "ELECTRONICS",
-        condition: "NEW",
+        category: "PHONE", // Use a valid ItemCategory value
+        condition: "EXCELLENT", // Use a valid ItemCondition value
         ageYears: 1,
         originalMsrp: 200,
         estimatedMarketPrice: 150,
@@ -53,10 +54,17 @@ describe("Listings API", () => {
       },
       failOnStatusCode: false,
     }).then((resp) => {
-      expect([201, 400, 500]).to.include(resp.status);
+      // Accept 201 (created) or 400 (validation error), but fail on 401 (unauthorized)
+      expect([201, 400]).to.include(resp.status);
       if (resp.status === 201) {
         expect(resp.body.success).to.be.true;
         expect(resp.body.id).to.exist;
+      }
+      if (resp.status === 400) {
+        expect(resp.body.error).to.exist;
+      }
+      if (resp.status === 401) {
+        throw new Error("Should not receive 401 Unauthorized for valid JWT");
       }
     });
   });

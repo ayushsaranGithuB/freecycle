@@ -3,7 +3,7 @@ import { Open_Sans, Nunito } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/ui/navigation";
 import { SessionProvider } from "next-auth/react";
-import Footer from "./components/ui/footer";
+import Footer from "@/components/ui/footer";
 
 const openSans = Open_Sans({
   variable: "--font-open-sans",
