@@ -12,6 +12,7 @@ import {
   FileVideoIcon,
 } from "lucide-react";
 import * as React from "react";
+import Image from "next/image";
 
 const ROOT_NAME = "FileUpload";
 const DROPZONE_NAME = "FileUploadDropzone";
@@ -298,21 +299,7 @@ interface FileUploadRootProps
   value?: File[];
   defaultValue?: File[];
   onValueChange?: (files: File[]) => void;
-  onAccept?: (files: File[]) => void;
-  onFileAccept?: (file: File) => void;
-  onFileReject?: (file: File, message: string) => void;
-  onFileValidate?: (file: File) => string | null | undefined;
-  onUpload?: (
-    files: File[],
-    options: {
-      onProgress: (file: File, progress: number) => void;
-      onSuccess: (file: File) => void;
-      onError: (file: File, error: Error) => void;
-    }
-  ) => Promise<void> | void;
   accept?: string;
-  maxFiles?: number;
-  maxSize?: number;
   dir?: Direction;
   label?: string;
   name?: string;
@@ -329,14 +316,7 @@ const FileUploadRoot = React.forwardRef<HTMLDivElement, FileUploadRootProps>(
       value,
       defaultValue,
       onValueChange,
-      onAccept,
-      onFileAccept,
-      onFileReject,
-      onFileValidate,
-      onUpload,
       accept,
-      maxFiles,
-      maxSize,
       dir: dirProp,
       label,
       name,
@@ -399,51 +379,11 @@ const FileUploadRoot = React.forwardRef<HTMLDivElement, FileUploadRootProps>(
         let filesToProcess = [...originalFiles];
         let invalid = false;
 
-        if (propsRef.current.maxFiles) {
-          const currentCount = store.getState().files.size;
-          const remainingSlotCount = Math.max(
-            0,
-            propsRef.current.maxFiles - currentCount
-          );
-
-          if (remainingSlotCount < filesToProcess.length) {
-            const rejectedFiles = filesToProcess.slice(remainingSlotCount);
-            invalid = true;
-
-            filesToProcess = filesToProcess.slice(0, remainingSlotCount);
-
-            for (const file of rejectedFiles) {
-              let rejectionMessage = `Maximum ${propsRef.current.maxFiles} files allowed`;
-
-              if (propsRef.current.onFileValidate) {
-                const validationMessage = propsRef.current.onFileValidate(file);
-                if (validationMessage) {
-                  rejectionMessage = validationMessage;
-                }
-              }
-
-              propsRef.current.onFileReject?.(file, rejectionMessage);
-            }
-          }
-        }
-
         const acceptedFiles: File[] = [];
         const rejectedFiles: { file: File; message: string }[] = [];
 
         for (const file of filesToProcess) {
           let rejected = false;
-          let rejectionMessage = "";
-
-          if (propsRef.current.onFileValidate) {
-            const validationMessage = propsRef.current.onFileValidate(file);
-            if (validationMessage) {
-              rejectionMessage = validationMessage;
-              propsRef.current.onFileReject?.(file, rejectionMessage);
-              rejected = true;
-              invalid = true;
-              continue;
-            }
-          }
 
           if (propsRef.current.accept) {
             const acceptTypes = propsRef.current.accept
@@ -461,27 +401,15 @@ const FileUploadRoot = React.forwardRef<HTMLDivElement, FileUploadRootProps>(
                     fileType.startsWith(type.replace("/*", "/")))
               )
             ) {
-              rejectionMessage = "File type not accepted";
-              propsRef.current.onFileReject?.(file, rejectionMessage);
               rejected = true;
               invalid = true;
             }
           }
 
-          if (
-            propsRef.current.maxSize &&
-            file.size > propsRef.current.maxSize
-          ) {
-            rejectionMessage = "File too large";
-            propsRef.current.onFileReject?.(file, rejectionMessage);
-            rejected = true;
-            invalid = true;
-          }
-
           if (!rejected) {
             acceptedFiles.push(file);
           } else {
-            rejectedFiles.push({ file, message: rejectionMessage });
+            rejectedFiles.push({ file, message: "" });
           }
         }
 
@@ -501,70 +429,9 @@ const FileUploadRoot = React.forwardRef<HTMLDivElement, FileUploadRootProps>(
             ).map((f) => f.file);
             propsRef.current.onValueChange([...currentFiles]);
           }
-
-          if (propsRef.current.onAccept) {
-            propsRef.current.onAccept(acceptedFiles);
-          }
-
-          for (const file of acceptedFiles) {
-            propsRef.current.onFileAccept?.(file);
-          }
-
-          if (propsRef.current.onUpload) {
-            requestAnimationFrame(() => {
-              onFilesUpload(acceptedFiles);
-            });
-          }
         }
       },
       [store, isControlled, propsRef]
-    );
-
-    const onFilesUpload = React.useCallback(
-      async (files: File[]) => {
-        try {
-          for (const file of files) {
-            store.dispatch({ variant: "SET_PROGRESS", file, progress: 0 });
-          }
-
-          if (propsRef.current.onUpload) {
-            await propsRef.current.onUpload(files, {
-              onProgress: (file, progress) => {
-                store.dispatch({
-                  variant: "SET_PROGRESS",
-                  file,
-                  progress: Math.min(Math.max(0, progress), 100),
-                });
-              },
-              onSuccess: (file) => {
-                store.dispatch({ variant: "SET_SUCCESS", file });
-              },
-              onError: (file, error) => {
-                store.dispatch({
-                  variant: "SET_ERROR",
-                  file,
-                  error: error.message ?? "Upload failed",
-                });
-              },
-            });
-          } else {
-            for (const file of files) {
-              store.dispatch({ variant: "SET_SUCCESS", file });
-            }
-          }
-        } catch (error) {
-          const errorMessage =
-            error instanceof Error ? error.message : "Upload failed";
-          for (const file of files) {
-            store.dispatch({
-              variant: "SET_ERROR",
-              file,
-              error: errorMessage,
-            });
-          }
-        }
-      },
-      [store, propsRef.current.onUpload]
     );
 
     const onInputChange = React.useCallback(
@@ -663,7 +530,7 @@ const FileUploadDropzone = React.forwardRef<
       event.preventDefault();
       store.dispatch({ variant: "SET_DRAG_OVER", dragOver: true });
     },
-    [store, propsRef.current.onDragOver]
+    [store, propsRef]
   );
 
   const onDragEnter = React.useCallback(
@@ -675,7 +542,7 @@ const FileUploadDropzone = React.forwardRef<
       event.preventDefault();
       store.dispatch({ variant: "SET_DRAG_OVER", dragOver: true });
     },
-    [store, propsRef.current.onDragEnter]
+    [store, propsRef]
   );
 
   const onDragLeave = React.useCallback(
@@ -696,7 +563,7 @@ const FileUploadDropzone = React.forwardRef<
       event.preventDefault();
       store.dispatch({ variant: "SET_DRAG_OVER", dragOver: false });
     },
-    [store, propsRef.current.onDragLeave]
+    [store, propsRef]
   );
 
   const onDrop = React.useCallback(
@@ -720,7 +587,7 @@ const FileUploadDropzone = React.forwardRef<
       inputElement.files = dataTransfer.files;
       inputElement.dispatchEvent(new Event("change", { bubbles: true }));
     },
-    [store, context.inputRef, propsRef.current.onDrop]
+    [store, context.inputRef, propsRef]
   );
 
   const onPaste = React.useCallback(
@@ -774,7 +641,7 @@ const FileUploadDropzone = React.forwardRef<
         context.inputRef.current?.click();
       }
     },
-    [context.inputRef, propsRef.current.onKeyDown]
+    [context.inputRef, propsRef]
   );
 
   const DropzonePrimitive = asChild ? Slot : "div";
@@ -784,8 +651,6 @@ const FileUploadDropzone = React.forwardRef<
       role="region"
       id={context.dropzoneId}
       aria-controls={`${context.inputId} ${context.listId}`}
-      aria-disabled={context.disabled}
-      aria-invalid={invalid}
       data-disabled={context.disabled ? "" : undefined}
       data-dragging={dragOver ? "" : undefined}
       data-invalid={invalid ? "" : undefined}
@@ -831,7 +696,7 @@ const FileUploadTrigger = React.forwardRef<
 
       context.inputRef.current?.click();
     },
-    [context.inputRef, propsRef.current]
+    [context.inputRef, propsRef]
   );
 
   const TriggerPrimitive = asChild ? Slot : "button";
@@ -868,11 +733,9 @@ const FileUploadList = React.forwardRef<HTMLDivElement, FileUploadListProps>(
     } = props;
 
     const context = useFileUploadContext(LIST_NAME);
+    const shouldRender = useStore((state) => state.files.size > 0);
 
-    const shouldRender =
-      forceMount || useStore((state) => state.files.size > 0);
-
-    if (!shouldRender) return null;
+    if (!shouldRender && !forceMount) return null;
 
     const ListPrimitive = asChild ? Slot : "div";
 
@@ -880,7 +743,6 @@ const FileUploadList = React.forwardRef<HTMLDivElement, FileUploadListProps>(
       <ListPrimitive
         role="list"
         id={context.listId}
-        aria-orientation={orientation}
         data-orientation={orientation}
         data-slot="file-upload-list"
         data-state={shouldRender ? "active" : "inactive"}
@@ -1078,10 +940,12 @@ const FileUploadItemPreview = React.forwardRef<
 
       if (itemContext.fileState?.file.type.startsWith("image/")) {
         return (
-          <img
+          <Image
             src={URL.createObjectURL(file)}
             alt={file.name}
             className="size-full object-cover"
+            width={100}
+            height={100}
             onLoad={(event) => {
               if (!(event.target instanceof HTMLImageElement)) return;
               URL.revokeObjectURL(event.target.src);
@@ -1351,7 +1215,7 @@ const FileUploadItemDelete = React.forwardRef<
         file: itemContext.fileState.file,
       });
     },
-    [store, itemContext.fileState, propsRef.current?.onClick]
+    [store, itemContext.fileState, propsRef]
   );
 
   if (!itemContext.fileState) return null;
@@ -1401,9 +1265,9 @@ const FileUploadClear = React.forwardRef<
     [store, propsRef]
   );
 
-  const shouldRender = forceMount || useStore((state) => state.files.size > 0);
+  const shouldRender = useStore((state) => state.files.size > 0);
 
-  if (!shouldRender) return null;
+  if (!shouldRender && !forceMount) return null;
 
   const ClearPrimitive = asChild ? Slot : "button";
 
