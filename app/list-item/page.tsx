@@ -358,7 +358,31 @@ export default function ListItemPage() {
           </div>
           <ul>
             {files.map((file) => (
-              <li key={file.name}>{file.name}</li>
+              <li
+                key={file.name}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  marginBottom: "8px",
+                }}
+              >
+                <Image
+                  src={URL.createObjectURL(file)}
+                  alt={file.name}
+                  width={48}
+                  height={48}
+                  style={{
+                    objectFit: "cover",
+                    borderRadius: "6px",
+                    border: "1px solid #eee",
+                  }}
+                  onLoad={(e) =>
+                    URL.revokeObjectURL((e.target as HTMLImageElement).src)
+                  }
+                />
+                <span>{file.name}</span>
+              </li>
             ))}
           </ul>
         </section>
