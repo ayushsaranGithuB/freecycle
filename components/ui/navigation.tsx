@@ -53,7 +53,6 @@ export default function Navigation() {
       <>
         <Link href="/account/dashboard">Dashboard</Link>
         <Link href="/account/profile">Profile</Link>
-        <Link href="/account/settings">Settings</Link>
         <Link href="/help">Help</Link>
       </>
     );

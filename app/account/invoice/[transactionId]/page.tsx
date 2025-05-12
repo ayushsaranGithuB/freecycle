@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { fetchInvoice } from "@/helpers/api";
 import { Coins } from "lucide-react";
 import Image from "next/image";
+import Spinner from "@/components/ui/spinner";
 
 // Use Prisma-generated types directly
 
@@ -34,7 +35,7 @@ const InvoicePage = () => {
   }
 
   if (!invoiceData) {
-    return <p>Loading...</p>;
+    return <Spinner />;
   }
 
   const { transaction, items, seller } = invoiceData;
