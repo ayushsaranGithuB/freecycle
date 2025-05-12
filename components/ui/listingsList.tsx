@@ -9,10 +9,12 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { Coins } from "lucide-react";
 import { trimAtSpace } from "@/helpers/text";
+import { off } from "process";
 
 type ListingsListProps = {
   status: ItemStatus;
   limit: number;
+  offset?: number;
 };
 
 const NoListings = () => (
@@ -24,18 +26,19 @@ const NoListings = () => (
   </div>
 );
 
-const ListingsList = ({ status, limit }: ListingsListProps) => {
+const ListingsList = ({ status, limit, offset }: ListingsListProps) => {
   const { data: session } = useSession();
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     const userId = session?.user?.id;
     if (!userId) {
       setLoading(false);
       return;
     }
-    fetchUserListings(userId, { limit, status: status })
+    fetchUserListings(userId, { limit, status: status, offset })
       .then((data) => {
         setListings(data);
         setLoading(false);
@@ -44,7 +47,7 @@ const ListingsList = ({ status, limit }: ListingsListProps) => {
         console.error("Error fetching user listings:", error);
         setLoading(false);
       });
-  }, [status, limit, session?.user?.id]);
+  }, [status, limit, session?.user?.id, offset]);
 
   if (loading) {
     return <Spinner />;

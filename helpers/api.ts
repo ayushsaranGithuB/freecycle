@@ -1,6 +1,7 @@
 // Helpers for API Rules
 import { Listing } from "@/helpers/interfaces/items";
 import { ItemStatus } from "@prisma/client";
+import { off } from "process";
 
 export interface ShippingEstimate {
     estimatedShippingCharges: number;
@@ -45,7 +46,8 @@ export async function fetchUserListings(userId: string, {
     condition = null,
     minPrice = 0,
     maxPrice = 10000,
-    status = "AVAILABLE"
+    status = "AVAILABLE",
+    offset = 0
 }: {
     limit?: number;
     searchQuery?: string;
@@ -54,6 +56,7 @@ export async function fetchUserListings(userId: string, {
     minPrice?: number;
     maxPrice?: number;
     status?: ItemStatus;
+    offset?: number;
 }): Promise<Listing[]> {
     const queryParams = new URLSearchParams({
         limit: limit.toString(),
@@ -63,6 +66,7 @@ export async function fetchUserListings(userId: string, {
         minPrice: minPrice.toString(),
         maxPrice: maxPrice.toString(),
         status: status || "",
+        offset: offset.toString(),
     });
 
     const response = await fetch(
