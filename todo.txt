@@ -3,13 +3,6 @@ API Security Audit (May 2025)
 
 
 
-7. /api/user/update-profile/route.ts
-- Security: No authentication. phone is passed in body.
-- Issues: Anyone can update any user's profile.
-- Suggestions:
-  * Require auth().
-  * Extract user id from session/JWT, ignore phone in body.
-  * Support Bearer token/JWT.
 
 8. /api/invoice/[transactionId]/route.ts
 - Security: No authentication for GET.
