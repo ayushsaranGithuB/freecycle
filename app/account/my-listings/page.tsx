@@ -1,8 +1,8 @@
-"use client"
+"use client";
 import { useState } from "react";
 import ListingsList from "@/components/ui/listingsList";
 
-const LIMIT = 8;
+const LIMIT = 6;
 
 const MyListings = () => {
   const [page, setPage] = useState(0);
