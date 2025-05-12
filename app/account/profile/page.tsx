@@ -11,6 +11,7 @@ import { fetchUserProfile, updateUserProfile } from "@/helpers/user";
 
 import "@/app/styles/create_listing.css";
 import Spinner from "@/components/ui/spinner";
+import { Edit, HelpCircle } from "lucide-react";
 
 export default function ProfilePage() {
   const { data: session } = useSession();
@@ -74,115 +75,130 @@ export default function ProfilePage() {
           <Link href="/account/profile">Profile</Link>
         </li>
       </ul>
-      <section className="personal-info max-w-xl">
-        <form onSubmit={handleSubmit}>
-          <div className="titleUnderlined flex justify-between items-center">
-            <h2 className="text-xl">Personal Information</h2>
-            {profileInputsDisabled ? (
-              <Button
-                className="editButton"
-                variant="outline"
-                onClick={() => {
-                  setProfileInputsDisabled(false);
-                  setLoading(true);
-                  setTimeout(() => {
-                    setLoading(false);
-                  }, 1000);
-                }}
-              >
-                Edit
-              </Button>
-            ) : (
-              <Button className="primary button-small" type="submit">
-                Update
-              </Button>
-            )}
-          </div>
-          <div className="field">
-            <Label>Name</Label>
-            <Input
-              type="text"
-              placeholder="Full Name - Used in Shipping Labels"
-              className="w-full"
-              name="name"
-              id="name"
-              required
-              disabled={profileInputsDisabled}
-              defaultValue={user?.name}
-            />
-          </div>
-          <div className="field">
-            <Label>Email</Label>
-            <Input
-              type="text"
-              className="w-full"
-              name="email"
-              id="email"
-              required
-              disabled={profileInputsDisabled}
-              defaultValue={user?.email || ""}
-            />
-          </div>
-          <div className="field">
-            <Label>Phone</Label>
-            <Input
-              type="text"
-              className="w-full"
-              name="phone"
-              id="phone"
-              required
-              disabled={profileInputsDisabled}
-              defaultValue={user?.phone}
-            />
-          </div>
-          <div className="field">
-            <Label>Address</Label>
-            <Input
-              type="text"
-              className="w-full"
-              name="address"
-              id="address"
-              required
-              disabled={profileInputsDisabled}
-              defaultValue={user?.address ?? ""}
-            />
-          </div>
-          <div className="row">
+      <div className="flex flex-col md:flex-row gap-8 mb-8 p-2">
+        <section className="personal-info w-full max-w-xl">
+          <form onSubmit={handleSubmit}>
+            <div className="page_title flex justify-between ">
+              <h1>Your Profile</h1>
+              {profileInputsDisabled ? (
+                <Button
+                  className="editButton"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setProfileInputsDisabled(false);
+                    setLoading(true);
+                    setTimeout(() => {
+                      setLoading(false);
+                    }, 1000);
+                  }}
+                >
+                  <Edit width={12} height={12} />
+                  Edit
+                </Button>
+              ) : (
+                <Button className="primary button-small" type="submit">
+                  Update
+                </Button>
+              )}
+            </div>
             <div className="field">
-              <Label>City, State</Label>
+              <Label>Name</Label>
+              <Input
+                type="text"
+                placeholder="Full Name - Used in Shipping Labels"
+                className="w-full"
+                name="name"
+                id="name"
+                required
+                disabled={profileInputsDisabled}
+                defaultValue={user?.name}
+              />
+            </div>
+            <div className="field">
+              <Label>Email</Label>
               <Input
                 type="text"
                 className="w-full"
-                name="cityState"
-                id="cityState"
+                name="email"
+                id="email"
                 required
                 disabled={profileInputsDisabled}
-                defaultValue={user?.cityState ?? ""}
+                defaultValue={user?.email || ""}
               />
             </div>
-            <div className="field w-1/3">
-              <Label>Pincode</Label>
+            <div className="field">
+              <Label>Phone</Label>
               <Input
-                type="string"
-                maxLength={6}
-                name="pincode"
-                id="pincode"
+                type="text"
+                className="w-full"
+                name="phone"
+                id="phone"
                 required
                 disabled={profileInputsDisabled}
-                defaultValue={user?.pincode ?? ""}
+                defaultValue={user?.phone}
               />
             </div>
-          </div>
-        </form>
-      </section>
-      <section className="faq">
-        <h2>Help & Support</h2>
-        <ul>
-          <li>How do I change my billing details ?</li>
-          <li>When will I be credited for my sales ?</li>
-          <li>How can I get an invoice for my purchases ?</li>
-        </ul>
-      </section>
+            <div className="field">
+              <Label>Address</Label>
+              <Input
+                type="text"
+                className="w-full"
+                name="address"
+                id="address"
+                required
+                disabled={profileInputsDisabled}
+                defaultValue={user?.address ?? ""}
+              />
+            </div>
+            <div className="row">
+              <div className="field">
+                <Label>City, State</Label>
+                <Input
+                  type="text"
+                  className="w-full"
+                  name="cityState"
+                  id="cityState"
+                  required
+                  disabled={profileInputsDisabled}
+                  defaultValue={user?.cityState ?? ""}
+                />
+              </div>
+              <div className="field w-1/3">
+                <Label>Pincode</Label>
+                <Input
+                  type="string"
+                  maxLength={6}
+                  name="pincode"
+                  id="pincode"
+                  required
+                  disabled={profileInputsDisabled}
+                  defaultValue={user?.pincode ?? ""}
+                />
+              </div>
+            </div>
+          </form>
+        </section>
+        <section className="faq min-w-xs">
+          <h2>
+            <HelpCircle width={16} height={16} />
+            Help & Support
+          </h2>
+          <ul>
+            <li>
+              <Link href={"/help"}>How do I change my billing details ?</Link>
+            </li>
+            <li>
+              <Link href={"/help"}>When will I be credited for my sales ?</Link>
+            </li>
+            <li>
+              <Link href={"/help"}>
+                How can I get an invoice for my purchases ?
+              </Link>
+            </li>
+          </ul>
+        </section>
+      </div>
     </>
   );
 }

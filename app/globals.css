@@ -205,12 +205,12 @@ h6 {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 12px;
+  padding: 4px 12px;
   border: 1px solid var(--text-100);
   border-radius: 8px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 500;
-  color: var(--text-100);
+  color: var(--text-200);
   gap: 0.4rem;
 }
 
@@ -248,7 +248,7 @@ section.impact {
   line-height: 140%;
 }
 
-.impact strong{
+.impact strong {
   color: #fffdb3;
 }
 
