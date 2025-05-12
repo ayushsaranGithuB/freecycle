@@ -40,9 +40,11 @@ export async function GET(request: Request) {
     const maxPrice = parseFloat(searchParams.get('maxPrice') || '10000');
     const status = searchParams.get('status') || null; // Extract status from query params
     const userId = searchParams.get('userId') || null;
+    const offset = parseInt(searchParams.get('offset') || '0', 10); // Add offset
 
     const items = await prisma.item.findMany({
         take: limit,
+        skip: offset, // Use offset for pagination
         where: {
             title: searchQuery ? { contains: searchQuery } : undefined,
             category: category ? (category as ItemCategory) : undefined,
