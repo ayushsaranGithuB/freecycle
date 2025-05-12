@@ -1,0 +1,44 @@
+/* Bonus Points ---------------------------------------- */
+.bonus-points {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 1rem;
+    background: var(--gradient-1);
+    color: #fff;
+    border-radius: 16px;
+    margin-bottom: 1rem;
+    padding: 1.5rem 1.5rem;
+    padding-bottom: 40px;
+    color: #fff;
+    max-width: 430px;
+
+}
+
+.bonus-points h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+}
+
+.bonus-points .action-button {
+    padding: 0.5rem 1.25rem;
+    background-color: white;
+    color: var(--link);
+    border-radius: 16px;
+    font-size: 0.8rem;
+
+}
+
+
+/* emailConnected */
+
+.banner-emailConnected {
+    background: url('/banner_bg_email.png') no-repeat bottom right / 300px, var(--gradient-1);
+
+
+}
+
+.impact {
+    max-width: 430px;
+}

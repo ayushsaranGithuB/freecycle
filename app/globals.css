@@ -105,6 +105,7 @@ button {
   --sidebar-ring: oklch(0.708 0 0);
   --shadow-10: 4px 7px 10px 0 rgba(0, 0, 0, 0.1);
   --gradient-1: linear-gradient(90deg, #4BA950, #99D04F);
+  --gradient-2: linear-gradient(85deg, #5a7bb1, #95cfdd);
   --text-100: #B9B4B4;
   --text-200: #8d8b8b;
   --text-300: #646464;
@@ -232,7 +233,7 @@ h6 {
 /* Impact ---------------------------------------------- */
 
 section.impact {
-  background: var(--gradient-1);
+  background: var(--gradient-2);
   padding: 1rem 1.25rem;
   border-radius: 16px;
   color: white;
@@ -255,6 +256,9 @@ section.impact {
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+
 }
 
 .impact .stats li {
@@ -283,5 +287,9 @@ section.impact {
 
   main {
     padding: 0 24px;
+  }
+
+  .impact .stats {
+    display: flex;
   }
 }

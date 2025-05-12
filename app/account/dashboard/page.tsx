@@ -74,37 +74,41 @@ const Dashboard = () => {
         <Link href="/account/profile">My Profile</Link>
       </section>
 
-      {/* Impact --------------- */}
+      <div className="banners">
+        {/* Impact --------------- */}
+        <section className="impact">
+          <h3>Your Impact</h3>
+          <p>
+            You&apos;ve saved <strong>2.5 Kgs</strong> of e-waste from ending up
+            in landfills and polluting the planet
+          </p>
+          <ul className="stats">
+            <li>
+              <p className="stat-number">7g</p>
+              <p className="stat-category">Lead</p>
+            </li>
+            <li>
+              <p className="stat-number">7g</p>
+              <p className="stat-category">Mercury</p>
+            </li>
+            <li>
+              <p className="stat-number">7g</p>
+              <p className="stat-category">Cadmium</p>
+            </li>
+            <li>
+              <p className="stat-number">7g</p>
+              <p className="stat-category">Lithium</p>
+            </li>
+            <li>
+              <p className="stat-number">7g</p>
+              <p className="stat-category">Plastic</p>
+            </li>
+          </ul>
+        </section>
 
-      <section className="impact">
-        <h3>Your Impact</h3>
-        <p>
-          You&apos;ve saved <strong>2.5 Kgs</strong> of e-waste from ending up
-          in landfills and polluting the planet
-        </p>
-        <ul className="stats">
-          <li>
-            <p className="stat-number">7g</p>
-            <p className="stat-category">Lead</p>
-          </li>
-          <li>
-            <p className="stat-number">7g</p>
-            <p className="stat-category">Mercury</p>
-          </li>
-          <li>
-            <p className="stat-number">7g</p>
-            <p className="stat-category">Cadmium</p>
-          </li>
-          <li>
-            <p className="stat-number">7g</p>
-            <p className="stat-category">Lithium</p>
-          </li>
-          <li>
-            <p className="stat-number">7g</p>
-            <p className="stat-category">Plastic</p>
-          </li>
-        </ul>
-      </section>
+        {/* Bonus Points --------------- */}
+        <BonusPoints />
+      </div>
 
       {/* Points ---------------- */}
       <section className="points">
@@ -120,10 +124,6 @@ const Dashboard = () => {
           </p>
         </div>
       </section>
-
-      {/* Bonus Points --------------- */}
-
-      <BonusPoints />
 
       {/* Recent Activity --------------- */}
 

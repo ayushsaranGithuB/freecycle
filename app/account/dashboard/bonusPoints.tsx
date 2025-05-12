@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { UserJourney } from "@prisma/client";
 import { fetchUserJourney } from "@/helpers/user";
 import ConnectEmailModal from "./modals/connectEmailModal";
+import "@/app/styles/banners.css";
 
 const BonusPoints = () => {
   // Get user ID from session
@@ -37,7 +38,6 @@ const BonusPoints = () => {
   interface UserJourneyPrompts {
     stage: keyof UserJourney;
     value: boolean;
-    title: string;
     prompt: string;
     action: "button" | "link";
     actionText: string;
@@ -49,10 +49,10 @@ const BonusPoints = () => {
     {
       stage: "emailConnected",
       value: userJourney?.emailConnected || false,
-      title: "Connect your email",
+
       prompt: "Verify your email address and get 100 bonus points",
       action: "button",
-      actionText: "Claim",
+      actionText: "Connect your email",
       buttonAction: () => {
         setIsModalOpen(true);
       },
@@ -60,10 +60,9 @@ const BonusPoints = () => {
     {
       stage: "socialConnected",
       value: userJourney?.socialConnected || false,
-      title: "Connect a social account for verification",
       prompt: "Get 200 bonus points for verifying your social account",
       action: "button",
-      actionText: "Claim",
+      actionText: "Connect a social account",
       buttonAction: () => {
         // Handle button action
         alert("Claimed points for social account verification");
@@ -72,10 +71,9 @@ const BonusPoints = () => {
     {
       stage: "firstListing",
       value: userJourney?.firstListing || false,
-      title: "Create your first listing",
       prompt: "Get 100 bonus points for creating your first listing",
       action: "button",
-      actionText: "Claim",
+      actionText: "Create your first listing",
       buttonAction: () => {
         // Handle button action
         alert("Claimed points for first listing");
@@ -84,10 +82,9 @@ const BonusPoints = () => {
     {
       stage: "firstTransaction",
       value: userJourney?.firstTransaction || false,
-      title: "Complete your first transaction",
       prompt: "Get 100 bonus points for completing your first transaction",
       action: "button",
-      actionText: "Claim",
+      actionText: "Complete your first transaction",
       buttonAction: () => {
         // Handle button action
         alert("Claimed points for first transaction");
@@ -96,10 +93,9 @@ const BonusPoints = () => {
     {
       stage: "firstReferral",
       value: userJourney?.firstReferral || false,
-      title: "Refer a friend",
       prompt: "Get 100 bonus points for referring a friend",
       action: "button",
-      actionText: "Claim",
+      actionText: "Refer a friend",
       buttonAction: () => {
         // Handle button action
         alert("Claimed points for first referral");
@@ -108,10 +104,9 @@ const BonusPoints = () => {
     {
       stage: "firstPointsEarned",
       value: userJourney?.firstPointsEarned || false,
-      title: "Earn your first points",
       prompt: "Get 100 bonus points for earning your first points",
       action: "button",
-      actionText: "Claim",
+      actionText: "Earn your first points",
       buttonAction: () => {
         // Handle button action
         alert("Claimed points for first points earned");
@@ -120,10 +115,9 @@ const BonusPoints = () => {
     {
       stage: "firstTopUp",
       value: userJourney?.firstTopUp || false,
-      title: "Top up your account",
       prompt: "Get 10% extra bonus points for topping up your account",
       action: "button",
-      actionText: "Claim",
+      actionText: "Top up your account",
       buttonAction: () => {
         // Handle button action
         alert("Claimed points for first points redeemed");
@@ -138,11 +132,11 @@ const BonusPoints = () => {
 
   return (
     <>
-      <section className="bonus-points callout">
-        <div>
-          <h3>{firstIncompleteStep?.title}</h3>
-          <p>{firstIncompleteStep?.prompt}</p>
-        </div>
+      <section
+        className={`bonus-points callout banner-${firstIncompleteStep?.stage}`}
+      >
+        <h3>{firstIncompleteStep?.prompt}</h3>
+
         <div className="action">
           {firstIncompleteStep?.action === "link" ? (
             <a className="primary" href={firstIncompleteStep?.actionUrl}>
@@ -150,7 +144,7 @@ const BonusPoints = () => {
             </a>
           ) : (
             <Button
-              className="primary"
+              className="action-button"
               onClick={firstIncompleteStep?.buttonAction}
             >
               {firstIncompleteStep?.actionText}
