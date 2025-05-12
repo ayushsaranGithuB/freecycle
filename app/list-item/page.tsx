@@ -14,6 +14,7 @@ import Image from "next/image";
 import { useDropzone } from "react-dropzone";
 import { calculateEwastePrevention, Totals } from "@/helpers/calculations";
 import { ItemConditionOptions } from "@/helpers/interfaces/items";
+import { getEstimatedUsedPrices } from "@/helpers/llm";
 
 const ConditionOptions: ItemConditionOptions[] = [
   {
@@ -213,6 +214,22 @@ export default function ListItemPage() {
     // If title is empty, build a title from brand, model, and year
     if (title === "" && brand !== "" && model !== "" && year.length == 4) {
       setTitle(`${brand} ${model} (${year}) - ${condition} condition`);
+      fetchPrices();
+    }
+    async function fetchPrices() {
+      const usedPrice = await getEstimatedUsedPrices(
+        `${brand} ${model} (${year}) - ${condition} condition`
+      );
+      console.log(usedPrice);
+      if (usedPrice.error) {
+        console.error("Error fetching prices:", usedPrice.error);
+        return;
+      }
+      setOriginalMsrp(usedPrice[0].original_retail_price_inr);
+      setEstimatedMarketPrice(
+        usedPrice.find((item: any) => item.condition == condition)
+          .estimated_used_price_inr
+      );
     }
   }, [brand, model, year, title, condition]);
 
