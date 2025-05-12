@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { RateLimiterMemory } from 'rate-limiter-flexible';
 
 // Mock OTP provider
 const sendOtp = (phone: string) => {
@@ -7,7 +8,21 @@ const sendOtp = (phone: string) => {
     return true;
 };
 
+// Rate limiter: 5 requests per minute per IP
+const rateLimiter = new RateLimiterMemory({
+    points: 5, // 5 requests
+    duration: 60, // per 60 seconds by IP
+});
+
 export async function POST(req: Request) {
+    // Rate limit by IP
+    const ip = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
+    try {
+        await rateLimiter.consume(ip as string);
+    } catch (rateLimiterRes) {
+        return NextResponse.json({ error: 'Too many requests. Please try again later.' }, { status: 429 });
+    }
+
     try {
         const { phone, otp, name } = await req.json();
 

@@ -1,28 +1,8 @@
 API Security Audit (May 2025)
 
 
-
-
-
-8. /api/invoice/[transactionId]/route.ts
-- Security: No authentication for GET.
-- Issues: Anyone can fetch any invoice/transaction.
-- Suggestions:
-  * Require auth().
-  * Only allow access if user is buyer or seller in transaction.
-  * Support Bearer token/JWT.
-
-9. /api/listings/[id]/delete-image/route.ts
-- Security: No authentication.
-- Issues: Anyone can delete images from any listing.
-- Suggestions:
-  * Require auth().
-  * Only allow if user is owner of the listing.
-  * Support Bearer token/JWT.
-
 10. /api/auth/signup/route.ts
-- Security: No authentication (expected for signup/OTP).
-- Issues: None for signup, but ensure rate limiting to prevent abuse.
+- Issues: Ensure rate limiting to prevent abuse.
 - Suggestions:
   * Add rate limiting.
 
