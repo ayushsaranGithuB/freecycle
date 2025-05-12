@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { fetchUserListings } from "@/helpers/api";
-import { Listing } from "@/helpers/interfaces/items";
+import { Listing, ListingsWithTotal } from "@/helpers/interfaces/items";
 import Spinner from "@/components/ui/spinner";
 import Link from "next/link";
 import { ItemStatus } from "@prisma/client";
@@ -9,10 +9,13 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { Coins } from "lucide-react";
 import { trimAtSpace } from "@/helpers/text";
+import { off } from "process";
 
 type ListingsListProps = {
   status: ItemStatus;
   limit: number;
+  offset?: number;
+  onTotalCount?: (total: number) => void;
 };
 
 const NoListings = () => (
@@ -24,33 +27,42 @@ const NoListings = () => (
   </div>
 );
 
-const ListingsList = ({ status, limit }: ListingsListProps) => {
+const ListingsList = ({
+  status,
+  limit,
+  offset,
+  onTotalCount,
+}: ListingsListProps) => {
   const { data: session } = useSession();
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
+  const [total, setTotal] = useState<number>(0);
+  const userId = session?.user?.id;
 
   useEffect(() => {
-    const userId = session?.user?.id;
+    setLoading(true);
     if (!userId) {
       setLoading(false);
       return;
     }
-    fetchUserListings(userId, { limit, status: status })
-      .then((data) => {
-        setListings(data);
+    fetchUserListings(userId, { limit, status: status, offset })
+      .then((data: ListingsWithTotal) => {
+        setListings(data.listings);
+        setTotal(data.total);
+        if (onTotalCount) onTotalCount(data.total);
         setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching user listings:", error);
         setLoading(false);
       });
-  }, [status, limit, session?.user?.id]);
+  }, [status, limit, session?.user?.id, offset]);
 
   if (loading) {
     return <Spinner />;
   }
 
-  if (listings.length === 0) {
+  if (userId && session && listings.length === 0) {
     if (status == "COMPLETED") return null;
     return <NoListings />;
   }

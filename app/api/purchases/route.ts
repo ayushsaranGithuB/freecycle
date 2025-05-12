@@ -84,12 +84,14 @@ export async function GET(req: Request) {
     }
     const { searchParams } = new URL(req.url);
     const limit = parseInt(searchParams.get('limit') || '10', 10);
+    const offset = parseInt(searchParams.get('offset') || '0', 10);
 
     try {
         const purchases = await prisma.transaction.findMany({
             where: { buyerPhone: userId },
             include: { item: true },
             take: limit,
+            skip: offset,
         });
 
         return NextResponse.json(purchases);

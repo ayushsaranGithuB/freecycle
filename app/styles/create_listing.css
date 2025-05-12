@@ -13,7 +13,10 @@
 }
 
 form label {
-    margin: 0.5rem 0;
+    margin: 1rem 0 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    display: block;
 }
 
 form input,

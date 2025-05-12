@@ -1,6 +1,7 @@
 // Helpers for API Rules
-import { Listing } from "@/helpers/interfaces/items";
+import { Listing, ListingsWithTotal } from "@/helpers/interfaces/items";
 import { ItemStatus } from "@prisma/client";
+import { off } from "process";
 
 export interface ShippingEstimate {
     estimatedShippingCharges: number;
@@ -45,7 +46,8 @@ export async function fetchUserListings(userId: string, {
     condition = null,
     minPrice = 0,
     maxPrice = 10000,
-    status = "AVAILABLE"
+    status = "AVAILABLE",
+    offset = 0
 }: {
     limit?: number;
     searchQuery?: string;
@@ -54,7 +56,8 @@ export async function fetchUserListings(userId: string, {
     minPrice?: number;
     maxPrice?: number;
     status?: ItemStatus;
-}): Promise<Listing[]> {
+    offset?: number;
+}): Promise<ListingsWithTotal> {
     const queryParams = new URLSearchParams({
         limit: limit.toString(),
         searchQuery,
@@ -63,12 +66,13 @@ export async function fetchUserListings(userId: string, {
         minPrice: minPrice.toString(),
         maxPrice: maxPrice.toString(),
         status: status || "",
+        offset: offset.toString(),
     });
 
     const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/listings?userId=${userId}&${queryParams.toString()}`
     );
-    const data: Listing[] = await response.json();
+    const data = await response.json();
     return data;
 }
 
@@ -99,9 +103,9 @@ export async function estimateShipping(buyerPincode: number, sellerPincode: numb
 }
 
 // fetchUserPurchases
-export async function fetchUserPurchases(limit: number, userId: string) {
+export async function fetchUserPurchases(limit: number, userId: string, offset: number = 0) {
     const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/purchases?limit=${limit}&userId=${userId}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/purchases?limit=${limit}&userId=${userId}&offset=${offset}`
     );
     const data = await response.json();
     return data;
