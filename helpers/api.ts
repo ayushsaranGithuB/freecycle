@@ -1,7 +1,6 @@
 // Helpers for API Rules
-import { Listing, ListingsWithTotal } from "@/helpers/interfaces/items";
+import { ListingsWithTotal } from "@/helpers/interfaces/items";
 import { ItemStatus } from "@prisma/client";
-import { off } from "process";
 
 export interface ShippingEstimate {
     estimatedShippingCharges: number;
@@ -22,7 +21,7 @@ export async function fetchListings({
     condition?: string | null;
     minPrice?: number;
     maxPrice?: number;
-}): Promise<Listing[]> {
+}): Promise<ListingsWithTotal> {
     const queryParams = new URLSearchParams({
         limit: limit.toString(),
         searchQuery,
@@ -35,7 +34,7 @@ export async function fetchListings({
     const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/listings?${queryParams.toString()}`
     );
-    const data: Listing[] = await response.json();
+    const data = await response.json();
     return data;
 }
 

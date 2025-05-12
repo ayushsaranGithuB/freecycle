@@ -8,7 +8,8 @@ import ItemCategories from "@/components/ui/categories";
 import { fetchListings } from "@/helpers/api";
 
 export default async function HomePage() {
-  const listings = await fetchListings({ limit: 12 });
+  const data = await fetchListings({ limit: 12 });
+  const listings = data?.listings || [];
 
   return (
     <div className={styles.container}>

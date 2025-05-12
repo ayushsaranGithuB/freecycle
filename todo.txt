@@ -1,33 +1,6 @@
 API Security Audit (May 2025)
 
-1. /api/purchases/route.ts
-- Security: Uses auth() for both POST and GET. Checks session and user id.
-- Issues: Relies on session, but does not check for Bearer token/JWT in Authorization header. User id is passed in body/query, which can be spoofed if session is compromised.
-- Suggestions:
-  * Support Bearer token/JWT in Authorization header for stateless auth.
-  * Always extract user id from session/JWT, never trust userId in body/query.
-  * Consider CSRF protection for POST.
 
-2. /api/listings/route.ts
-- Security: No authentication for GET or POST. Anyone can create listings.
-- Issues: No user validation, owner is passed in body and can be spoofed.
-- Suggestions:
-  * Require auth() for POST, extract user id from session/JWT, ignore owner in body.
-  * Support Bearer token/JWT for API clients.
-
-3. /api/estimate-shipping/route.ts
-- Security: No authentication.
-- Issues: Anyone can estimate shipping, which may be fine if public, but could be abused.
-- Suggestions:
-  * If abuse is a concern, require auth() or rate limit.
-
-4. /api/user/points/route.ts
-- Security: No authentication for POST or GET. userId is passed in body/query.
-- Issues: Anyone can update or read any user's points.
-- Suggestions:
-  * Require auth() for both POST and GET.
-  * Extract user id from session/JWT, ignore userId in body/query.
-  * Support Bearer token/JWT.
 
 5. /api/listings/[id]/route.ts
 - Security: No authentication for GET, PATCH, or DELETE.

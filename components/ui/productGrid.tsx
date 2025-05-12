@@ -10,6 +10,13 @@ type ProductGridProps = {
 };
 
 const ProductGrid: FC<ProductGridProps> = ({ listings }) => {
+  // if listings is empty, return null
+  if (!listings || listings.length === 0) {
+    return null;
+  }
+
+  console.log("listings", listings);
+
   return (
     <section className={styles.listingsGrid}>
       <div className={styles.title}>

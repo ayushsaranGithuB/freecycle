@@ -2,6 +2,30 @@ import fs from 'fs';
 import path from 'path';
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { auth } from '@/auth';
+import jwt from 'jsonwebtoken';
+
+// Helper to extract user ID from session or Bearer token
+async function getUserIdFromRequest(req: Request): Promise<string | null> {
+    // Try next-auth session first
+    const session = await auth();
+    if (session && session.user?.id) return session.user.id;
+
+    // Fallback: check for Bearer token
+    const authHeader = req.headers.get('authorization') || req.headers.get('Authorization');
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+        const token = authHeader.slice(7);
+        try {
+            const secret = process.env.AUTH_SECRET;
+            if (!secret) throw new Error('Missing AUTH_SECRET');
+            const decoded = jwt.verify(token, secret) as { id?: string };
+            return decoded.id || null;
+        } catch (err) {
+            return null;
+        }
+    }
+    return null;
+}
 
 export async function GET(req: Request) {
     const url = new URL(req.url);
@@ -17,6 +41,19 @@ export async function GET(req: Request) {
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
     const itemId = (await params).id;
+    const userId = await getUserIdFromRequest(request);
+    if (!userId) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Check ownership
+    const item = await prisma.item.findUnique({ where: { id: parseInt(itemId, 10) } });
+    if (!item) {
+        return NextResponse.json({ error: 'Item not found' }, { status: 404 });
+    }
+    if (item.ownerPhone !== userId) {
+        return NextResponse.json({ error: 'Forbidden: not the owner' }, { status: 403 });
+    }
 
     try {
         const formData = await request.formData();
@@ -96,9 +133,21 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
 export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
     const param = await params;
     const itemId = param.id;
+    const userId = await getUserIdFromRequest(req);
+    if (!userId) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Check ownership
+    const item = await prisma.item.findUnique({ where: { id: parseInt(itemId, 10) } });
+    if (!item) {
+        return NextResponse.json({ error: 'Item not found' }, { status: 404 });
+    }
+    if (item.ownerPhone !== userId) {
+        return NextResponse.json({ error: 'Forbidden: not the owner' }, { status: 403 });
+    }
 
     // Fetch and Delete associated images with this item
-    const item = await prisma.item.findUnique({ where: { id: parseInt(itemId, 10) } })
     const images = item?.images;
     if (images && Array.isArray(images)) {
         for (const image of images) {

@@ -43,7 +43,7 @@ export default function ListingsPage() {
         minPrice: priceRange[0],
         maxPrice: priceRange[1],
       });
-      setListings(response);
+      setListings(response.listings);
     }
     onLoad();
   }, [searchQuery, selectedCategory, selectedCondition, priceRange]);

@@ -52,7 +52,8 @@ export default async function ItemDetailsPage({
 }) {
   const { id } = await params;
 
-  const listings = await fetchListings({ limit: 4 });
+  const data = await fetchListings({ limit: 4 });
+  const listings = data?.listings || [];
 
   try {
     const item = await prisma.item.findUnique({
