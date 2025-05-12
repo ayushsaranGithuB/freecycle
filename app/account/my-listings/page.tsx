@@ -4,7 +4,7 @@ const MyListings = () => {
   return (
     <div>
       <h1>My Listings</h1>
-      <ListingsList status="AVAILABLE" limit={5} offset={4} />
+      <ListingsList status="AVAILABLE" limit={8} offset={0} />
     </div>
   );
 };

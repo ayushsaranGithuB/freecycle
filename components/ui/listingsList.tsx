@@ -30,10 +30,10 @@ const ListingsList = ({ status, limit, offset }: ListingsListProps) => {
   const { data: session } = useSession();
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
+  const userId = session?.user?.id;
 
   useEffect(() => {
     setLoading(true);
-    const userId = session?.user?.id;
     if (!userId) {
       setLoading(false);
       return;
@@ -53,7 +53,7 @@ const ListingsList = ({ status, limit, offset }: ListingsListProps) => {
     return <Spinner />;
   }
 
-  if (listings.length === 0) {
+  if (userId && session && listings.length === 0) {
     if (status == "COMPLETED") return null;
     return <NoListings />;
   }
