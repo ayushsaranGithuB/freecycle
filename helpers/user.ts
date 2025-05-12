@@ -3,12 +3,14 @@
 import { User, UserJourney } from "@prisma/client";
 
 // fetchUserProfile 
-export const fetchUserProfile = async (userId: string): Promise<User> => {
+export const fetchUserProfile = async (userId: string, jwtToken?: string): Promise<User> => {
+    const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+    };
+    if (jwtToken) headers["Authorization"] = `Bearer ${jwtToken}`;
     const res = await fetch(`/api/user/${userId}`, {
         method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
+        headers,
     });
     if (!res.ok) {
         throw new Error("Failed to fetch user profile");
@@ -17,12 +19,14 @@ export const fetchUserProfile = async (userId: string): Promise<User> => {
 };
 
 // updateUserProfile
-export const updateUserProfile = async (userId: string, data: Partial<User>): Promise<User> => {
+export const updateUserProfile = async (userId: string, data: Partial<User>, jwtToken?: string): Promise<User> => {
+    const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+    };
+    if (jwtToken) headers["Authorization"] = `Bearer ${jwtToken}`;
     const res = await fetch(`/api/user/${userId}`, {
         method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
+        headers,
         body: JSON.stringify(data),
     });
     if (!res.ok) {

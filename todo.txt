@@ -2,21 +2,6 @@ API Security Audit (May 2025)
 
 
 
-5. /api/listings/[id]/route.ts
-- Security: No authentication for GET, PATCH, or DELETE.
-- Issues: Anyone can update or delete any listing.
-- Suggestions:
-  * Require auth() for PATCH and DELETE.
-  * Check that the authenticated user is the owner of the listing.
-  * Support Bearer token/JWT.
-
-6. /api/user/[userId]/route.ts
-- Security: No authentication for GET or PUT. userId is in params.
-- Issues: Anyone can read or update any user's profile.
-- Suggestions:
-  * Require auth() for both GET and PUT.
-  * Only allow access if session/JWT user id matches userId param.
-  * Support Bearer token/JWT.
 
 7. /api/user/update-profile/route.ts
 - Security: No authentication. phone is passed in body.
