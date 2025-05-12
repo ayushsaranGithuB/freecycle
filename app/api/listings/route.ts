@@ -42,23 +42,28 @@ export async function GET(request: Request) {
     const userId = searchParams.get('userId') || null;
     const offset = parseInt(searchParams.get('offset') || '0', 10); // Add offset
 
-    const items = await prisma.item.findMany({
-        take: limit,
-        skip: offset, // Use offset for pagination
-        where: {
-            title: searchQuery ? { contains: searchQuery } : undefined,
-            category: category ? (category as ItemCategory) : undefined,
-            condition: condition ? (condition as ItemCondition) : undefined,
-            estimatedMarketPrice: {
-                gte: minPrice,
-                lte: maxPrice,
-            },
-            status: status ? (status as ItemStatus) : undefined, // Cast status to ItemStatus
-            owner: userId ? { phone: userId } : undefined,
+    const where = {
+        title: searchQuery ? { contains: searchQuery } : undefined,
+        category: category ? (category as ItemCategory) : undefined,
+        condition: condition ? (condition as ItemCondition) : undefined,
+        estimatedMarketPrice: {
+            gte: minPrice,
+            lte: maxPrice,
         },
-    });
+        status: status ? (status as ItemStatus) : undefined, // Cast status to ItemStatus
+        owner: userId ? { phone: userId } : undefined,
+    };
 
-    return NextResponse.json(items);
+    const [items, total] = await Promise.all([
+        prisma.item.findMany({
+            take: limit,
+            skip: offset, // Use offset for pagination
+            where,
+        }),
+        prisma.item.count({ where }),
+    ]);
+
+    return NextResponse.json({ listings: items, total });
 }
 
 export async function POST(request: Request) {

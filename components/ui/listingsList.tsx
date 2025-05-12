@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { fetchUserListings } from "@/helpers/api";
-import { Listing } from "@/helpers/interfaces/items";
+import { Listing, ListingsWithTotal } from "@/helpers/interfaces/items";
 import Spinner from "@/components/ui/spinner";
 import Link from "next/link";
 import { ItemStatus } from "@prisma/client";
@@ -15,6 +15,7 @@ type ListingsListProps = {
   status: ItemStatus;
   limit: number;
   offset?: number;
+  onTotalCount?: (total: number) => void;
 };
 
 const NoListings = () => (
@@ -26,10 +27,16 @@ const NoListings = () => (
   </div>
 );
 
-const ListingsList = ({ status, limit, offset }: ListingsListProps) => {
+const ListingsList = ({
+  status,
+  limit,
+  offset,
+  onTotalCount,
+}: ListingsListProps) => {
   const { data: session } = useSession();
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
+  const [total, setTotal] = useState<number>(0);
   const userId = session?.user?.id;
 
   useEffect(() => {
@@ -39,8 +46,10 @@ const ListingsList = ({ status, limit, offset }: ListingsListProps) => {
       return;
     }
     fetchUserListings(userId, { limit, status: status, offset })
-      .then((data) => {
-        setListings(data);
+      .then((data: ListingsWithTotal) => {
+        setListings(data.listings);
+        setTotal(data.total);
+        if (onTotalCount) onTotalCount(data.total);
         setLoading(false);
       })
       .catch((error) => {
