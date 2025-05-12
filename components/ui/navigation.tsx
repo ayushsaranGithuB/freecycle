@@ -38,7 +38,7 @@ export default function Navigation() {
           {!menuOpen ? (
             <SquareMenu color="#fff" />
           ) : (
-            <Image src="/icons/menu.svg" alt="" />
+            <Image src="/icons/menu.svg" width={24} height={24} alt="" />
           )}
         </button>
         <div className="mobileMenu" data-open={menuOpen}>
@@ -47,6 +47,17 @@ export default function Navigation() {
       </div>
     </header>
   );
+
+  function UserLinks() {
+    return (
+      <>
+        <Link href="/account/dashboard">Dashboard</Link>
+        <Link href="/account/profile">Profile</Link>
+        <Link href="/account/settings">Settings</Link>
+        <Link href="/help">Help</Link>
+      </>
+    );
+  }
 
   function navLinks() {
     return (
@@ -65,27 +76,33 @@ export default function Navigation() {
             <Link href="/auth">Login | Signup</Link>
           </p>
         )}
-        {memoizedSession && (
-          <Popover>
-            <PopoverTrigger>
-              <p className="flex items-center gap-2">
-                <CircleUserRound color="#fff" />
-                <span className="username">{memoizedSession?.user?.name}</span>
-              </p>
-            </PopoverTrigger>
-            <PopoverContent className="w-40 popover-content">
-              <div className="flex flex-col gap-2 p-2">
-                <Link href="/account/dashboard">Dashboard</Link>
-
-                <Link href="/account/profile">Profile</Link>
-                <Link href="/account/settings">Settings</Link>
-                <Link href="/help">Help</Link>
-              </div>
-              <div className="flex justify-end p-2 border-t mt-2 pt-4 border-t-gray-400">
-                <SignOut />
-              </div>
-            </PopoverContent>
-          </Popover>
+        {!menuOpen ? (
+          <>
+            {memoizedSession && (
+              <Popover>
+                <PopoverTrigger>
+                  <p className="flex items-center gap-2">
+                    <CircleUserRound color="#fff" />
+                    <span className="username">
+                      {memoizedSession?.user?.name}
+                    </span>
+                  </p>
+                </PopoverTrigger>
+                <PopoverContent className="w-40 popover-content">
+                  <div className="flex flex-col gap-2 p-2">
+                    <UserLinks />
+                  </div>
+                  <div className="flex justify-end p-2 border-t mt-2 pt-4 border-t-gray-400">
+                    <SignOut />
+                  </div>
+                </PopoverContent>
+              </Popover>
+            )}
+          </>
+        ) : (
+          <div className="mobileProfile">
+            {memoizedSession && <UserLinks />}
+          </div>
         )}
       </>
     );

@@ -77,11 +77,10 @@ const Dashboard = () => {
       <div className="banners">
         {/* Impact --------------- */}
         <section className="impact">
-          <h3>Your Impact</h3>
-          <p>
+          <h3>
             You&apos;ve saved <strong>2.5 Kgs</strong> of e-waste from ending up
             in landfills and polluting the planet
-          </p>
+          </h3>
           <ul className="stats">
             <li>
               <p className="stat-number">7g</p>

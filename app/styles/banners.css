@@ -9,7 +9,7 @@
     border-radius: 16px;
     margin-bottom: 1rem;
     padding: 1.5rem 1.5rem;
-    padding-bottom: 40px;
+    padding-bottom: 30px;
     color: #fff;
     max-width: 430px;
 
@@ -18,8 +18,11 @@
 .bonus-points h3 {
     font-size: 1.1rem;
     font-weight: 700;
+    line-height: 140%;
     color: white;
+    max-width: 80%;
 }
+
 
 .bonus-points .action-button {
     padding: 0.5rem 1.25rem;

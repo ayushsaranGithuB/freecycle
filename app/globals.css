@@ -242,10 +242,14 @@ section.impact {
 }
 
 .impact h3 {
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  color: inherit;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: white;
+  line-height: 140%;
+}
+
+.impact strong{
+  color: #fffdb3;
 }
 
 .impact p {
