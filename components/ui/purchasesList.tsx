@@ -24,7 +24,12 @@ const NoPurchases = () => (
   </div>
 );
 
-const PurchasesList = ({ limit }: { limit: number }) => {
+type PurchasesListProps = {
+  limit: number;
+  offset?: number;
+};
+
+const PurchasesList = ({ limit, offset }: PurchasesListProps) => {
   const [purchases, setPurchases] = useState<PurchaseWithItem[]>([]);
   const [loading, setLoading] = useState(true);
   const { data: session } = useSession();
@@ -37,10 +42,12 @@ const PurchasesList = ({ limit }: { limit: number }) => {
       return;
     }
     const fetchPurchases = async () => {
+      setLoading(true);
       try {
         const data: PurchaseWithItem[] = await fetchUserPurchases(
           limit,
-          userId
+          userId,
+          offset
         );
         setPurchases(data);
       } catch (error) {
@@ -53,7 +60,7 @@ const PurchasesList = ({ limit }: { limit: number }) => {
     fetchPurchases();
   }, [limit, userId]);
 
-  if (!userId) {
+  if (!userId && session !== undefined) {
     return <p>Please log in to view your purchases.</p>;
   }
 
@@ -61,7 +68,7 @@ const PurchasesList = ({ limit }: { limit: number }) => {
     return <Spinner />;
   }
 
-  if (purchases.length === 0) {
+  if (userId && session && purchases.length === 0) {
     return <NoPurchases />;
   }
 

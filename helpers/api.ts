@@ -99,9 +99,9 @@ export async function estimateShipping(buyerPincode: number, sellerPincode: numb
 }
 
 // fetchUserPurchases
-export async function fetchUserPurchases(limit: number, userId: string) {
+export async function fetchUserPurchases(limit: number, userId: string, offset: number = 0) {
     const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/purchases?limit=${limit}&userId=${userId}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/purchases?limit=${limit}&userId=${userId}&offset=${offset}`
     );
     const data = await response.json();
     return data;
