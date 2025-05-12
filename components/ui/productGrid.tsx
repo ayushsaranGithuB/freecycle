@@ -15,7 +15,7 @@ const ProductGrid: FC<ProductGridProps> = ({ listings }) => {
     return null;
   }
 
-  console.log("listings", listings);
+  // console.log("listings", listings);
 
   return (
     <section className={styles.listingsGrid}>
