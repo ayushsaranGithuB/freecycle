@@ -117,6 +117,18 @@ section.title {
     margin-bottom: 1rem;
 }
 
+.points .summary {
+    font-size: 1.2rem;
+    font-family: var(--headingFont);
+    color: var(--text-300);
+    margin: 0.25rem 0;
+}
+
+.points .summary strong {
+    font-weight: 800;
+    color: var(--primary-green);
+}
+
 .points .actions {
     display: flex;
     gap: 1rem;
@@ -139,12 +151,17 @@ section.title {
 }
 
 .listing-item {
-    display: grid;
+    border: 1px solid #dbdbdb;
+    border-radius: 16px;
     grid-template-columns: 90px 1fr 110px;
-    gap: 0.5rem;
-    border: 1px solid var(--grey-50);
-    padding: 0.5rem;
-    border-radius: 8px;
+    gap: .5rem;
+    padding: .75rem;
+    display: grid;
+    background: linear-gradient(0deg, #eeeeee70, #ffffff);
+}
+
+.listings-list .large .listing-details h4 {
+    line-height: 2rem;
 }
 
 .listing-image {
@@ -164,19 +181,18 @@ section.title {
 .listing-details .category {
     text-transform: uppercase;
     font-size: 0.6rem;
-    letter-spacing: 0.03rem;
-    color: var(--text-200);
+    letter-spacing: 0.06rem;
+    color: var(--text-100);
 }
 
 .listing-details h4 {
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: 700;
     line-height: 130%;
-    color: var(--dark);
 }
 
 .listing-details h4 a {
-    color: var(--dark);
+    color: var(--text-300);
 }
 
 .listing-details h4 a:hover {
@@ -187,6 +203,12 @@ section.title {
     font-size: 0.75rem;
     font-weight: 600;
     color: var(--primary-green);
+    opacity: 0.75;
+    background-color: var(--primary-green);
+    color: white;
+    width: fit-content;
+    padding: 0.1rem 0.5rem;
+    border-radius: 4px;
 }
 
 .listing-meta {
@@ -195,6 +217,10 @@ section.title {
     text-align: center;
     border-left: 1px solid var(--grey-50);
     align-self: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding-left: 8px;
 }
 
 .listing-meta .date {
@@ -203,17 +229,17 @@ section.title {
 }
 
 .listing-meta .pointsValue {
-    font-size: 0.8rem;
+    font-size: 1.2rem;
     font-weight: 700;
     color: var(--primary-green);
     justify-content: center;
 }
 
 .listing-meta .button-small {
-    padding: 2px 12px;
+    padding: 4px 12px;
     width: fit-content;
-    margin: 0.5rem auto;
-    font-size: 0.7rem;
+    margin: auto auto 0.25rem;
+    font-size: 0.8rem;
     font-weight: 500;
 }
 

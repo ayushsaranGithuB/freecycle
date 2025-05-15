@@ -19,6 +19,7 @@ const MyListings = () => {
         limit={LIMIT}
         offset={page * LIMIT}
         onTotalCount={handleTotalCount}
+        size="large"
       />
       <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
         <button

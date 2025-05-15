@@ -16,6 +16,7 @@ type ListingsListProps = {
   limit: number;
   offset?: number;
   onTotalCount?: (total: number) => void;
+  size?: "small" | "large";
 };
 
 const NoListings = () => (
@@ -31,6 +32,7 @@ const ListingsList = ({
   status,
   limit,
   offset,
+  size = "small",
   onTotalCount,
 }: ListingsListProps) => {
   const { data: session } = useSession();
@@ -74,7 +76,10 @@ const ListingsList = ({
       )}
       <ul className="listings-list">
         {listings.map((listing) => (
-          <li key={listing.id} className="listing-item">
+          <li
+            key={listing.id}
+            className={"listing-item" + (size == "large" ? " large" : "")}
+          >
             <Link href={`/item/${listing.id}`} className="listing-image">
               <Image
                 src={listing.images[0]}
@@ -84,10 +89,11 @@ const ListingsList = ({
               />
             </Link>
             <div className="listing-details">
-              <p className="category">{listing.category}</p>
               <h4>
                 <Link href={`/item/${listing.id}`}>
-                  {trimAtSpace(listing.title, 30)}
+                  {size == "large"
+                    ? listing.title
+                    : trimAtSpace(listing.title, 30)}
                 </Link>
               </h4>
               <p className="condition">{listing.condition}</p>
