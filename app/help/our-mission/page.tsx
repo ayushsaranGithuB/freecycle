@@ -2,6 +2,8 @@
 import Head from "next/head";
 import "@/app/styles/help.css";
 import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function MissionPage() {
   return (
@@ -128,6 +130,29 @@ export default function MissionPage() {
             Together, we can redefine tech ownership and protect the planet—one
             trade at a time.
           </p>
+          <ul className="mb-4 flex flex-col  md:flex-row  justify-between mt-8">
+            <li>
+              <Button variant="outline" className="mb-4">
+                <Link href={"/auth/sign-up"} className="text-lg">
+                  Sign-Up for an Account
+                </Link>
+              </Button>
+            </li>
+            <li>
+              <Button variant="outline" className="mb-4">
+                <Link href={"/listings"} className="text-lg">
+                  Explore the Marketplace
+                </Link>
+              </Button>
+            </li>
+            <li>
+              <Button variant="outline" className="mb-4">
+                <Link href={"/list-item"} className="text-lg">
+                  List a Gadget for Sale
+                </Link>
+              </Button>
+            </li>
+          </ul>
         </section>
       </main>
     </>

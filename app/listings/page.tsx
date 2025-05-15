@@ -77,74 +77,75 @@ export default function ListingsPage() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mx-auto max-w-[1150px] mt-8">
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mx-4 align-center md:mx-auto max-w-[1150px] mt-8">
       {/* Left Column: Filters */}
-      <form className="filters" onSubmit={handleSubmit}>
-        <h2 className="text-lg font-bold">Filters</h2>
+      <form className="filters " onSubmit={handleSubmit}>
+        <div className="content">
+          <h2 className="text-lg font-bold">Filters</h2>
+          {/* Search Bar */}
+          <Input
+            name="searchQuery"
+            placeholder="Search..."
+            defaultValue={searchQuery}
+          />
 
-        {/* Search Bar */}
-        <Input
-          name="searchQuery"
-          placeholder="Search..."
-          defaultValue={searchQuery}
-        />
-
-        {/* Category Filter */}
-        <div>
-          <h3 className="font-semibold">Category</h3>
-          <select
-            name="category"
-            className="w-full border rounded p-2"
-            defaultValue={selectedCategory || ""}
-          >
-            <option value="">All Categories</option>
-            {productCategoriesList.map((category) => (
-              <option key={category.category} value={category.category}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Condition Filter */}
-        <div>
-          <h3 className="font-semibold">Condition</h3>
-          <select
-            name="condition"
-            className="w-full border rounded p-2"
-            defaultValue={selectedCondition || ""}
-          >
-            <option value="">All Conditions</option>
-            {conditions.map((condition) => (
-              <option key={condition} value={condition}>
-                {condition}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Price Range Filter */}
-        <div>
-          <h3 className="font-semibold">Price Range</h3>
-          <div className="flex items-center space-x-2">
-            <Input
-              name="minPrice"
-              type="number"
-              placeholder="Min"
-              defaultValue={priceRange[0]}
-            />
-            <span>-</span>
-            <Input
-              name="maxPrice"
-              type="number"
-              placeholder="Max"
-              defaultValue={priceRange[1]}
-            />
+          {/* Category Filter */}
+          <div>
+            <h3 className="font-semibold">Category</h3>
+            <select
+              name="category"
+              className="w-full border rounded p-2"
+              defaultValue={selectedCategory || ""}
+            >
+              <option value="">All Categories</option>
+              {productCategoriesList.map((category) => (
+                <option key={category.category} value={category.category}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
           </div>
+
+          {/* Condition Filter */}
+          <div>
+            <h3 className="font-semibold">Condition</h3>
+            <select
+              name="condition"
+              className="w-full border rounded p-2"
+              defaultValue={selectedCondition || ""}
+            >
+              <option value="">All Conditions</option>
+              {conditions.map((condition) => (
+                <option key={condition} value={condition}>
+                  {condition}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Price Range Filter */}
+          <div>
+            <h3 className="font-semibold">Price Range</h3>
+            <div className="flex items-center space-x-2">
+              <Input
+                name="minPrice"
+                type="number"
+                placeholder="Min"
+                defaultValue={priceRange[0]}
+              />
+              <span>-</span>
+              <Input
+                name="maxPrice"
+                type="number"
+                placeholder="Max"
+                defaultValue={priceRange[1]}
+              />
+            </div>
+          </div>
+          <Button type="submit" className="primary mx-auto mt-4">
+            Apply Filters
+          </Button>
         </div>
-        <Button type="submit" className="primary mx-auto mt-4">
-          Apply Filters
-        </Button>
       </form>
 
       {/* Right Column: Listings */}

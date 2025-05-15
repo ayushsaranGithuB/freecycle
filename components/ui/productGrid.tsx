@@ -12,7 +12,20 @@ type ProductGridProps = {
 const ProductGrid: FC<ProductGridProps> = ({ listings }) => {
   // if listings is empty, return null
   if (!listings || listings.length === 0) {
-    return null;
+    return (
+      <section className={styles.listingsGrid}>
+        <div className={styles.grid}>
+          {Array.from({ length: 9 }).map((_, idx) => (
+            <div className={styles.card} key={idx}>
+              <div className="w-full h-full bg-gray-200 rounded-lg animate-pulse" />
+              <p className=" bg-gray-200 rounded-lg animate-pulse" />
+              <p className=" bg-gray-200 rounded-lg animate-pulse" />
+              <p className=" bg-gray-200 rounded-lg animate-pulse" />
+            </div>
+          ))}
+        </div>
+      </section>
+    );
   }
 
   // console.log("listings", listings);
@@ -33,7 +46,7 @@ const ProductGrid: FC<ProductGridProps> = ({ listings }) => {
               alt={item.title}
               className={styles.image}
               width={280}
-              height={210}
+              height={200}
             />
             <p className={styles.category}>{item.category}</p>
             <h3>{trimAtSpace(item.title, 48)}</h3>
