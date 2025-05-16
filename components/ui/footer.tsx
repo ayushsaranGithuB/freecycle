@@ -4,11 +4,6 @@ const Footer = () => {
   return (
     <footer id="globalFooter">
       <div className="content">
-        {/* Logo ------------------------- */}
-        <div className="logo">
-          <Image src="/logo_1.svg" alt="Logo" width={160} height={42}></Image>
-          <p className="tagline">Saving Tech from Landfills. Since 2025</p>
-        </div>
         {/* Banner ------------------------- */}
         <div className="banner">
           <div>
@@ -52,51 +47,49 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      {/* Links ------------------------- */}
-      <nav>
-        <ul>
-          <li>
+      <div className="row-2">
+        <div className="content">
+          {/* Logo ------------------------- */}
+          <div className="logo">
+            <Image src="/logo_1.svg" alt="Logo" width={160} height={42}></Image>
+            <p className="tagline">Saving Tech from Landfills. Since 2025</p>
+            <p className="links">
+              <Link href="/privacy-policy">Privacy Policy</Link>
+              <Link href="/terms-and-conditions">Terms & Conditions</Link>
+            </p>
+          </div>
+          {/* Links ------------------------- */}
+          <nav>
             <h5>Quick Links</h5>
-          </li>
-          <li>
-            <Link href="/how-it-works">How it Works</Link>
-          </li>
-          <li>
-            <Link href="/sell-your-tech">Sell Your Tech</Link>
-          </li>
-          <li>
-            <Link href="/help/shipping">Shipping Info</Link>
-          </li>
-        </ul>
-        <ul>
-          <li>
-            <h5>Go Green</h5>
-          </li>
-          <li>
-            <Link href="/carbon-estimator">Carbon Estimator</Link>
-          </li>
-          <li>
-            <Link href="/shipping-calculator">Shipping Calculator</Link>
-          </li>
-          <li>
-            <Link href="/affiliate-programs">Affiliate Programs</Link>
-          </li>
-        </ul>
-        <ul>
-          <li>
-            <h5>Company</h5>
-          </li>
-          <li>
-            <Link href="/help/our-mission">Our Mission</Link>
-          </li>
-          <li>
-            <Link href="/privacy-policy">Privacy Policy</Link>
-          </li>
-          <li>
-            <Link href="/terms-and-conditions">Terms & Conditions</Link>
-          </li>
-        </ul>
-      </nav>
+            <ul>
+              <li>
+                <Link href="/help/our-mission">Our Mission</Link>
+              </li>
+              <li>
+                <Link href="/how-it-works">How it Works</Link>
+              </li>
+              <li>
+                <Link href="/sell-your-tech">Sell Your Tech</Link>
+              </li>
+              <li>
+                <Link href="/help/shipping">Shipping Info</Link>
+              </li>
+            </ul>
+            {/* <h5>Go Green</h5>
+            <ul>
+              <li>
+                <Link href="/carbon-estimator">Carbon Estimator</Link>
+              </li>
+              <li>
+                <Link href="/shipping-calculator">Shipping Calculator</Link>
+              </li>
+              <li>
+                <Link href="/affiliate-programs">Affiliate Programs</Link>
+              </li>
+            </ul> */}
+          </nav>
+        </div>
+      </div>
     </footer>
   );
 };

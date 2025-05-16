@@ -27,7 +27,14 @@ export default async function HomePage() {
         alt="Freecycle"
         width={1200}
         height={400}
-        className={"my-10"}
+        className={"my-10 hidden md:block"}
+      />
+      <Image
+        src={"/home_banner_2_mobile.png"}
+        alt="Freecycle"
+        width={1200}
+        height={400}
+        className={"my-10 md:hidden"}
       />
       <SearchBar />
 
@@ -40,7 +47,14 @@ export default async function HomePage() {
         alt="Freecycle"
         width={1200}
         height={400}
-        className={"my-10"}
+        className={"my-10 hidden md:block"}
+      />
+      <Image
+        src={"/home_banner_1_mobile.png"}
+        alt="Freecycle"
+        width={1200}
+        height={400}
+        className={"my-10 md:hidden"}
       />
 
       <ProductGrid listings={listings} />
