@@ -91,7 +91,6 @@ h2 {
 
 
 .categories li .icon {
-    background-color: #CCC;
     border-radius: 100%;
     width: 60px;
     height: 60px;
@@ -99,12 +98,16 @@ h2 {
     justify-content: center;
     align-items: center;
     opacity: 0.5;
+    border: 1px solid var(--text-200);
+
 }
 
 label.selected .icon {
     opacity: 1;
-    background-color: var(--primary-green);
+    border: 2px solid var(--primary-green);
+    background-color: hsl(var(--secondary-green-hsl), 0.2);
 }
+
 
 label:hover .icon {
     border: 2px solid var(--link);
@@ -119,17 +122,32 @@ label:hover .icon {
     font-weight: 400;
 }
 
-label.selected p {
-    color: var(--dark);
-    font-weight: 500;
+label.selected {
+    color: var(--primary-green);
 }
 
+label.selected p {
+    font-weight: 700;
+    color: var(--primary-green);
+}
+
+.item-condition {
+    flex-direction: column;
+}
+
+.item-condition li {
+    max-width: 90%;
+}
 
 .item-condition label {
     width: unset;
     border: 1px solid #CCC;
     border-radius: 8px;
-    padding: 1rem 1.5rem 1rem;
+    padding: 0.5rem 1rem 1rem;
+    text-align: left;
+    align-items: flex-start;
+    transition: all 0.2s ease-in-out;
+    color: var(--text-300);
 }
 
 .item-condition p.condition {
@@ -140,20 +158,36 @@ label.selected p {
 .item-condition p.hint {
     font-size: 0.9rem;
     font-weight: 400;
-    color: #666;
+    color: var(--text-200);
     padding-bottom: 0.15rem;
+    border-bottom: 1px solid var(--text-100);
+    width: 100%;
 }
 
-.item-condition p.guide {
+.item-condition .guide {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin: 1rem 0;
+}
+
+.item-condition .guide p {
     font-size: 0.8rem;
-    color: #999;
-    text-align: center;
+    color: var(--text-200);
+    padding-bottom: 0.15rem;
+    display: flex;
+    gap: 0.25rem;
+}
+
+.item-condition .guide svg {
+    padding-top: 4px;
 }
 
 .item-condition label.selected {
     border-color: var(--primary-green);
     border-width: 2px;
     background-color: hsl(var(--secondary-green-hsl), 0.1);
+    scale: 1.05;
 }
 
 .item-condition label.selected p.condition {
@@ -161,10 +195,66 @@ label.selected p {
     font-weight: 700;
 }
 
+label.selected p.guide-item {
+    color: var(--text-300);
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.item-condition p.cross,
+label.selected p.cross {
+    color: var(--text-100);
+    font-weight: 500;
+}
+
+label.selected p.guide-item svg.check {
+    color: var(--link);
+}
+
+.item-condition p.pseudo-button {
+    border: 1px solid var(--text-100);
+    border-radius: 6px;
+    padding: 0.25rem 0;
+    margin-top: auto;
+    width: 100%;
+    box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.item-condition .selected p.pseudo-button {
+    background-color: var(--link);
+    color: white;
+    border: none;
+    padding: 0.26rem 0;
+}
+
 section .title {
     border-bottom: 3px solid var(--link);
     padding-bottom: 0.5rem;
     margin-bottom: 1.5rem;
+}
+
+
+/*  Image Uploader ---------------------------- */
+
+.dropzone {
+    border: 2px dashed #ccc;
+    padding: 24px;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 12px;
+    background-color: var(--grey-50);
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dropzone .icon {
+    margin: 0 auto 10px;
+    display: block;
+    opacity: 0.5;
 }
 
 /* Impact ------------------------------------- */
@@ -204,4 +294,24 @@ button.publish {
 
 button.publish:hover {
     background-color: var(--primary-green);
+}
+
+
+/*  Responsive Styles ---------------------------- */
+
+@media screen and (min-width:786px) {
+
+    .item-condition {
+        flex-direction: row;
+    }
+
+    .item-condition li {
+        max-width: 20%;
+    }
+
+    .item-condition label {
+        padding: 1rem 1.5rem 1rem;
+        min-height: 260px;
+    }
+
 }

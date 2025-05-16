@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { productCategoriesList } from "@/components/ui/categories";
 import { useSession } from "next-auth/react";
-import { Coins, MapPinCheckInside } from "lucide-react";
+import { Camera, Check, Coins, MapPinCheckInside, X } from "lucide-react";
 import Image from "next/image";
 import { useDropzone } from "react-dropzone";
 import { calculateEwastePrevention, Totals } from "@/helpers/calculations";
@@ -21,25 +21,43 @@ const ConditionOptions: ItemConditionOptions[] = [
     condition: "POOR",
     label: "Poor",
     hint: "Parts Only",
-    guide: ["Physical or Cosmetic Damage", "May not be functional"],
+    guide: [
+      { icon: "check", description: "Physical or Cosmetic Damage" },
+      { icon: "cross", description: "May not be functional" },
+      { icon: "cross", description: "No Box or Accessories" },
+    ],
   },
   {
     condition: "FAIR",
     label: "Fair",
     hint: "Still Usable",
-    guide: ["Some Cosmetic Damage", "Still Working"],
+    guide: [
+      { icon: "check", description: "Some Cosmetic Damage" },
+      { icon: "check", description: "No Physical Damage" },
+      { icon: "check", description: "Still Working" },
+      { icon: "cross", description: "Accessories" },
+    ],
   },
   {
     condition: "GOOD",
     label: "Good",
     hint: "Works Perfectly",
-    guide: ["Minor Wear or Scuffs", "Original Accessories"],
+    guide: [
+      { icon: "check", description: "Minor Wear or Scuffs" },
+      { icon: "check", description: "No Physical Damage" },
+      { icon: "check", description: "Fully Functional" },
+      { icon: "cross", description: "Original Box" },
+    ],
   },
   {
     condition: "EXCELLENT",
     label: "Excellent",
     hint: "Like New!",
-    guide: ["No Cosmetic Damage", "Original Box and Accessories"],
+    guide: [
+      { icon: "check", description: "No Cosmetic Damage" },
+      { icon: "check", description: "No Physical Damage" },
+      { icon: "check", description: "Original Box and Accessories" },
+    ],
   },
 ];
 
@@ -326,8 +344,8 @@ export default function ListItemPage() {
                     <Image
                       src={`/icons/${cat.icon}`}
                       alt={cat.name}
-                      width={36}
-                      height={36}
+                      width={32}
+                      height={32}
                     />
                   </span>
                   <p>{cat.name}</p>
@@ -356,10 +374,20 @@ export default function ListItemPage() {
 
                   <p className="condition">{state.label}</p>
                   <p className="hint">{state.hint}</p>
-                  <p className="guide">
-                    {state.guide[0]}
-                    <br />
-                    {state.guide[1]}
+                  <div className="guide">
+                    {state.guide.map((item, idx) => (
+                      <p key={idx} className={"guide-item " + item.icon}>
+                        {item.icon === "check" ? (
+                          <Check width={16} height={16} className="check" />
+                        ) : (
+                          <X width={16} height={16} className="cross" />
+                        )}
+                        {item.description}
+                      </p>
+                    ))}
+                  </div>
+                  <p className="pseudo-button">
+                    {condition == state.condition ? "Selected" : "Select"}
                   </p>
                 </label>
               </li>
@@ -373,20 +401,14 @@ export default function ListItemPage() {
           <div
             {...getRootProps()}
             className={`dropzone${isDragActive ? " active" : ""}`}
-            style={{
-              border: "2px dashed #ccc",
-              padding: "24px",
-              borderRadius: "8px",
-              textAlign: "center",
-              cursor: "pointer",
-              marginBottom: "12px",
-            }}
+            style={{}}
           >
             <input {...getInputProps()} />
             {isDragActive ? (
               <p>Drop the files here ...</p>
             ) : (
               <p>
+                <Camera className="icon" width={32} height={32} />
                 Drag & drop images here, or click to select files
                 <br />
                 <span className="hint">

@@ -5,7 +5,10 @@ export interface ItemConditionOptions {
   condition: ItemCondition;
   label: string;
   hint: string;
-  guide: string[];
+  guide: {
+    icon: string;
+    description: string;
+  }[];
 }
 
 export interface DisplayCategory {
