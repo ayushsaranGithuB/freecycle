@@ -85,18 +85,17 @@
 }
 
 .searchBar input {
-    padding: 0.5rem;
-    padding-left: 2rem;
+    padding: 1rem;
+    padding-left: 2.5rem;
     border-radius: 5rem;
     border: 1px solid #dcdcdc;
     width: 100%;
-    max-width: 800px;
-    background-color: #F0F1F3;
-    font-size: 0.8rem;
+    background-color: #f7f7eb;
+    font-size: 0.9rem;
     background-image: url('/icons/search.svg');
-    background-size: 16px;
+    background-size: 22px;
     background-repeat: no-repeat;
-    background-position: 10px center;
+    background-position: 12px center;
 }
 
 .searchBar input:focus {
