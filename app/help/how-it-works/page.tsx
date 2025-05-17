@@ -15,7 +15,7 @@ export default function MissionPage() {
   return (
     <>
       <main className="help-page">
-        <h1 className="text-4xl font-bold mb-6">How It Works</h1>
+        <h1 className="text-4xl font-bold mb-10">How It Works</h1>
         <ul className="how-it-works-steps">
           <li>
             <Image
@@ -103,9 +103,9 @@ export default function MissionPage() {
           </li>
         </ul>
 
-        <hr className="mt-8 mb-12 border-t border-gray-200" />
+        <hr className="mt-8 mb-12 border-t border-gray-300" />
 
-        <h1 className="text-4xl font-bold mb-6">Our Mission</h1>
+        <h1 className="text-4xl font-bold mb-4">Our Mission</h1>
 
         <section className="twoColumn">
           <div className="illustration md:order-2">
