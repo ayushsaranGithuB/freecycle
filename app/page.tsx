@@ -58,13 +58,6 @@ export default async function HomePage() {
       />
 
       <ProductGrid listings={listings} />
-
-      <footer className={styles.tagline}>
-        <p>
-          &quot;Freecycle isn&apos;t about buying. It&apos;s about giving,
-          earning, and reusing — together.&quot;
-        </p>
-      </footer>
     </div>
   );
 }

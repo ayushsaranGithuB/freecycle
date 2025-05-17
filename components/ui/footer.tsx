@@ -63,30 +63,15 @@ const Footer = () => {
             <h5>Quick Links</h5>
             <ul>
               <li>
-                <Link href="/help/our-mission">Our Mission</Link>
+                <Link href="/help/how-it-works">How it Works</Link>
               </li>
               <li>
-                <Link href="/how-it-works">How it Works</Link>
-              </li>
-              <li>
-                <Link href="/sell-your-tech">Sell Your Tech</Link>
+                <Link href="/list-item">Sell Your Tech</Link>
               </li>
               <li>
                 <Link href="/help/shipping">Shipping Info</Link>
               </li>
             </ul>
-            {/* <h5>Go Green</h5>
-            <ul>
-              <li>
-                <Link href="/carbon-estimator">Carbon Estimator</Link>
-              </li>
-              <li>
-                <Link href="/shipping-calculator">Shipping Calculator</Link>
-              </li>
-              <li>
-                <Link href="/affiliate-programs">Affiliate Programs</Link>
-              </li>
-            </ul> */}
           </nav>
         </div>
       </div>
