@@ -248,9 +248,14 @@ section.impact {
 
 .impact .stats {
   display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
   margin-top: 1rem;
 
+}
+
+.impact .stats li {
+  width: 27%;
 }
 
 .impact h3 {
