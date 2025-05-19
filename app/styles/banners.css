@@ -12,7 +12,7 @@
     padding-bottom: 30px;
     color: #fff;
     max-width: 430px;
-
+    width: 100%;
 }
 
 .bonus-points h3 {
@@ -40,8 +40,4 @@
     background: url('/banner_bg_email.png') no-repeat bottom right / 300px, var(--gradient-1);
 
 
-}
-
-.impact {
-    max-width: 430px;
 }

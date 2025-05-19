@@ -3,6 +3,7 @@ main {
     background-color: #00000010;
 }
 
+
 .navigation .container {
     max-width: 1200px;
 }
@@ -15,8 +16,14 @@ main {
     margin: 0 auto;
 }
 
+.account-layout .content {
+    border-radius: 16px;
+    padding: 1.5rem;
+}
+
 .account-navigation {
     display: none;
+    max-height: max-content;
 }
 
 .nav-list {
@@ -85,13 +92,13 @@ main {
 
 .page_title {
     margin: 0.5rem 0;
-    padding-bottom: 0.5rem;
-    font-size: 0.9rem;
+    padding-bottom: 0.15rem;
+    font-size: 0.8rem;
+    font-weight: 800;
     border-bottom: 2px solid var(--link);
 }
 
 section h2 {
-
     font-weight: 700;
     color: var(--text-300);
 }
@@ -100,9 +107,13 @@ section.title {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 0.9rem;
+    font-size: 1.3rem;
 }
 
+section.title a {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
 
 .banners {
     display: flex;
@@ -113,25 +124,44 @@ section.title {
 /* Points ---------------------------------------------- */
 
 .points {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     margin-bottom: 1rem;
+    background: linear-gradient(0deg, #eeeeee70, #ffffff);
+    border-radius: 16px;
+    border: 1px solid #dbdbdb;
+    width: 100%;
 }
 
 .points .summary {
-    font-size: 1.2rem;
+    padding: 1rem;
+    font-size: 0.8rem;
     font-family: var(--headingFont);
-    color: var(--text-300);
+    color: var(--text-200);
     margin: 0.25rem 0;
 }
 
 .points .summary strong {
     font-weight: 800;
     color: var(--primary-green);
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .points .actions {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
+    border-top: 1px solid #cfd7c4;
+    background-color: #99D04F21;
+    padding: 10px 24px;
+    justify-content: flex-end;
+
+}
+
+.points .actions a {
+    font-size: 0.75rem;
+    font-weight: 600;
 }
 
 .row {
@@ -153,7 +183,7 @@ section.title {
 .listing-item {
     border: 1px solid #dbdbdb;
     border-radius: 16px;
-    grid-template-columns: 90px 1fr 110px;
+    grid-template-columns: 60px 1fr 110px;
     gap: .5rem;
     padding: .75rem;
     display: grid;
@@ -165,8 +195,8 @@ section.title {
 }
 
 .listing-image {
-    width: 90px;
-    height: 90px;
+    width: 60px;
+    height: 60px;
     border-radius: 8px;
     background-color: var(--grey-50);
     overflow: hidden;
@@ -186,9 +216,10 @@ section.title {
 }
 
 .listing-details h4 {
-    font-size: 1rem;
+    font-size: 0.8rem;
     font-weight: 700;
     line-height: 130%;
+    margin-bottom: 0.25rem;
 }
 
 .listing-details h4 a {
@@ -200,7 +231,8 @@ section.title {
 }
 
 .listing-details .condition {
-    font-size: 0.75rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.05rem;
     font-weight: 600;
     color: var(--primary-green);
     opacity: 0.75;
@@ -213,7 +245,6 @@ section.title {
 
 .listing-meta {
     font-size: 0.8rem;
-    color: var(--text-200);
     text-align: center;
     border-left: 1px solid var(--grey-50);
     align-self: center;
@@ -223,23 +254,25 @@ section.title {
     padding-left: 8px;
 }
 
-.listing-meta .date {
+.listing-item .date {
+    color: var(--text-100);
     font-size: 0.6rem;
     letter-spacing: 0.03rem;
 }
 
 .listing-meta .pointsValue {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 700;
     color: var(--primary-green);
     justify-content: center;
+    margin: 0.3rem auto;
 }
 
 .listing-meta .button-small {
-    padding: 4px 12px;
+    padding: 3px 9px;
     width: fit-content;
     margin: auto auto 0.25rem;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     font-weight: 500;
 }
 

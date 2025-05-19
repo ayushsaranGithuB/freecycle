@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { fetchUserPoints } from "@/helpers/api";
 import { Button } from "@/components/ui/button";
 import BonusPoints from "./bonusPoints";
+import { Coins } from "lucide-react";
+import ImpactStats from "./charts/impact";
 
 const Dashboard = () => {
   const { data: session } = useSession();
@@ -71,58 +73,32 @@ const Dashboard = () => {
         <h2>
           Welcome{isNewSignup ? " " : " back"}, {session.user?.name}{" "}
         </h2>
-        <Link href="/account/profile">My Profile</Link>
+        <Link href="/account/profile">Your Profile</Link>
       </section>
 
       <div className="banners">
-        {/* Impact --------------- */}
-        <section className="impact">
-          <h3>
-            You&apos;ve saved <strong>2.5 Kgs</strong> of e-waste from ending up
-            in landfills and polluting the planet
-          </h3>
-          <ul className="stats">
-            <li>
-              <p className="stat-number">7g</p>
-              <p className="stat-category">Lead</p>
-            </li>
-            <li>
-              <p className="stat-number">7g</p>
-              <p className="stat-category">Mercury</p>
-            </li>
-            <li>
-              <p className="stat-number">7g</p>
-              <p className="stat-category">Cadmium</p>
-            </li>
-            <li>
-              <p className="stat-number">7g</p>
-              <p className="stat-category">Lithium</p>
-            </li>
-            <li>
-              <p className="stat-number">7g</p>
-              <p className="stat-category">Plastic</p>
-            </li>
-          </ul>
+        {/* Points ---------------- */}
+        <section className="points">
+          <div className="summary">
+            <p>You have</p>
+            <p>
+              <strong>
+                {" "}
+                <Coins /> {points !== null ? points : "..."} points
+              </strong>{" "}
+            </p>
+            <p>to spend towards new purchases</p>
+          </div>
+          <p className="actions">
+            <Link href="/account/points">View Transactions</Link>
+            <Link href="/account/points/topup">Top-Up Balance</Link>
+          </p>
         </section>
 
         {/* Bonus Points --------------- */}
         <BonusPoints />
       </div>
-
-      {/* Points ---------------- */}
-      <section className="points">
-        <h2 className="page_title">Your Points</h2>
-        <div className="row">
-          <p className="summary">
-            You have <strong>{points !== null ? points : "..."} points</strong>{" "}
-            to spend towards new purchases
-          </p>
-          <p className="actions">
-            <Link href="/account/points">View Transactions</Link>
-            <Link href="/account/points/topup">Top-Up Balance</Link>
-          </p>
-        </div>
-      </section>
+      <ImpactStats />
 
       {/* Recent Activity --------------- */}
 

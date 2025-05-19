@@ -1,0 +1,34 @@
+.donut-chart {
+    max-width: 100px;
+}
+
+.amount {
+    font-size: 24px;
+    font-family: var(--headingFont);
+    color: var(--primary-green);
+    font-weight: 800;
+}
+
+.label {
+    font-size: 12px;
+    font-family: var(--headingFont);
+    color: var(--primary-green);
+    font-weight: 700;
+
+}
+
+.chart {
+    position: relative;
+    max-width: 100px;
+
+}
+
+.chart-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

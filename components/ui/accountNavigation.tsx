@@ -4,6 +4,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Spinner from "./spinner";
+import { Button } from "./button";
+import { signOut } from "next-auth/react";
+import { LogOut } from "lucide-react";
 
 const AccountNavigation = () => {
   // User Details
@@ -39,6 +42,12 @@ const AccountNavigation = () => {
         </li>
         <li className={path === "/account/profile" ? "active" : ""}>
           <Link href="/account/profile">Profile</Link>
+        </li>
+        <li className="logout">
+          <Button onClick={() => signOut()}>
+            {" "}
+            <LogOut /> Sign Out
+          </Button>
         </li>
       </ul>
     </div>
