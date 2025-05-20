@@ -254,6 +254,8 @@ const CheckoutPage = () => {
                         src={method.icon}
                         alt={method.name}
                         className="payment-icon"
+                        width={60}
+                        height={42}
                       />
                     </label>
                     <input

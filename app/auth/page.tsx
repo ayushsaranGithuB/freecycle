@@ -152,10 +152,7 @@ export default function OTPLoginPage() {
             {resendTimer > 0 ? (
               <>Resend OTP in {resendTimer}s</>
             ) : (
-              <button
-                onClick={handleResendOtp}
-                className="text-blue-500 hover:underline"
-              >
+              <button onClick={handleResendOtp} className="resend">
                 Resend OTP
               </button>
             )}

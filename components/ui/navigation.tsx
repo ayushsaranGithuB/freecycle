@@ -10,7 +10,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CircleUserRound, SquareMenu } from "lucide-react";
+import { ChevronDown, CircleUserRound, SquareMenu } from "lucide-react";
 
 export default function Navigation() {
   const { data: session } = useSession();
@@ -82,8 +82,9 @@ export default function Navigation() {
                 <PopoverTrigger>
                   <p className="flex items-center gap-2">
                     <CircleUserRound color="#fff" />
-                    <span className="username">
+                    <span className="username flex items-center gap-1">
                       {memoizedSession?.user?.name}
+                      <ChevronDown width={14} height={14} />
                     </span>
                   </p>
                 </PopoverTrigger>

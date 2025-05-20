@@ -33,3 +33,14 @@
     font-weight: 600;
     font-size: 1rem;
 }
+
+.resend {
+    font-size: 0.9rem;
+    text-align: center;
+    cursor: pointer;
+}
+
+button.resend {
+    color: var(--link);
+
+}

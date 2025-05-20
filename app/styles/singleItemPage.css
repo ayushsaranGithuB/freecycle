@@ -9,6 +9,13 @@
     justify-content: space-between;
 }
 
+a.primary {
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+}
+
+
 h1,
 h2 {
     color: var(--dark);
@@ -17,6 +24,12 @@ h2 {
 h2.title {
     font-weight: 800;
     font-size: 1rem;
+}
+
+.item-description {
+    font-size: 0.9rem;
+    color: var(--text-300);
+    margin: 1rem 0 2rem;
 }
 
 
@@ -218,9 +231,9 @@ div.stats {
 
     .listing-container {
         background-color: white;
-        border-radius: 8px;
+        border-radius: 16px;
         box-shadow: var(--shadow-10);
-        padding: 2rem 1rem;
+        padding: 2rem 1.5rem;
         margin: 1rem auto;
     }
 

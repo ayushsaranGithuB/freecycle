@@ -117,12 +117,12 @@ export default async function ItemDetailsPage({
           </div>
 
           {/* Details Section */}
-          <div className="space-y-4 ">
+          <div className="space-y-4 mb-8">
             <h1 className="text-3xl font-bold text-gray-800">{item.title}</h1>
-            <div>{nl2br(item.description)}</div>
+            <div className="item-description">{nl2br(item.description)}</div>
 
             <div className="buyItemActions">
-              <div>
+              <div className="price w-full">
                 <h2 className="pointsValue">
                   <Coins />
                   {item.pointsValue} points

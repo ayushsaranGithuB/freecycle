@@ -229,12 +229,13 @@ div.order-summary {
 /* Order Details  ----------------------------- */
 
 h3.title {
-    color: var(--dark);
-    font-size: 0.8rem;
+    color: var(--text-300);
+    font-size: 1rem;
     font-weight: 700;
-    border-bottom: 1px solid var(--text-100);
+    border-bottom: 1px solid var(--grey-100);
     padding-bottom: 0.25rem;
     margin-bottom: 0.5rem;
+    margin-top: 1rem;
 }
 
 /* Payment Details  ----------------------------- */
@@ -249,6 +250,7 @@ div.payment {
     border: 2px solid var(--primary-green);
     background-color: #F7F7F0;
     padding: 24px;
+    margin-bottom: 2rem;
 }
 
 .payment h1.title {
@@ -262,7 +264,7 @@ div.payment {
 p.balance {
     font-weight: 600;
     color: var(--primary-green);
-    font-size: 0.8rem;
+    font-size: 0.9rem;
 }
 
 p.hint {
