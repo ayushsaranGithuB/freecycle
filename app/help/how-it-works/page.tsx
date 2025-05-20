@@ -14,7 +14,7 @@ export const metadata = {
 export default function MissionPage() {
   return (
     <>
-      <main className="help-page">
+      <div className="help-page">
         <h1 className="text-4xl font-bold mb-10">How It Works</h1>
         <ul className="how-it-works-steps">
           <li>
@@ -243,7 +243,7 @@ export default function MissionPage() {
             </li>
           </ul>
         </section>
-      </main>
+      </div>
     </>
   );
 }

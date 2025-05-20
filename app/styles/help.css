@@ -1,8 +1,15 @@
 main {
     max-width: 1024px;
-    margin: 0 auto;
-    padding: 2rem 1.5rem;
+    margin: 2rem auto;
     color: var(--text-200);
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: var(--shadow-10);
+}
+
+main .help-page {
+    padding: 2rem 0.5rem;
+
 }
 
 .twoColumn {
