@@ -9,12 +9,18 @@
     font-weight: 800;
 }
 
+.unit {
+    font-size: 12px;
+    padding-left: 3px;
+}
+
 .label {
     font-size: 12px;
     font-family: var(--headingFont);
     color: var(--primary-green);
     font-weight: 700;
-
+    max-width: 9ch;
+    text-align: center;
 }
 
 .chart {

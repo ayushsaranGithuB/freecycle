@@ -23,6 +23,7 @@ form input,
 form textarea {
     border-color: #CCC;
     padding: 1.25rem 0.75rem;
+    background-color: white;
 }
 
 form textarea {

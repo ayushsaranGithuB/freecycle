@@ -2,9 +2,9 @@ import { ItemCategory } from "@prisma/client";
 
 type EWasteStats = {
     category: ItemCategory;
-    avgWeightKg: number;
+    avgWeightGrams: number;
     materials: {
-        leadGrams: number;
+        leadMilligrams: number;
         mercuryMilligrams: number;
         cadmiumMilligrams: number;
         lithiumGrams: number;
@@ -17,9 +17,9 @@ type EWasteStats = {
 const EWASTE_DATA: Record<string, EWasteStats> = {
     phone: {
         category: "PHONE",
-        avgWeightKg: 0.25,
+        avgWeightGrams: 250,
         materials: {
-            leadGrams: 0.1,
+            leadMilligrams: 100,
             mercuryMilligrams: 1,
             cadmiumMilligrams: 5,
             lithiumGrams: 1,
@@ -30,9 +30,9 @@ const EWASTE_DATA: Record<string, EWasteStats> = {
     },
     laptop: {
         category: "LAPTOP",
-        avgWeightKg: 2.5,
+        avgWeightGrams: 2500,
         materials: {
-            leadGrams: 1.5,
+            leadMilligrams: 1500,
             mercuryMilligrams: 5,
             cadmiumMilligrams: 10,
             lithiumGrams: 5,
@@ -43,9 +43,9 @@ const EWASTE_DATA: Record<string, EWasteStats> = {
     },
     tablet: {
         category: "TABLET",
-        avgWeightKg: 0.8,
+        avgWeightGrams: 800,
         materials: {
-            leadGrams: 0.2,
+            leadMilligrams: 200,
             mercuryMilligrams: 1,
             cadmiumMilligrams: 5,
             lithiumGrams: 2,
@@ -56,9 +56,9 @@ const EWASTE_DATA: Record<string, EWasteStats> = {
     },
     watch: {
         category: "WEARABLES",
-        avgWeightKg: 0.1,
+        avgWeightGrams: 100,
         materials: {
-            leadGrams: 0.05,
+            leadMilligrams: 50,
             mercuryMilligrams: 0.2,
             cadmiumMilligrams: 1,
             lithiumGrams: 0.5,
@@ -69,9 +69,9 @@ const EWASTE_DATA: Record<string, EWasteStats> = {
     },
     accessory: {
         category: "ACCESSORIES",
-        avgWeightKg: 0.15,
+        avgWeightGrams: 150,
         materials: {
-            leadGrams: 0.05,
+            leadMilligrams: 50,
             mercuryMilligrams: 0,
             cadmiumMilligrams: 2,
             lithiumGrams: 0,
@@ -82,9 +82,9 @@ const EWASTE_DATA: Record<string, EWasteStats> = {
     },
     gaming: {
         category: "GAMING",
-        avgWeightKg: 1.5,
+        avgWeightGrams: 1500,
         materials: {
-            leadGrams: 0.5,
+            leadMilligrams: 500,
             mercuryMilligrams: 2,
             cadmiumMilligrams: 5,
             lithiumGrams: 3,
@@ -96,8 +96,8 @@ const EWASTE_DATA: Record<string, EWasteStats> = {
 };
 
 export type Totals = {
-    totalWeightKg: number;
-    totalLeadGrams: number;
+    totalWeightGrams: number;
+    totalLeadMilligrams: number;
     totalMercuryMilligrams: number;
     totalCadmiumMilligrams: number;
     totalLithiumGrams: number;
@@ -108,8 +108,8 @@ export type Totals = {
 
 export function calculateEwastePrevention(userItems: { category: string; count: number }[]): Totals {
     const total: Totals = {
-        totalWeightKg: 0,
-        totalLeadGrams: 0,
+        totalWeightGrams: 0,
+        totalLeadMilligrams: 0,
         totalMercuryMilligrams: 0,
         totalCadmiumMilligrams: 0,
         totalLithiumGrams: 0,
@@ -122,8 +122,8 @@ export function calculateEwastePrevention(userItems: { category: string; count: 
         const data = EWASTE_DATA[category];
         if (!data) continue;
 
-        total.totalWeightKg += data.avgWeightKg * count;
-        total.totalLeadGrams += data.materials.leadGrams * count;
+        total.totalWeightGrams += data.avgWeightGrams * count;
+        total.totalLeadMilligrams += data.materials.leadMilligrams * count;
         total.totalMercuryMilligrams += data.materials.mercuryMilligrams * count;
         total.totalCadmiumMilligrams += data.materials.cadmiumMilligrams * count;
         total.totalLithiumGrams += data.materials.lithiumGrams * count;

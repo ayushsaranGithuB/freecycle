@@ -1,5 +1,6 @@
 "use client";
 import "@/app/styles/create_listing.css";
+import "@/app/styles/donutChart.css";
 import { useState, ChangeEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import Link from "next/link";
 import { productCategoriesList } from "@/components/ui/categories";
 import { useSession } from "next-auth/react";
 import { Camera, Check, Coins, MapPinCheckInside, X } from "lucide-react";
+import { PieChart } from "react-minimal-pie-chart";
 import Image from "next/image";
 import { useDropzone } from "react-dropzone";
 import { calculateEwastePrevention, Totals } from "@/helpers/calculations";
@@ -284,8 +286,8 @@ export default function ListItemPage() {
 
   // Map for correct units
   const ewasteUnits: Record<keyof Totals, string> = {
-    totalWeightKg: "kg",
-    totalLeadGrams: "g",
+    totalWeightGrams: "g",
+    totalLeadMilligrams: "mg",
     totalMercuryMilligrams: "mg",
     totalCadmiumMilligrams: "mg",
     totalLithiumGrams: "g",
@@ -296,14 +298,14 @@ export default function ListItemPage() {
 
   // Map for human-friendly labels
   const ewasteLabels: Record<keyof Totals, string> = {
-    totalWeightKg: "Total Weight",
-    totalLeadGrams: "Lead",
+    totalWeightGrams: "Total Wt",
+    totalLeadMilligrams: "Lead",
     totalMercuryMilligrams: "Mercury",
     totalCadmiumMilligrams: "Cadmium",
     totalLithiumGrams: "Lithium",
     totalPlasticGrams: "Plastic",
     totalGlassGrams: "Glass",
-    totalRareEarthGrams: "Rare Earth Elements",
+    totalRareEarthGrams: "Rare Earths",
   };
 
   return (
@@ -644,18 +646,28 @@ export default function ListItemPage() {
           </p>
           <ul className="stats">
             {Object.keys(ewasteCalculation).map((key) => (
-              <li key={key}>
-                <p className="stat-number">
-                  {Number(
-                    ewasteCalculation[key as keyof Totals]
-                  ).toLocaleString()}{" "}
-                  <span className="unit">
-                    {ewasteUnits[key as keyof Totals]}
-                  </span>{" "}
-                </p>
-                <span className="stat-category">
-                  {ewasteLabels[key as keyof Totals]}
-                </span>
+              <li className="chart" key={key}>
+                <PieChart
+                  className="donut-chart"
+                  data={[{ title: "One", value: 10, color: "#4ba950" }]}
+                  background="#EEE"
+                  totalValue={50}
+                  rounded={true}
+                  lineWidth={15}
+                />
+                <div className="chart-text">
+                  <p className="amount">
+                    {Number(
+                      ewasteCalculation[key as keyof Totals]
+                    ).toLocaleString()}
+                    <span className="unit">
+                      {ewasteUnits[key as keyof Totals]}
+                    </span>
+                  </p>
+                  <span className="label">
+                    {ewasteLabels[key as keyof Totals]}
+                  </span>
+                </div>
               </li>
             ))}
           </ul>
