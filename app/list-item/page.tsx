@@ -637,7 +637,9 @@ export default function ListItemPage() {
         {/* Impact ------------------------------------------- */}
 
         <section className="impact">
-          <h3>You are saving the planet by trading your tech!</h3>
+          <div className="page_title">
+            <h2>You are saving the planet by trading your tech!</h2>
+          </div>
           <p>
             Each{" "}
             {productCategoriesList.find((cat) => cat.category === category)

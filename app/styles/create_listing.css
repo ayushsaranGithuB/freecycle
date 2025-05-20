@@ -261,11 +261,17 @@ section .title {
 /* Impact ------------------------------------- */
 
 
-.impact h3 {
-    text-transform: uppercase;
-    font-size: 0.9rem;
-    color: inherit;
-    font-weight: 800;
+.impact h2 {
+    margin-bottom: 0;
+}
+
+.impact .page_title {
+    padding-bottom: 0.25rem;
+}
+
+.impact p {
+    color: var(--text-200);
+    margin-top: 0.25rem;
 }
 
 /* Form Actions */
