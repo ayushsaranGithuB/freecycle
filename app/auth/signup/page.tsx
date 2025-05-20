@@ -42,19 +42,18 @@ const SignUp = () => {
 
   return (
     <div className="login-screen">
-      <ul className="breadcrumbs">
+      {/* <ul className="breadcrumbs">
         <li>
-          <Link href="/" className="flex items-center gap-1">
-            <House width={12} height={12} /> Home
+          <Link href="/" className="home">
           </Link>
         </li>
         <li>&raquo;</li>
         <li>
           <Link href="/auth/signup">Create an account</Link>
         </li>
-      </ul>
+      </ul> */}
 
-      <form onSubmit={handleSubmit} className="w-full max-w-sm card">
+      <form onSubmit={handleSubmit} className="card w-sm loginForm">
         <h1 className="titleUnderlined">Create an account</h1>
 
         {error && <div className="mb-4 text-red-500">{error}</div>}
@@ -86,6 +85,9 @@ const SignUp = () => {
             {loading ? "Sending..." : "Continue"}
           </Button>
         </div>
+        <p className="text-sm text-neutral-600 text-center mt-4">
+          Already have an account? <Link href="/auth/">Sign-In</Link>
+        </p>
       </form>
     </div>
   );

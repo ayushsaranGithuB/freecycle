@@ -1,9 +1,10 @@
 .loginForm {}
 
 .loginForm label {
-    font-size: 1rem;
+    font-size: 0.8rem;
     font-weight: 600;
     margin: 0.5rem 0;
+    opacity: 0.6;
 }
 
 .loginForm input {

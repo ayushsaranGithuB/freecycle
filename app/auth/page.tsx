@@ -98,20 +98,18 @@ export default function OTPLoginPage() {
 
   return (
     <div className=" flex flex-col gap-[16px] items-center justify-center p-4 h-full min-h-[600px]">
-      <ul className="breadcrumbs w-sm">
+      {/* <ul className="breadcrumbs w-sm">
         <li>
-          <Link href="/" className="home">
-            Home
-          </Link>
+          <Link href="/" className="home"></Link>
         </li>
         <li>&raquo;</li>
         <li>
           <Link href="/auth/sign-in">Sign-In</Link>
         </li>
-      </ul>
+      </ul> */}
       {step === 1 && (
         <form onSubmit={handlePhoneSubmit} className="card w-sm loginForm">
-          <h1 className="titleUnderlined">Enter your phone number</h1>
+          <h1 className="titleUnderlined">Sign-In</h1>
 
           <div>
             <label htmlFor="phone">Phone Number</label>
@@ -132,7 +130,8 @@ export default function OTPLoginPage() {
               Send OTP
             </button>
             <p className="text-sm text-neutral-600 text-center mt-4">
-              Don&apos;t have an account <Link href="/auth/signup">Signup here</Link>
+              Don&apos;t have an account?{" "}
+              <Link href="/auth/signup">Signup </Link>
             </p>
           </div>
         </form>

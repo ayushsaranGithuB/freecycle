@@ -47,7 +47,7 @@ button {
 }
 
 .breadcrumbs .home {
-  padding-left: 16px;
+  padding-left: 12px;
   background: url('/icons/home.svg') left 3px no-repeat;
 }
 
