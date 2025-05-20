@@ -66,6 +66,9 @@ const Footer = () => {
                 <Link href="/help/how-it-works">How it Works</Link>
               </li>
               <li>
+                <Link href="/help/faq">FAQs</Link>
+              </li>
+              <li>
                 <Link href="/list-item">Sell Your Tech</Link>
               </li>
               <li>
